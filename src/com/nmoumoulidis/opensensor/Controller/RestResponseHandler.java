@@ -1,16 +1,17 @@
 package com.nmoumoulidis.opensensor.Controller;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.util.EntityUtils;
 
 import android.text.Html;
 
+import com.nmoumoulidis.opensensor.Model.Request;
 import com.nmoumoulidis.opensensor.View.MainActivity;
+import com.nmoumoulidis.opensensor.utils.JSONParser;
 
 public class RestResponseHandler 
 {
@@ -29,28 +30,14 @@ public class RestResponseHandler
 		this.contentType = response.getLastHeader("Content-Type").getValue();
 		this.entity = response.getEntity();
 		try {
-			this.body = entityToString();
+			if(entity != null) {
+				this.body = EntityUtils.toString(entity);
+			}
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	private String entityToString() throws IllegalStateException, IOException {
-		if (entity != null) {
-            // get entity contents and convert it to string
-            InputStream instream = entity.getContent();
-            BufferedReader r = new BufferedReader(new InputStreamReader(instream));
-            StringBuilder total = new StringBuilder(instream.available());
-            String line;
-            while ((line = r.readLine()) != null) {
-                total.append(line);
-            }
-            instream.close();
-            return total.toString();
-		}
-		return "";
 	}
 
 	public void handleResponse(MainActivity mainActivity) {
@@ -60,11 +47,26 @@ public class RestResponseHandler
 			}
 			else {
 				if(request.getAccept() == "application/json") {
+					JSONParser jParser = new JSONParser(body);
+					
 					if(request.getRelativeUrl() == "/sensorlist") {
-						mainActivity.getmResultText().setText("sensorlist: "+body);
+						ArrayList<String> sensorList = jParser.parseSensorList();
+						mainActivity.getmSensorTracker().setWifiConnectedSensorList(sensorList);
+						
+						ArrayList<String> newSensorList = mainActivity.
+								getmSensorTracker().getWifiConnectedSensorList();
+						String availableSensorsString="";
+						for(int i=0 ; i<newSensorList.size() ; i++) {
+							availableSensorsString += newSensorList.get(i)+" ";
+						}
+						mainActivity.getmResultText().scrollTo(0, 0);
+						mainActivity.getmResultText().setText("sensorlist: "+availableSensorsString);
 					}
 					else if(request.getRelativeUrl() == "/data"){
-						mainActivity.getmResultText().setText("sensor data: "+body);
+						mainActivity.getmDataContainer().setData(jParser.parseData());
+						String dataString  = mainActivity.getmDataContainer().dataToString();
+						mainActivity.getmResultText().scrollTo(0, 0);
+						mainActivity.getmResultText().setText("DATA!: "+dataString);
 					}
 				}
 				else {

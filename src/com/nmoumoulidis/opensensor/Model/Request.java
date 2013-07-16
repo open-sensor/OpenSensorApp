@@ -1,4 +1,4 @@
-package com.nmoumoulidis.opensensor.Controller;
+package com.nmoumoulidis.opensensor.Model;
 
 public class Request 
 {

@@ -7,8 +7,9 @@ import java.util.concurrent.TimeoutException;
 import com.nmoumoulidis.opensensor.R;
 import com.nmoumoulidis.opensensor.Controller.MainUIController;
 import com.nmoumoulidis.opensensor.Controller.RestRequestTask;
+import com.nmoumoulidis.opensensor.Model.DataContainer;
+import com.nmoumoulidis.opensensor.Model.SensorTracker;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.text.method.ScrollingMovementMethod;
@@ -27,8 +28,10 @@ public class MainActivity extends Activity {
 	private Button mLightButton;
 	
 	private MainUIController mMainUIController;
-	
-    @Override
+	private SensorTracker mSensorTracker;
+	private DataContainer mDataContainer;
+
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -46,8 +49,10 @@ public class MainActivity extends Activity {
         mTempButton.setOnClickListener(mMainUIController);
         mHumidButton.setOnClickListener(mMainUIController);
         mLightButton.setOnClickListener(mMainUIController);
+        
+        mSensorTracker = new SensorTracker();
+        mDataContainer = new DataContainer();
     }
-
 
     @Override
     protected void onStart() {
@@ -101,6 +106,14 @@ public class MainActivity extends Activity {
 	
     public ProgressBar getmProgressBar() {
 		return mProgressBar;
+	}
+   
+    public SensorTracker getmSensorTracker() {
+		return mSensorTracker;
+	}
+
+	public DataContainer getmDataContainer() {
+		return mDataContainer;
 	}
     
 }

@@ -12,6 +12,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
+import com.nmoumoulidis.opensensor.Model.Request;
 import com.nmoumoulidis.opensensor.View.MainActivity;
 
 import android.os.AsyncTask;

@@ -19,7 +19,7 @@ public class MainUIController implements OnClickListener {
 		if(v == mMainActivity.getmTempButton()) 
 		{
 			new RestRequestTask(mMainActivity, "slug:81")
-			.execute("PUT", "/data/temp", "text/html", "...");
+			.execute("GET", "/data/temp", "text/html");
 		}
 		else if(v == mMainActivity.getmHumidButton())
 		{
