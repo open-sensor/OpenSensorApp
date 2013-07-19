@@ -3,11 +3,20 @@
 
     <string name="app_name">OpenSensor</string>
     <string name="action_settings">Settings</string>
+    <string name="main_act_label">Press a button to choose 
+        one of the sensing modes!</string>
+    <string name="go_to_con_sens_mode">Wi-Fi Connected Sensor Mode</string>
+    <string name="go_to_phn_sens_mode">Phone Sensor Mode</string>
+    <string name="go_to_map_view_mode">Map View Mode</string>
     <string name="read_sensor_label">Press a button to get a sensor reading!</string>
     <string name="get_temp_btn">Temperature</string>
     <string name="get_humid_btn">Humidity</string>
     <string name="get_light_btn">Light</string>
     <string name="show_result_label">Result: </string>
     <string name="show_result_text">&#8230;</string>
-    
+    <string name="title_activity_connected_sensor">ConnectedSensorActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_phone_sens">PhoneSensActivity</string>
+    <string name="title_activity_map_view">MapViewActivity</string>
+
 </resources>

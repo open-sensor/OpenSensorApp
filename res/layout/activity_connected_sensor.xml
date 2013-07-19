@@ -1,0 +1,55 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".ConnectedSensorActivity" >
+
+	<TextView
+        android:id="@+id/info_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/read_sensor_label"
+        android:textSize="15sp" />
+    
+	<Button android:id="@+id/temp_button"
+	     android:layout_width="wrap_content"
+	     android:layout_height="wrap_content"
+	     android:text="@string/get_temp_btn" />
+	
+	<Button android:id="@+id/humid_button"
+	     android:layout_width="wrap_content"
+	     android:layout_height="wrap_content"
+	     android:text="@string/get_humid_btn" />
+	
+	<Button android:id="@+id/light_button"
+	     android:layout_width="wrap_content"
+	     android:layout_height="wrap_content"
+	     android:text="@string/get_light_btn" />
+
+	<LinearLayout 
+	  	android:layout_width="match_parent"
+    	android:layout_height="match_parent"
+    	android:orientation="horizontal" >
+		<TextView
+	        android:id="@+id/result_label"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/show_result_label"
+	        android:textSize="18sp" />
+		<TextView
+	        android:id="@+id/result_text"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:gravity="right|center_vertical"
+            android:hint="@string/show_result_text"
+	        android:textSize="25sp" 
+	        android:maxLines="30"
+	        android:scrollbars="vertical" />
+	</LinearLayout>
+
+</LinearLayout>
