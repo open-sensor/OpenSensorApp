@@ -85,7 +85,7 @@ public class BatchDataRestReqRunnable implements Runnable
 		}
 		// <<< There was no batch data to receive at this time...
 		else if(statusCode == 204) {
-			
+			System.out.println("There is no BATCH DATA to fetch...");
 		}
 		// <<< HTTP request failed -> Retry
 		else {

@@ -1,14 +1,14 @@
 package com.nmoumoulidis.opensensor.controller;
 
-import com.nmoumoulidis.opensensor.view.ConnectedSensorActivity;
-import com.nmoumoulidis.opensensor.view.MainActivity;
-import com.nmoumoulidis.opensensor.view.MapViewActivity;
-import com.nmoumoulidis.opensensor.view.PhoneSensActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+
+import com.nmoumoulidis.opensensor.view.ConnectedSensorActivity;
+import com.nmoumoulidis.opensensor.view.MainActivity;
+import com.nmoumoulidis.opensensor.view.MapViewActivity;
+import com.nmoumoulidis.opensensor.view.PhoneSensActivity;
 
 public class MainUIController implements OnClickListener {
 

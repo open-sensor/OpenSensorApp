@@ -87,8 +87,6 @@ public class SensorListReqRunnable implements Runnable
 			if(success) {
 				mainActivity.getmSensorTracker().setConnectedSensorList(newSensorList);
 				mainActivity.setSensorListObtained(true);
-				
-				// TODO  AT THIS POINT, POPULATE LOCAL-SENSOR-UI WITH SENSOR LIST OPTIONS
 
 				System.out.println("SENSOR LIST response handled!");
 			}

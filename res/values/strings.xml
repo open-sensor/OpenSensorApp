@@ -14,9 +14,9 @@
     <string name="get_light_btn">Light</string>
     <string name="show_result_label">Result: </string>
     <string name="show_result_text">&#8230;</string>
-    <string name="title_activity_connected_sensor">ConnectedSensorActivity</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_phone_sens">PhoneSensActivity</string>
-    <string name="title_activity_map_view">MapViewActivity</string>
+    <string name="title_activity_connected_sensor">Connected Sensor Mode</string>
+    <string name="title_activity_phone_sens">Phone Sensor Mode</string>
+    <string name="title_activity_map_view">Map View Sensor Mode</string>
+    <string name="to_be_implemented">To Be Implemented&#8230;</string>
 
 </resources>

@@ -1,5 +1,7 @@
 package com.nmoumoulidis.opensensor.model;
 
+import java.util.HashMap;
+
 public final class SensorDictionary 
 {
 	public static final String TEMPERATURE = "temp";
@@ -10,7 +12,7 @@ public final class SensorDictionary
 	public static final String SOUND = "sound";
 	public static final String CARBON_DIOXIDE_GAS = "carbdx";
 	
-	private static final String[] validSensors = { TEMPERATURE, 
+	public static final String[] validSensors = { TEMPERATURE, 
 													HUMIDITY,
 													LIGHT,
 													PRESSURE,
@@ -18,6 +20,21 @@ public final class SensorDictionary
 													SOUND,
 													CARBON_DIOXIDE_GAS};
 	
+	
+	
+	public static final HashMap<String, String> validSensorNames;
+	static 
+	{
+		validSensorNames = new HashMap<String, String>();
+		validSensorNames.put(TEMPERATURE, "Temperature");
+		validSensorNames.put(HUMIDITY, "Humidity");
+		validSensorNames.put(LIGHT, "Light");
+		validSensorNames.put(PRESSURE, "Pressure");
+		validSensorNames.put(MAGNETIC_FIELD, "Magnetic Field");
+		validSensorNames.put(SOUND, "Sound");
+		validSensorNames.put(CARBON_DIOXIDE_GAS, "Carbon Dioxide");
+	}
+
 	// Private constructor to prevent instantiation.
 	private SensorDictionary() {
 		

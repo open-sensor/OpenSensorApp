@@ -17,18 +17,24 @@
         android:textSize="15sp" />
 	
 	<Button android:id="@+id/go_to_con_sens_btn"
-	     android:layout_width="wrap_content"
+	     android:layout_width="match_parent"
 	     android:layout_height="wrap_content"
+         android:layout_marginTop="10dp"
+         android:layout_marginBottom="10dp"
 	     android:text="@string/go_to_con_sens_mode" />
 	
 	<Button android:id="@+id/go_to_phn_sens_btn"
-	     android:layout_width="wrap_content"
+	     android:layout_width="match_parent"
 	     android:layout_height="wrap_content"
+	     android:layout_marginTop="10dp"
+	     android:layout_marginBottom="10dp"
 	     android:text="@string/go_to_phn_sens_mode" />
 	
 	<Button android:id="@+id/go_to_map_view_btn"
-	     android:layout_width="wrap_content"
+	     android:layout_width="match_parent"
 	     android:layout_height="wrap_content"
+	     android:layout_marginTop="10dp"
+	     android:layout_marginBottom="10dp"
 	     android:text="@string/go_to_map_view_mode" />
 	
 </LinearLayout>

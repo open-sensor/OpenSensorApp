@@ -34,10 +34,12 @@ public class SensorTracker implements Parcelable
     public static final Parcelable.Creator<SensorTracker> CREATOR
 	    = new Parcelable.Creator<SensorTracker>() {
     	
+		@Override
 		public SensorTracker createFromParcel(Parcel in) {
 		    return new SensorTracker(in);
 		}
 		
+		@Override
 		public SensorTracker[] newArray(int size) {
 		    return new SensorTracker[size];
 		}
@@ -47,13 +49,31 @@ public class SensorTracker implements Parcelable
 	public ArrayList<String> getConnectedSensorList() {
 		return connectedSensorList;
 	}
-	
+
 	public String getStringSensorList() {
 		String availableSensorsString="";
 		for(int i=0 ; i<connectedSensorList.size() ; i++) {
 			availableSensorsString += connectedSensorList.get(i)+" ";
 		}
 		return availableSensorsString;
+	}
+
+	public ArrayList<String> getConnectedSensorNames() {
+		ArrayList<String> sensorNames = new ArrayList<String>();
+		for(int i=0 ; i<connectedSensorList.size() ; i++) {
+			String newValidName = SensorDictionary.validSensorNames.get(connectedSensorList.get(i));
+			sensorNames.add(newValidName);
+		}
+		return sensorNames;
+	}
+	
+	public String findSensorByName(String name) {
+		for(int i=0 ; i<connectedSensorList.size() ; i++) {
+				if(name.equals(SensorDictionary.validSensorNames.get(connectedSensorList.get(i)))) {
+					return connectedSensorList.get(i);
+				}
+		}
+		return null;
 	}
 
 	// Returns true if the sensor list was set successfully and false

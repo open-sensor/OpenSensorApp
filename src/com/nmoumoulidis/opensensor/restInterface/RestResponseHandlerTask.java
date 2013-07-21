@@ -1,6 +1,7 @@
 package com.nmoumoulidis.opensensor.restInterface;
 
 import java.io.IOException;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
@@ -84,28 +85,16 @@ public class RestResponseHandlerTask extends AsyncTask<Object, Integer, Boolean>
     protected void onPostExecute(Boolean success) {
 		if(success) { 
 			if(restRequest.getClass() == RealTimeDataRequest.class) {
-				
-				// TODO  AT THIS POINT, SET THE DATA TO THE LOCAL-SENSOR-UI RESULT VIEW
-				// WITH A DESCRIPTION OF THE TYPE OF RESULT.
-				
-				// ======== displaying result for testing reasons =========
 				mConSensActivity.getmResultText().scrollTo(0, 0);
 				mConSensActivity.getmResultText().setText(body);
 				System.out.println("real time data request handled!");
-				// ========================================================
 			}
 			else if(restRequest.getClass() == DefaultSetLocationRequest.class) {
-				
-				// TODO AT THIS POINT, NOTIFY THE LOCAL-SENSOR-UI USER ABOUT SUCCESS
-				
 				mConSensActivity.getmResultText().scrollTo(0, 0);
 				mConSensActivity.getmResultText().setText("The location was successfully changed!");
 				System.out.println("Set Location PUT request handled!");
 			}
 			else {
-				// TODO  AT THIS POINT, SET THE DATA TO THE LOCAL-SENSOR-UI RESULT VIEW
-				// WITH A DESCRIPTION OF THE TYPE OF RESULT.
-				
 				mConSensActivity.getmResultText().scrollTo(0, 0);
 				mConSensActivity.getmResultText().setText(body);
 				System.out.println("Generic GET request handled!");

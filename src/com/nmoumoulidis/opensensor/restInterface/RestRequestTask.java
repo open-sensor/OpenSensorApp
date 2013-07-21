@@ -13,12 +13,12 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
+import android.os.AsyncTask;
+
 import com.nmoumoulidis.opensensor.restInterface.requests.DefaultBatchDataRequest;
 import com.nmoumoulidis.opensensor.restInterface.requests.DefaultSensorListRequest;
 import com.nmoumoulidis.opensensor.restInterface.requests.RestRequest;
 import com.nmoumoulidis.opensensor.view.ConnectedSensorActivity;
-
-import android.os.AsyncTask;
 
 public class RestRequestTask extends AsyncTask<RestRequest, Integer, RestRequest> {
 

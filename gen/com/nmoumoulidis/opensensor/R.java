@@ -27,17 +27,15 @@ public final class R {
         public static final int location_place=0x7f020003;
     }
     public static final class id {
-        public static final int action_settings=0x7f08000a;
-        public static final int go_to_con_sens_btn=0x7f080007;
-        public static final int go_to_map_view_btn=0x7f080009;
-        public static final int go_to_phn_sens_btn=0x7f080008;
-        public static final int humid_button=0x7f080002;
-        public static final int info_label=0x7f080000;
-        public static final int light_button=0x7f080003;
-        public static final int main_info_label=0x7f080006;
-        public static final int result_label=0x7f080004;
-        public static final int result_text=0x7f080005;
-        public static final int temp_button=0x7f080001;
+        public static final int action_settings=0x7f080008;
+        public static final int con_sens_layout=0x7f080000;
+        public static final int go_to_con_sens_btn=0x7f080005;
+        public static final int go_to_map_view_btn=0x7f080007;
+        public static final int go_to_phn_sens_btn=0x7f080006;
+        public static final int info_label=0x7f080001;
+        public static final int main_info_label=0x7f080004;
+        public static final int result_label=0x7f080002;
+        public static final int result_text=0x7f080003;
     }
     public static final class layout {
         public static final int activity_connected_sensor=0x7f030000;
@@ -60,14 +58,14 @@ public final class R {
         public static final int go_to_con_sens_mode=0x7f050003;
         public static final int go_to_map_view_mode=0x7f050005;
         public static final int go_to_phn_sens_mode=0x7f050004;
-        public static final int hello_world=0x7f05000d;
         public static final int main_act_label=0x7f050002;
         public static final int read_sensor_label=0x7f050006;
         public static final int show_result_label=0x7f05000a;
         public static final int show_result_text=0x7f05000b;
         public static final int title_activity_connected_sensor=0x7f05000c;
-        public static final int title_activity_map_view=0x7f05000f;
-        public static final int title_activity_phone_sens=0x7f05000e;
+        public static final int title_activity_map_view=0x7f05000e;
+        public static final int title_activity_phone_sens=0x7f05000d;
+        public static final int to_be_implemented=0x7f05000f;
     }
     public static final class style {
         /** 

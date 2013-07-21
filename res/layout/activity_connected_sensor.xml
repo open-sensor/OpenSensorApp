@@ -1,5 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/con_sens_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -15,21 +16,6 @@
         android:layout_height="wrap_content"
         android:text="@string/read_sensor_label"
         android:textSize="15sp" />
-    
-	<Button android:id="@+id/temp_button"
-	     android:layout_width="wrap_content"
-	     android:layout_height="wrap_content"
-	     android:text="@string/get_temp_btn" />
-	
-	<Button android:id="@+id/humid_button"
-	     android:layout_width="wrap_content"
-	     android:layout_height="wrap_content"
-	     android:text="@string/get_humid_btn" />
-	
-	<Button android:id="@+id/light_button"
-	     android:layout_width="wrap_content"
-	     android:layout_height="wrap_content"
-	     android:text="@string/get_light_btn" />
 
 	<LinearLayout 
 	  	android:layout_width="match_parent"

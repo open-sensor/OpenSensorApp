@@ -1,5 +1,10 @@
 package com.nmoumoulidis.opensensor.view;
 
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.widget.Button;
+
 import com.nmoumoulidis.opensensor.R;
 import com.nmoumoulidis.opensensor.controller.MainUIController;
 import com.nmoumoulidis.opensensor.model.DataContainer;
@@ -8,11 +13,6 @@ import com.nmoumoulidis.opensensor.restInterface.BatchDataRestReqRunnable;
 import com.nmoumoulidis.opensensor.restInterface.SensorListReqRunnable;
 import com.nmoumoulidis.opensensor.restInterface.requests.DefaultBatchDataRequest;
 import com.nmoumoulidis.opensensor.restInterface.requests.DefaultSensorListRequest;
-
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.view.Menu;
-import android.widget.Button;
 
 public class MainActivity extends FragmentActivity {
 
@@ -46,7 +46,7 @@ public class MainActivity extends FragmentActivity {
 		
 		initializationRequests();
     }
-	
+
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

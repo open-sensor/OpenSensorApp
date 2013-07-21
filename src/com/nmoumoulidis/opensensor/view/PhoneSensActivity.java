@@ -1,16 +1,14 @@
 package com.nmoumoulidis.opensensor.view;
 
-import com.nmoumoulidis.opensensor.R;
-import com.nmoumoulidis.opensensor.R.layout;
-import com.nmoumoulidis.opensensor.R.menu;
-
-import android.os.Bundle;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v4.app.NavUtils;
-import android.annotation.SuppressLint;
-import android.os.Build;
+
+import com.nmoumoulidis.opensensor.R;
 
 public class PhoneSensActivity extends Activity {
 
