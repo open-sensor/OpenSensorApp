@@ -19,13 +19,19 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.nmoumoulidis.opensensor.view.MainActivity"
-            android:label="@string/app_name" 
-            android:launchMode="singleTask">
+            android:label="@string/app_name"
+            android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name="com.nmoumoulidis.opensensor.restInterface.NetworkDataService"
+            android:exported="false" />
+
         <activity
             android:name="com.nmoumoulidis.opensensor.view.ConnectedSensorActivity"
             android:label="@string/title_activity_connected_sensor"
@@ -52,6 +58,14 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.nmoumoulidis.opensensor.view.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.nmoumoulidis.opensensor.view.BatchDataViewActivity"
+            android:label="@string/title_activity_batch_data_view"
+            android:parentActivityName="com.nmoumoulidis.opensensor.view.ConnectedSensorActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.nmoumoulidis.opensensor.view.ConnectedSensorActivity" />
         </activity>
     </application>
 

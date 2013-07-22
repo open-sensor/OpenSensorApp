@@ -76,7 +76,8 @@ public class RestResponseHandlerTask extends AsyncTask<Object, Integer, Boolean>
 			}
 		}
 		else {
-			// Render body of the rest of status codes, which correspond to failure.
+			// HTTP request failed, try again.
+			return false;
 		}
 		return true;
 	}
@@ -103,10 +104,11 @@ public class RestResponseHandlerTask extends AsyncTask<Object, Integer, Boolean>
 		else {
 		// ============================= FAILURE SCENARIO ===============================
 			if(restRequest.getClass() == RealTimeDataRequest.class) {
+				System.out.println("Request failed. Trying again...");
 				// Recursively instantiate & execute RealTimeDataRequest 
 				// until the data reading is valid.
 				// (Casting to subclass in order to access the subclass-only attributes).
-				RealTimeDataRequest oldRequest = new RealTimeDataRequest(restRequest);
+				RealTimeDataRequest oldRequest = new RealTimeDataRequest((RealTimeDataRequest) restRequest);
 				new RestRequestTask(mConSensActivity).execute(oldRequest);
 			}
 		}

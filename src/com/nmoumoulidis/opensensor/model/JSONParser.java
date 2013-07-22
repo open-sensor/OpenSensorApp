@@ -2,6 +2,7 @@ package com.nmoumoulidis.opensensor.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,66 +18,93 @@ public class JSONParser
 
 	public static final String NODE_DATETIME = "datetime";
 	public static final String NODE_LOCATION = "location";
-	public static final String NODE_TEMP = "temp";
-	public static final String NODE_HUMID = "humid";
-	public static final String NODE_LIGHT = "light";
+	
+	private ArrayList<String> keyList = null;
 
 	public JSONParser(String json, DataValidator validator) {
 			this.stringJSON = json;
 			this.dataValidator = validator;
+			this.keyList = new ArrayList<String>();
 	}
-	
+
 	public ArrayList<HashMap<String, String>> parseData() {
 		try {
-			readings = new JSONArray(this.stringJSON);
 			dataList = new ArrayList<HashMap<String, String>>();
+			readings = new JSONArray(this.stringJSON);
 			
 			for(int i=0 ; i<readings.length() ; i++) {
-				JSONObject obj = readings.getJSONObject(i);			
-				try {
-					// Exception thrown here would be due to invalid JSON node name.
-					String datetime = obj.getString(NODE_DATETIME);
-					String location = obj.getString(NODE_LOCATION);
-					String temp = obj.getString(NODE_TEMP);
-					String humid = obj.getString(NODE_HUMID);
-					String light = obj.getString(NODE_LIGHT);
-					
-					// Validate that sensor values are numbers.
-					// Exception thrown here would be due to invalid (trash) data
-					//(i.e. a temperature value which is not a number).
-					double tempTemp = obj.getDouble(NODE_TEMP);
-					double tempHumid = obj.getDouble(NODE_HUMID);
-					double tempLight = obj.getDouble(NODE_LIGHT); 
-					
-					// If data are valid, create a hashmap.
-					dataMap = new HashMap<String, String>();
-					dataMap.put(NODE_DATETIME, datetime);
-					dataMap.put(NODE_LOCATION, location);
-					dataMap.put(NODE_TEMP, temp);
-					dataMap.put(NODE_HUMID, humid);
-					dataMap.put(NODE_LIGHT, light);
-					
-					// In order to track data loss...
-					this.dataValidator.incrementAllData();
+				JSONObject obj = readings.getJSONObject(i);
+				
+				// In order to track data loss...
+				this.dataValidator.incrementAllData();
+				
+				// Run through the object's keys and validate them.
+				Iterator<String> iter = (Iterator<String>)obj.keys();
+				boolean areKeysValid = true;
+				while(iter.hasNext()) {
+					String key = iter.next();
+					if(!key.equals("datetime") && !key.equals("location")) {
+						if(!SensorDictionary.isValidSensor(key)) {
+							areKeysValid = false;
+						}
+					}
 				}
-				catch (JSONException invalidNodeExc) {
-					System.out.println(invalidNodeExc.getMessage());
-					
+				
+				// If the keys of the object are valid...
+				if(areKeysValid) {
+					// If its the first object: add all the keys in the keyList.
+					if(i == 0) {
+						iter = (Iterator<String>)obj.keys();
+						while(iter.hasNext()) {
+							String key = iter.next();
+							if(!key.equals("datetime") && !key.equals("location")) {
+								keyList.add(key);
+							}
+						}
+					}
+
+					// Parse through them
+					try {
+						String datetime = obj.getString(NODE_DATETIME);
+						String location = obj.getString(NODE_LOCATION);
+						for(int j=0 ; j<keyList.size() ; j++) {
+							// Validate that sensor values are numbers.
+							// Exception thrown here would be due to invalid (trash) data
+							//(i.e. a temperature value which is not a number).
+							double tempVariable = obj.getDouble(keyList.get(j));
+						}
+						
+						// If data are valid, create a hashmap and add them to it.
+						dataMap = new HashMap<String, String>();
+						dataMap.put(NODE_DATETIME, datetime);
+						dataMap.put(NODE_LOCATION, location);
+						for(int j=0 ; j<keyList.size() ; j++) {
+							dataMap.put(keyList.get(j), obj.getString(keyList.get(j)));
+						}
+					}
+					catch (JSONException invalidNodeExc) {
+						System.out.println(invalidNodeExc.getMessage());
+						
+						// In order to track data loss...
+						this.dataValidator.incrementDatalost();
+						// Exception due to reading validation is thrown, we skip this reading.
+						continue;
+					}
+					dataList.add(dataMap); // Add the map object to the list.
+				}
+				else {
 					// In order to track data loss...
 					this.dataValidator.incrementDatalost();
-					
-					// Exception due to reading validation is thrown,
-					// we skip this reading.
+					// keys are not valid, we skip this reading.
 					continue;
 				}
-				dataList.add(dataMap); // Add the map object to the list.
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 		return dataList;
 	}
-	
+
 	public ArrayList<String> parseSensorList() {
 		ArrayList<String> sensorList = new ArrayList<String>();
 		try {

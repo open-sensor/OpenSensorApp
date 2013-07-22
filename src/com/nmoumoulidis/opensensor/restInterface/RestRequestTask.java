@@ -17,6 +17,7 @@ import android.os.AsyncTask;
 
 import com.nmoumoulidis.opensensor.restInterface.requests.DefaultBatchDataRequest;
 import com.nmoumoulidis.opensensor.restInterface.requests.DefaultSensorListRequest;
+import com.nmoumoulidis.opensensor.restInterface.requests.DefaultSetLocationRequest;
 import com.nmoumoulidis.opensensor.restInterface.requests.RestRequest;
 import com.nmoumoulidis.opensensor.view.ConnectedSensorActivity;
 
@@ -51,7 +52,7 @@ public class RestRequestTask extends AsyncTask<RestRequest, Integer, RestRequest
 				httpPut.setHeader("Accept", newRequest.getAccept());
 				
 				// add the data entity
-				StringEntity sEntity = new StringEntity(newRequest.getData());
+				StringEntity sEntity = new StringEntity(((DefaultSetLocationRequest) newRequest).getData());
 				httpPut.setEntity(sEntity);
 
 				response = httpClient.execute(httpPut, localContext);

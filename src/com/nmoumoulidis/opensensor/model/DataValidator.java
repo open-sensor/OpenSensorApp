@@ -16,7 +16,7 @@ public class DataValidator
 		this.dataLost = 0;
 		this.allData = 0;
 	}
-	
+
 	public ArrayList<HashMap<String,String>> validateBatchData() {
 		// Validation is performed within the parser in this case.
 		return jsonParser.parseData();

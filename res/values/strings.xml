@@ -18,5 +18,7 @@
     <string name="title_activity_phone_sens">Phone Sensor Mode</string>
     <string name="title_activity_map_view">Map View Sensor Mode</string>
     <string name="to_be_implemented">To Be Implemented&#8230;</string>
+    <string name="title_activity_batch_data_view">BatchDataViewActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

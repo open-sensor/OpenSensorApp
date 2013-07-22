@@ -38,7 +38,7 @@ public class ConSensUIController implements OnClickListener
 					{
 						String sensorCommand = sensorTrack.findSensorByName((String) btnArray[i].getText());
 						RealTimeDataRequest dataRequest = 
-								new RealTimeDataRequest("slug", "81", sensorCommand, mConSensActivity);
+								new RealTimeDataRequest(sensorCommand, mConSensActivity);
 						new RestRequestTask(mConSensActivity).execute(dataRequest);
 						
 						mConSensActivity.getmLabelText().setText(btnArray[i].getText() + ": ");

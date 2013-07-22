@@ -4,34 +4,35 @@ import com.nmoumoulidis.opensensor.view.MainActivity;
 
 public class RestRequest 
 {
-	protected String baseUrl;
+	protected final static String hostname = "slug";
+	protected final static String port = "81";
+	protected final static String baseUrlString = "/senseapi";
+	
+	protected String baseUrl = "http://"+hostname+":"+port+baseUrlString;
 	protected String method;
 	protected String relativeUrl;
 	protected String accept;
-	protected String data;
 	protected MainActivity mainActivity;
 	
 	public RestRequest(String[] parameters) {
-		this.baseUrl = parameters[0];
-		this.method = parameters[1];
-		this.relativeUrl = parameters[2];
-		this.accept = parameters[3];
+		this.method = parameters[0];
+		this.relativeUrl = parameters[1];
+		this.accept = parameters[2];
 	}
-	
+
 	/**
 	 * Copy Constructor.
 	 */
 	public RestRequest(RestRequest clonedRequest) {
-		this.baseUrl = clonedRequest.getBaseUrl();
 		this.method = clonedRequest.getMethod();
 		this.relativeUrl = clonedRequest.getRelativeUrl();
 		this.accept = clonedRequest.getAccept();
 	}
-	
+
 	public String getBaseUrl() {
 		return baseUrl;
 	}
-	
+
 	public String getMethod() {
 		return method;
 	}
@@ -43,9 +44,4 @@ public class RestRequest
 	public String getAccept() {
 		return accept;
 	}
-
-	public String getData() {
-		return data;
-	}
-
 }

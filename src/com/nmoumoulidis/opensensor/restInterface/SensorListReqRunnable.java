@@ -94,7 +94,7 @@ public class SensorListReqRunnable implements Runnable
 			else {
 				// Recursively instantiate & execute a new Thread that performs 
 				// a new sensor list request, until the sensor list is valid.
-				DefaultSensorListRequest oldRequest = new DefaultSensorListRequest(newRequest);
+				DefaultSensorListRequest oldRequest = new DefaultSensorListRequest((DefaultSensorListRequest) newRequest);
 				SensorListReqRunnable anotherReqRunnable = new SensorListReqRunnable(mainActivity, oldRequest);
 			   	new Thread(anotherReqRunnable).start();
 			}
@@ -103,7 +103,7 @@ public class SensorListReqRunnable implements Runnable
 		else {
 			// Recursively instantiate & execute a new Thread that performs 
 			// a new sensor list request, until the sensor list is valid.
-			DefaultSensorListRequest oldRequest = new DefaultSensorListRequest(newRequest);
+			DefaultSensorListRequest oldRequest = new DefaultSensorListRequest((DefaultSensorListRequest) newRequest);
 			SensorListReqRunnable anotherReqRunnable = new SensorListReqRunnable(mainActivity, oldRequest);
 		   	new Thread(anotherReqRunnable).start();
 		}
