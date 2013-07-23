@@ -31,7 +31,7 @@ public class MainActivity extends FragmentActivity {
 	private DataContainer mDataContainer;
 	
 	private boolean sensorListObtained = false;
-	
+	private boolean wifiSensorConnected = true;
 	private BatchDataReceiver bdReceiver;
 	
 	@Override
@@ -83,10 +83,20 @@ public class MainActivity extends FragmentActivity {
 				new SensorListReqRunnable(this, sensorListRequest);
 	   	new Thread(sensorListRequestTask).start();
 
-		// Perform request within a new IntentService to receive all the
-		// available persistently stored data on the sensor.
-	   	Intent batchDataRequestIntent = new Intent(this, NetworkDataService.class);
-	   	startService(batchDataRequestIntent);
+	   	if(wifiSensorConnected == true) {
+	   	// Perform request within a new IntentService to receive all the
+			// available persistently stored data on the sensor.
+		   	Intent batchDataRequestIntent = new Intent(this, NetworkDataService.class);
+		   	startService(batchDataRequestIntent);
+	   	}
+	}
+	
+	public boolean isWifiSensorConnected() {
+		return wifiSensorConnected;
+	}
+
+	public void setWifiSensorConnected(boolean wifiSensorConnected) {
+		this.wifiSensorConnected = wifiSensorConnected;
 	}
 
 	public Button getmGoToConSensActivityBtn() {
@@ -119,15 +129,10 @@ public class MainActivity extends FragmentActivity {
 	
 	public class BatchDataReceiver extends BroadcastReceiver {
 		public static final String BATCH_DATA_OUT = "BATCH_DATA";
-
 		   @Override
 		    public void onReceive(Context context, Intent intent) {
-			   System.out.println("ON RECEIVE CALLED...");
 			   ArrayList<HashMap<String, String>> batchData;
 		       batchData = (ArrayList<HashMap<String, String>>) intent.getSerializableExtra(BATCH_DATA_OUT);
-		       mDataContainer.setData(batchData);
-		       System.out.println("DATA SIZE: "+ batchData.size());
-		 //      System.out.println("BATCH DATA...: "+ mDataContainer.dataToString());
 		    }
 		}
 }

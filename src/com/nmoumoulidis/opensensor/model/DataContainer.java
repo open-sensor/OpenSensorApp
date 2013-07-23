@@ -16,7 +16,7 @@ public class DataContainer
 		this.data = newData;
 	}
 
-	// Utility method for data display testing.
+	// How to Iterate through the ArrayList<HashMap<String,String>>
 	public String dataToString() {
 		String dataString="";
 		for(int i=0 ; i<data.size() ; i++) {

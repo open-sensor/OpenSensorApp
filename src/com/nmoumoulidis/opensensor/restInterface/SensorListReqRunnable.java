@@ -51,13 +51,20 @@ public class SensorListReqRunnable implements Runnable
 			httpGet.setHeader("Accept", newRequest.getAccept());
 			response = httpClient.execute(httpGet, localContext);
 		} catch (ClientProtocolException e) {
-			e.printStackTrace();
+			mainActivity.setWifiSensorConnected(false);
+			return;
 		} catch (UnknownHostException e) {
-			e.printStackTrace(); // Cannot find host name...
+			mainActivity.setWifiSensorConnected(false);
+			return;
 		} catch (IOException e) {
-			e.printStackTrace();
+			mainActivity.setWifiSensorConnected(false);
+			return;
 		}
 
+		if(response == null) {
+			return;
+		}
+		
 		// ========================= Handle the Response ================================ //
 		this.statusCode = response.getStatusLine().getStatusCode();
 		this.entity = response.getEntity();

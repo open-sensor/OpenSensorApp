@@ -16,6 +16,7 @@ import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
 import com.nmoumoulidis.opensensor.model.DataValidator;
+import com.nmoumoulidis.opensensor.model.DatabaseHelper;
 import com.nmoumoulidis.opensensor.restInterface.requests.DefaultBatchDataRequest;
 
 import android.app.IntentService;
@@ -31,11 +32,12 @@ public class NetworkDataService extends IntentService
 	private HttpResponse response;
 	
 	private int statusCode;
-	
+
 	private HttpEntity entity;
 	private String body;
 	private ArrayList<HashMap<String,String>> newBatchData;
 	private DefaultBatchDataRequest batchDataRequest;
+	private DatabaseHelper databaseHelper;
 	
 	public NetworkDataService() {
 		super("NetworkDataService");
@@ -46,8 +48,11 @@ public class NetworkDataService extends IntentService
 		this.httpClient = new DefaultHttpClient();
 		this.localContext = new BasicHttpContext();
 		batchDataRequest = new DefaultBatchDataRequest();
-
+		
 		performRequest();
+		if(response == null) {
+			return;
+		}
 		handleResponse();
 		sendIntentResponse();
 	}
@@ -78,7 +83,7 @@ public class NetworkDataService extends IntentService
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		// <<< HTTP request succeeded -> process data
 		if(statusCode == 200) {
 			//  ---------- Data Validation & Usage ----------
@@ -86,9 +91,12 @@ public class NetworkDataService extends IntentService
 			// The data are ready to be stored/used.
 			DataValidator batchDataValidator = new DataValidator(body);
 			newBatchData = batchDataValidator.validateBatchData();
-			
+
+			databaseHelper = new DatabaseHelper(this);
+			databaseHelper.deleteAllBatchData();
+			databaseHelper.insertBatchData(newBatchData);
+
 			System.out.println("BATCH DATA response handled!");
-			System.out.println("DATA SIZE: "+ newBatchData.size());
 			System.out.println("Data Loss %: "+batchDataValidator.getDataLossPercentage());
 			
 			// TODO  AT THIS POINT, SEND ALL DATA TO THE 'BIG SERVER'
@@ -106,16 +114,18 @@ public class NetworkDataService extends IntentService
 	}
 
 	private void sendIntentResponse() {
-		  Intent intentResponse = new Intent();
-		  intentResponse.setAction(ACTION_BATH_REQ_FINISHED);
-		  intentResponse.addCategory(Intent.CATEGORY_DEFAULT);
-		  intentResponse.putExtra(BATCH_DATA_OUT, newBatchData);
-		  sendBroadcast(intentResponse);
+		Intent intentResponse = new Intent();
+		intentResponse.setAction(ACTION_BATH_REQ_FINISHED);
+		intentResponse.addCategory(Intent.CATEGORY_DEFAULT);
+		intentResponse.putExtra(BATCH_DATA_OUT, newBatchData);
+		sendBroadcast(intentResponse);
 	}
 	  
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		System.out.println("NetworkDataService DESTROYED...");
+		if(databaseHelper != null) {
+			databaseHelper.close();
+		}
 	}
 }

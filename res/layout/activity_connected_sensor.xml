@@ -16,10 +16,11 @@
         android:layout_height="wrap_content"
         android:text="@string/read_sensor_label"
         android:textSize="15sp" />
-
+	
 	<LinearLayout 
+	    android:id="@+id/result_nested_layout"
 	  	android:layout_width="match_parent"
-    	android:layout_height="match_parent"
+    	android:layout_height="wrap_content"
     	android:orientation="horizontal" >
 		<TextView
 	        android:id="@+id/result_label"
@@ -33,9 +34,25 @@
 	        android:layout_height="wrap_content"
 	        android:gravity="right|center_vertical"
             android:hint="@string/show_result_text"
-	        android:textSize="25sp" 
+	        android:textSize="25sp"
 	        android:maxLines="30"
 	        android:scrollbars="vertical" />
 	</LinearLayout>
+
+	<Button 
+	    android:id="@+id/go_to_history_btn"
+	   	android:layout_width="match_parent"
+	 	android:layout_height="wrap_content"
+	 	android:layout_marginTop="80dip"
+	 	android:text="@string/go_to_history_btn_label"
+	 	android:visibility="gone"	/>
+	
+	<TextView
+	    android:id="@+id/no_data_history_label"
+	   	android:layout_width="match_parent"
+	 	android:layout_height="wrap_content"
+		android:layout_marginTop="80dip"
+	 	android:text="@string/no_data_history_label"
+	 	android:visibility="gone"	/>
 
 </LinearLayout>

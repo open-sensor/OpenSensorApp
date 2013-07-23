@@ -62,6 +62,7 @@
         <activity
             android:name="com.nmoumoulidis.opensensor.view.BatchDataViewActivity"
             android:label="@string/title_activity_batch_data_view"
+            android:launchMode="singleTask"
             android:parentActivityName="com.nmoumoulidis.opensensor.view.ConnectedSensorActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
