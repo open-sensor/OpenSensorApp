@@ -1,7 +1,6 @@
 package com.nmoumoulidis.opensensor.model;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -16,16 +15,12 @@ public class DatabaseHelper extends SQLiteOpenHelper
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "sensorReadingsManager";
     private static final String TABLE_SENSOR_DATA = "sensor_data";
-    private static final String TABLE_SENSOR_TYPES = "sensor_types";
 
-    private static final String KEY_ID = "_id";
-    
-    private static final String KEY_SENSOR_TYPE = "sensor_type";
-    
-    private static final String KEY_DATE = "date";
-    private static final String KEY_LOCATION = "location";
-    private static final String KEY_SENSOR_TYPE_ID = "sensor_type_id";
-    private static final String KEY_DATA_VALUE = "data_value";
+    public static final String KEY_ID = "_id";
+    public static final String KEY_DATE = "date";
+    public static final String KEY_LOCATION = "location";
+    public static final String KEY_SENSOR_TYPE = "sensor_type_id";
+    public static final String KEY_DATA_VALUE = "data_value";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -33,39 +28,21 @@ public class DatabaseHelper extends SQLiteOpenHelper
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_SENSOR_TYPES_TABLE = "CREATE TABLE " + TABLE_SENSOR_TYPES 
-        		+ "(" 
-        		+ KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," 
-        		+ KEY_SENSOR_TYPE + " TEXT NOT NULL"
-        		+ ");";
-        db.execSQL(CREATE_SENSOR_TYPES_TABLE);
 
         String CREATE_SENSOR_DATA_TABLE = "CREATE TABLE " + TABLE_SENSOR_DATA
         		+ "(" 
         		+ KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," 
         		+ KEY_DATE + " TEXT NOT NULL,"
                 + KEY_LOCATION + " TEXT NOT NULL,"
-                + KEY_SENSOR_TYPE_ID + " TEXT NOT NULL REFERENCES "
-                						+TABLE_SENSOR_TYPES+"(KEY_ID),"
+                + KEY_SENSOR_TYPE + " TEXT NOT NULL,"
                 + KEY_DATA_VALUE + " REAL NOT NULL"
         		+ ");";
         db.execSQL(CREATE_SENSOR_DATA_TABLE);
-        populateSensorTypesTable(db);
-    }
-
-    private void populateSensorTypesTable(SQLiteDatabase db) {
-    	for(int i=0 ; i<SensorDictionary.validSensors.length ; i++) {
-    		String INSERT_SENSOR_TYPES = "INSERT INTO "+ TABLE_SENSOR_TYPES
-        			+" ("+KEY_SENSOR_TYPE+") VALUES" 
-        			+" ('"+SensorDictionary.validSensors[i]+"');";
-    		db.execSQL(INSERT_SENSOR_TYPES);
-		}
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVer, int newVer) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SENSOR_DATA);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SENSOR_TYPES);
         onCreate(db);
         System.out.println("SQLITE HELPER -> ON UPGRADE WAS RUN...");
     }
@@ -73,12 +50,15 @@ public class DatabaseHelper extends SQLiteOpenHelper
     /**
      * All CRUD(Create, Read, Update, Delete) Operations
      */
-
-    public ArrayList<String> getSensorTypesStored() {
+  
+    public ArrayList<String> getAllStoredSensorTypes() {
     	ArrayList<String> sensorTypesList = new ArrayList<String>();
     	SQLiteDatabase db = this.getReadableDatabase();
-    	Cursor cursor = db.query(TABLE_SENSOR_TYPES, new String[] { KEY_SENSOR_TYPE }
- 							, null, null, null, null, null, null);
+    	Cursor cursor = db.rawQuery("SELECT DISTINCT "+
+    								KEY_SENSOR_TYPE+
+    								" FROM "+
+    								TABLE_SENSOR_DATA+";"
+    								, null);
     	if (cursor.moveToFirst()) {
     		do {
     			sensorTypesList.add(cursor.getString(0));
@@ -104,7 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 		    				+" ("
 		    				+ KEY_DATE +", "
 		    				+ KEY_LOCATION +", "
-		    				+ KEY_SENSOR_TYPE_ID +", " 
+		    				+ KEY_SENSOR_TYPE +", " 
 		    				+ KEY_DATA_VALUE
 		    				+") VALUES ("
 		    				+"'"+ data.get(i).get("datetime") +"', "
@@ -118,10 +98,26 @@ public class DatabaseHelper extends SQLiteOpenHelper
 		}
     }
 
+    public Cursor getDetailedQueryCursor(String sensor, String fromDate, String toDate) {
+    	SQLiteDatabase db = this.getReadableDatabase();
+    	System.out.println("fromDate: "+fromDate+", doDate: "+toDate+", sensor: "+sensor);
+    	Cursor cursor = db.query(TABLE_SENSOR_DATA
+    			,new String[] {KEY_ID, KEY_DATE, KEY_LOCATION, KEY_SENSOR_TYPE, KEY_DATA_VALUE}
+    			,"("+KEY_DATE+" BETWEEN ? AND ? )"+" AND "+KEY_SENSOR_TYPE+"= ?"
+    			,new String[] { "24-07-2013" , "24-07-2013", sensor }
+    			, null, null, null, null);
+		if (cursor.moveToFirst()) {
+			return cursor;
+		}
+		else {
+			return null;
+		}
+    }
+
     public void printAllBatchData() {
     	SQLiteDatabase db = this.getReadableDatabase();
     	Cursor cursor = db.query(TABLE_SENSOR_DATA, new String[] {KEY_DATE, KEY_LOCATION,
-    													KEY_SENSOR_TYPE_ID, KEY_DATA_VALUE}
+    													KEY_SENSOR_TYPE, KEY_DATA_VALUE}
 			, null, null, null, null, null, null);
 		if (cursor.moveToFirst()) {
 			do {
@@ -142,8 +138,8 @@ public class DatabaseHelper extends SQLiteOpenHelper
     public void getTodaysData() {
     	SQLiteDatabase db = this.getReadableDatabase();
     	Cursor cursor = db.query(TABLE_SENSOR_DATA, new String[] {KEY_DATE, KEY_LOCATION,
-    													KEY_SENSOR_TYPE_ID, KEY_DATA_VALUE}
-			, KEY_DATE+"='"+DateManager.getToday()+"'", null, null, null, null, null);
+    													KEY_SENSOR_TYPE, KEY_DATA_VALUE}
+			, KEY_DATE+"='"+DateManager.getTodayString()+"'", null, null, null, null, null);
     	
 		if (cursor.moveToFirst()) {
 			do {
@@ -156,16 +152,16 @@ public class DatabaseHelper extends SQLiteOpenHelper
 			} while (cursor.moveToNext());
 		}
 		else {
-			System.out.println("Cursor is empty... No batch data...");
+			System.out.println("No data for today...");
 		}
 		cursor.close();
     }
-    
+
     public void getLastWeeksData() {
     	SQLiteDatabase db = this.getReadableDatabase();
     	Cursor cursor = db.query(TABLE_SENSOR_DATA, new String[] {KEY_DATE, KEY_LOCATION,
-    													KEY_SENSOR_TYPE_ID, KEY_DATA_VALUE}
-			, KEY_DATE+"='"+DateManager.getToday()+"'", null, null, null, null, null);
+    													KEY_SENSOR_TYPE, KEY_DATA_VALUE}
+			, KEY_DATE+">='"+DateManager.getSevenDaysBeforeString()+"'", null, null, null, null, null);
     	
 		if (cursor.moveToFirst()) {
 			do {
@@ -178,11 +174,33 @@ public class DatabaseHelper extends SQLiteOpenHelper
 			} while (cursor.moveToNext());
 		}
 		else {
-			System.out.println("Cursor is empty... No batch data...");
+			System.out.println("No data for this week...");
 		}
 		cursor.close();
     }
-    
+
+    public void getLastMonthsData() {
+    	SQLiteDatabase db = this.getReadableDatabase();
+    	Cursor cursor = db.query(TABLE_SENSOR_DATA, new String[] {KEY_DATE, KEY_LOCATION,
+    													KEY_SENSOR_TYPE, KEY_DATA_VALUE}
+			, KEY_DATE+">='"+DateManager.getAMonthBeforeString()+"'", null, null, null, null, null);
+    	
+		if (cursor.moveToFirst()) {
+			do {
+				String dataLine = "";
+				dataLine += cursor.getString(0);
+				dataLine += cursor.getString(1);
+				dataLine += cursor.getString(2);
+				dataLine += cursor.getDouble(3);
+				System.out.println(dataLine + "\n");
+			} while (cursor.moveToNext());
+		}
+		else {
+			System.out.println("No data for this week...");
+		}
+		cursor.close();
+    }
+
     public void deleteAllBatchData() {
     	SQLiteDatabase db = this.getReadableDatabase();
     	db.delete(TABLE_SENSOR_DATA, null, null);
@@ -192,93 +210,4 @@ public class DatabaseHelper extends SQLiteOpenHelper
     	SQLiteDatabase db = this.getReadableDatabase();
     	return DatabaseUtils.queryNumEntries(db, TABLE_SENSOR_DATA);
     }
-
-    /*
-    // Adding new contact
-    void addContact(Contact contact) {
-        SQLiteDatabase db = this.getWritableDatabase();
- 
-        ContentValues values = new ContentValues();
-        values.put(KEY_NAME, contact.getName()); // Contact Name
-        values.put(KEY_PH_NO, contact.getPhoneNumber()); // Contact Phone
- 
-        // Inserting Row
-        db.insert(TABLE_CONTACTS, null, values);
-        db.close(); // Closing database connection
-    }
- 
-    // Getting single contact
-    Contact getContact(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
- 
-        Cursor cursor = db.query(TABLE_CONTACTS, new String[] { KEY_ID,
-                KEY_NAME, KEY_PH_NO }, KEY_ID + "=?",
-                new String[] { String.valueOf(id) }, null, null, null, null);
-        if (cursor != null)
-            cursor.moveToFirst();
- 
-        Contact contact = new Contact(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), cursor.getString(2));
-        // return contact
-        return contact;
-    }
-     
-    // Getting All Contacts
-    public List<Contact> getAllContacts() {
-        List<Contact> contactList = new ArrayList<Contact>();
-        // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS;
- 
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
- 
-        // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
-            do {
-                Contact contact = new Contact();
-                contact.setID(Integer.parseInt(cursor.getString(0)));
-                contact.setName(cursor.getString(1));
-                contact.setPhoneNumber(cursor.getString(2));
-                // Adding contact to list
-                contactList.add(contact);
-            } while (cursor.moveToNext());
-        }
- 
-        // return contact list
-        return contactList;
-    }
-
-    // Updating single contact
-    public int updateContact(Contact contact) {
-        SQLiteDatabase db = this.getWritableDatabase();
- 
-        ContentValues values = new ContentValues();
-        values.put(KEY_NAME, contact.getName());
-        values.put(KEY_PH_NO, contact.getPhoneNumber());
- 
-        // updating row
-        return db.update(TABLE_CONTACTS, values, KEY_ID + " = ?",
-                new String[] { String.valueOf(contact.getID()) });
-    }
- 
-    // Deleting single contact
-    public void deleteContact(Contact contact) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_CONTACTS, KEY_ID + " = ?",
-                new String[] { String.valueOf(contact.getID()) });
-        db.close();
-    }
- 
- 
-    // Getting contacts Count
-    public int getContactsCount() {
-        String countQuery = "SELECT  * FROM " + TABLE_CONTACTS;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(countQuery, null);
-        cursor.close();
- 
-        // return count
-        return cursor.getCount();
-    }
- */
 }

@@ -27,25 +27,41 @@ public final class R {
         public static final int location_place=0x7f020003;
     }
     public static final class id {
-        public static final int action_settings=0x7f08000b;
+        public static final int action_settings=0x7f08001b;
         public static final int con_sens_layout=0x7f080000;
-        public static final int go_to_con_sens_btn=0x7f080008;
-        public static final int go_to_history_btn=0x7f080005;
-        public static final int go_to_map_view_btn=0x7f08000a;
-        public static final int go_to_phn_sens_btn=0x7f080009;
-        public static final int info_label=0x7f080001;
-        public static final int main_info_label=0x7f080007;
-        public static final int no_data_history_label=0x7f080006;
+        public static final int date_column=0x7f080017;
+        public static final int date_pick_from_btn=0x7f08000a;
+        public static final int date_pick_to_btn=0x7f08000b;
+        public static final int date_range_label=0x7f080009;
+        public static final int go_to_con_sens_btn=0x7f08000f;
+        public static final int go_to_history_btn=0x7f080001;
+        public static final int go_to_map_view_btn=0x7f080011;
+        public static final int go_to_phn_sens_btn=0x7f080010;
+        public static final int go_to_realtime_data_btn=0x7f080006;
+        public static final int info_label=0x7f080002;
+        public static final int list=0x7f08000d;
+        public static final int location_column=0x7f080018;
+        public static final int main_info_label=0x7f08000e;
+        public static final int no_data_history_label=0x7f080005;
         public static final int result_label=0x7f080003;
-        public static final int result_nested_layout=0x7f080002;
+        public static final int result_relative_layout=0x7f080012;
         public static final int result_text=0x7f080004;
+        public static final int sensor_spinner=0x7f080008;
+        public static final int sensor_spinner_labeltext=0x7f080007;
+        public static final int sensor_type_column=0x7f080019;
+        public static final int sensor_value_column=0x7f08001a;
+        public static final int show_search_results_btn=0x7f08000c;
+        public static final int textView1=0x7f080013;
+        public static final int textView2=0x7f080014;
+        public static final int textView3=0x7f080015;
+        public static final int textView4=0x7f080016;
     }
     public static final class layout {
-        public static final int activity_batch_data_view=0x7f030000;
-        public static final int activity_connected_sensor=0x7f030001;
-        public static final int activity_main=0x7f030002;
-        public static final int activity_map_view=0x7f030003;
-        public static final int activity_phone_sens=0x7f030004;
+        public static final int activity_connected_sensor=0x7f030000;
+        public static final int activity_main=0x7f030001;
+        public static final int activity_map_view=0x7f030002;
+        public static final int activity_phone_sens=0x7f030003;
+        public static final int relative_list_layout=0x7f030004;
     }
     public static final class menu {
         public static final int batch_data_view=0x7f070000;
@@ -55,26 +71,32 @@ public final class R {
         public static final int phone_sens=0x7f070004;
     }
     public static final class string {
-        public static final int action_settings=0x7f050001;
-        public static final int app_name=0x7f050000;
-        public static final int get_humid_btn=0x7f050008;
-        public static final int get_light_btn=0x7f050009;
-        public static final int get_temp_btn=0x7f050007;
-        public static final int go_to_con_sens_mode=0x7f050003;
+        public static final int action_settings=0x7f050002;
+        public static final int app_name=0x7f050001;
+        public static final int date_pick_from_btn_text=0x7f050016;
+        public static final int date_pick_to_btn_text=0x7f050017;
+        public static final int date_range_label=0x7f050015;
+        public static final int get_humid_btn=0x7f050009;
+        public static final int get_light_btn=0x7f05000a;
+        public static final int get_temp_btn=0x7f050008;
+        public static final int go_to_con_sens_mode=0x7f050004;
         public static final int go_to_history_btn_label=0x7f050012;
-        public static final int go_to_map_view_mode=0x7f050005;
-        public static final int go_to_phn_sens_mode=0x7f050004;
-        public static final int hello_world=0x7f050011;
-        public static final int main_act_label=0x7f050002;
+        public static final int go_to_map_view_mode=0x7f050006;
+        public static final int go_to_phn_sens_mode=0x7f050005;
+        public static final int go_to_realtime_data_btn_label=0x7f050019;
+        public static final int hello_world=0x7f050000;
+        public static final int main_act_label=0x7f050003;
         public static final int no_data_history_label=0x7f050013;
-        public static final int read_sensor_label=0x7f050006;
-        public static final int show_result_label=0x7f05000a;
-        public static final int show_result_text=0x7f05000b;
-        public static final int title_activity_batch_data_view=0x7f050010;
-        public static final int title_activity_connected_sensor=0x7f05000c;
-        public static final int title_activity_map_view=0x7f05000e;
-        public static final int title_activity_phone_sens=0x7f05000d;
-        public static final int to_be_implemented=0x7f05000f;
+        public static final int read_sensor_label=0x7f050007;
+        public static final int show_result_label=0x7f05000b;
+        public static final int show_result_text=0x7f05000c;
+        public static final int show_search_btn_text=0x7f050018;
+        public static final int spinner_label_text=0x7f050014;
+        public static final int title_activity_batch_data_view=0x7f050011;
+        public static final int title_activity_connected_sensor=0x7f05000d;
+        public static final int title_activity_map_view=0x7f05000f;
+        public static final int title_activity_phone_sens=0x7f05000e;
+        public static final int to_be_implemented=0x7f050010;
     }
     public static final class style {
         /** 

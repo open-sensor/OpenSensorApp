@@ -1,21 +1,18 @@
 package com.nmoumoulidis.opensensor.controller;
 
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
+import android.database.Cursor;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-import com.nmoumoulidis.opensensor.model.DateManager;
 import com.nmoumoulidis.opensensor.model.InvalidSensorException;
 import com.nmoumoulidis.opensensor.model.NonAvailSensorException;
+import com.nmoumoulidis.opensensor.model.SearchDataListViewAdapter;
 
 import com.nmoumoulidis.opensensor.model.SensorTracker;
 import com.nmoumoulidis.opensensor.restInterface.RestRequestTask;
 import com.nmoumoulidis.opensensor.restInterface.requests.RealTimeDataRequest;
-import com.nmoumoulidis.opensensor.view.BatchDataViewActivity;
 import com.nmoumoulidis.opensensor.view.ConnectedSensorActivity;
-import com.nmoumoulidis.opensensor.view.MapViewActivity;
 
 public class ConSensUIController implements OnClickListener 
 {
@@ -37,21 +34,31 @@ public class ConSensUIController implements OnClickListener
 	@Override
 	public void onClick(View v) {
 		if(v == mConSensActivity.getmGoToHistoryBtn()) {
-	//		Intent intent = new Intent(mConSensActivity, BatchDataViewActivity.class);
-	//		mConSensActivity.startActivity(intent);
-			mConSensActivity.getDbHelper().printAllBatchData();
-			System.out.println("-------------------------");
+			mConSensActivity.setRealTimeUIVisible(false);
 		}
+		else if(v == mConSensActivity.getBackToRealTimeButton()) {
+			mConSensActivity.setRealTimeUIVisible(true);
+		}
+		else if(v == mConSensActivity.getSearchButton()) {
+			String from = mConSensActivity.getQueryBuilder().getDateFrom();
+			String to = mConSensActivity.getQueryBuilder().getDateTo();
+			String sensor = mConSensActivity.getQueryBuilder().getSensorToSearch();
+			Cursor newCursor = mConSensActivity.getDbHelper().getDetailedQueryCursor(sensor, from, to);
+			if(newCursor == null) {
+				System.out.println("Data cursor is NULL...");
+			}
+			else {
+				mConSensActivity.getListAdapter().populateListView(newCursor);
+			}
+		}
+
 		if(mConSensActivity.isSensorListObtained()) {
 	//		try {
 				for(int i=0 ; i<btnArray.length ; i++) {
 					if(v == btnArray[i]) 
-					{
-						
-						mConSensActivity.getDbHelper().getTodaysData();
-						System.out.println("-------------------------");
-						//	mConSensActivity.getDbHelper().printAllBatchData();
-			/*			String sensorCommand = sensorTrack.findSensorByName((String) btnArray[i].getText());
+					{	
+						mConSensActivity.getDbHelper().printAllBatchData();
+				/*		String sensorCommand = sensorTrack.findSensorByName((String) btnArray[i].getText());
 						RealTimeDataRequest dataRequest = 
 								new RealTimeDataRequest(sensorCommand, mConSensActivity);
 						new RestRequestTask(mConSensActivity).execute(dataRequest);
@@ -59,7 +66,7 @@ public class ConSensUIController implements OnClickListener
 						mConSensActivity.getmLabelText().setText(btnArray[i].getText() + ": "); */
 					}
 				}
-/*			}
+	/*		}
 			catch (InvalidSensorException isE) {
 				isE.printStackTrace();
 			}
