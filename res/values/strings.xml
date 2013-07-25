@@ -19,14 +19,14 @@
     <string name="title_activity_map_view">Map View Sensor Mode</string>
     <string name="to_be_implemented">To Be Implemented&#8230;</string>
     <string name="title_activity_batch_data_view">Browse Sensor Data History</string>
-    <string name="go_to_history_btn_label">Browse Sensor Data History &gt;&gt;</string>
+    <string name="go_to_history_btn_label">Browse Sensor Data History</string>
     <string name="no_data_history_label">No sensor readings history</string>
-    
     <string name="spinner_label_text">Choose Data Type</string>
     <string name="date_range_label">Choose Date Range: </string>
-   	<string name="date_pick_from_btn_text">From</string>
-   	<string name="date_pick_to_btn_text">To</string>
-	<string name="show_search_btn_text">Search</string>
-	<string name="go_to_realtime_data_btn_label">&lt;&lt; Back to Real-Time Data</string>
+    <string name="date_pick_from_btn_text">From</string>
+    <string name="date_pick_to_btn_text">To</string>
+    <string name="show_search_btn_text">Search</string>
+    <string name="go_to_realtime_data_btn_label">Back to Real-Time Data</string>
+	<string name="no_results_label">Your search returned no relevant data&#8230;</string>
 	
 </resources>

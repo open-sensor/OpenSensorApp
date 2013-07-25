@@ -7,7 +7,6 @@ import android.widget.Button;
 
 import com.nmoumoulidis.opensensor.model.InvalidSensorException;
 import com.nmoumoulidis.opensensor.model.NonAvailSensorException;
-import com.nmoumoulidis.opensensor.model.SearchDataListViewAdapter;
 
 import com.nmoumoulidis.opensensor.model.SensorTracker;
 import com.nmoumoulidis.opensensor.restInterface.RestRequestTask;
@@ -30,7 +29,7 @@ public class ConSensUIController implements OnClickListener
 	public void setBtnArray(Button[] btnArray) {
 		this.btnArray = btnArray;
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 		if(v == mConSensActivity.getmGoToHistoryBtn()) {
@@ -40,39 +39,41 @@ public class ConSensUIController implements OnClickListener
 			mConSensActivity.setRealTimeUIVisible(true);
 		}
 		else if(v == mConSensActivity.getSearchButton()) {
+			mConSensActivity.getNoResultsTextView().setVisibility(View.GONE);
+			
 			String from = mConSensActivity.getQueryBuilder().getDateFrom();
 			String to = mConSensActivity.getQueryBuilder().getDateTo();
 			String sensor = mConSensActivity.getQueryBuilder().getSensorToSearch();
 			Cursor newCursor = mConSensActivity.getDbHelper().getDetailedQueryCursor(sensor, from, to);
 			if(newCursor == null) {
-				System.out.println("Data cursor is NULL...");
+				mConSensActivity.getNoResultsTextView().setVisibility(View.VISIBLE);
 			}
 			else {
-				mConSensActivity.getListAdapter().populateListView(newCursor);
+				Cursor usedCursor = mConSensActivity.getListAdapter().populateListView(newCursor);
+				mConSensActivity.addUsedCursor(usedCursor);
 			}
 		}
 
 		if(mConSensActivity.isSensorListObtained()) {
-	//		try {
+			try {
 				for(int i=0 ; i<btnArray.length ; i++) {
 					if(v == btnArray[i]) 
 					{	
-						mConSensActivity.getDbHelper().printAllBatchData();
-				/*		String sensorCommand = sensorTrack.findSensorByName((String) btnArray[i].getText());
+						String sensorCommand = sensorTrack.findSensorByName((String) btnArray[i].getText());
 						RealTimeDataRequest dataRequest = 
 								new RealTimeDataRequest(sensorCommand, mConSensActivity);
 						new RestRequestTask(mConSensActivity).execute(dataRequest);
 						
-						mConSensActivity.getmLabelText().setText(btnArray[i].getText() + ": "); */
+						mConSensActivity.getmLabelText().setText(btnArray[i].getText() + ": ");
 					}
 				}
-	/*		}
+			}
 			catch (InvalidSensorException isE) {
 				isE.printStackTrace();
 			}
 			catch (NonAvailSensorException nasE) {
 				nasE.printStackTrace();
-			} */
+			}
 		}
 		else { // Something went very wrong...
 			System.out.println("ERROR: sensor list initialization failed...");

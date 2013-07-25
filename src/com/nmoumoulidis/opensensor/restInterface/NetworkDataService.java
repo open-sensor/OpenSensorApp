@@ -15,14 +15,14 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
-import com.nmoumoulidis.opensensor.model.DataValidator;
 import com.nmoumoulidis.opensensor.model.DatabaseHelper;
+import com.nmoumoulidis.opensensor.model.processing.DataValidator;
 import com.nmoumoulidis.opensensor.restInterface.requests.DefaultBatchDataRequest;
 
 import android.app.IntentService;
 import android.content.Intent;
 
-public class NetworkDataService extends IntentService 
+public class NetworkDataService extends IntentService
 {
 	public static final String ACTION_BATH_REQ_FINISHED = "com.nmoumoulidis.opensensor.BATCH_REQUEST_FINISHED";
 	public static final String BATCH_DATA_OUT = "BATCH_DATA";
@@ -54,7 +54,6 @@ public class NetworkDataService extends IntentService
 			return;
 		}
 		handleResponse();
-		sendIntentResponse();
 	}
 
 	private void performRequest() {
@@ -111,14 +110,6 @@ public class NetworkDataService extends IntentService
 			this.performRequest();
 			this.handleResponse();
 		}
-	}
-
-	private void sendIntentResponse() {
-		Intent intentResponse = new Intent();
-		intentResponse.setAction(ACTION_BATH_REQ_FINISHED);
-		intentResponse.addCategory(Intent.CATEGORY_DEFAULT);
-		intentResponse.putExtra(BATCH_DATA_OUT, newBatchData);
-		sendBroadcast(intentResponse);
 	}
 	  
 	@Override

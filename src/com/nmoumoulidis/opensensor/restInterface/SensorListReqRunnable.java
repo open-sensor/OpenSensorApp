@@ -14,8 +14,8 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
-import com.nmoumoulidis.opensensor.model.DataValidator;
 import com.nmoumoulidis.opensensor.model.InvalidSensorException;
+import com.nmoumoulidis.opensensor.model.processing.DataValidator;
 import com.nmoumoulidis.opensensor.restInterface.requests.DefaultSensorListRequest;
 import com.nmoumoulidis.opensensor.restInterface.requests.RestRequest;
 import com.nmoumoulidis.opensensor.view.MainActivity;

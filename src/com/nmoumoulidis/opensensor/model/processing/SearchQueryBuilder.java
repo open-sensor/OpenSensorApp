@@ -1,4 +1,4 @@
-package com.nmoumoulidis.opensensor.model;
+package com.nmoumoulidis.opensensor.model.processing;
 
 import java.util.ArrayList;
 
@@ -10,13 +10,18 @@ public class SearchQueryBuilder
 	private ArrayList<String> sensorsArray;
 	private String sensorToSearch;
 	
-	private int[] DateTo = new int[3];
-	private int[] DateFrom = new int[3];
+	private String DateTo;
+	private String DateFrom;
 	
 	public SearchQueryBuilder(ConnectedSensorActivity conSensActivity) {
 		this.conSensActivity = conSensActivity;
 		this.sensorsArray = conSensActivity.getSpinnerAdapter().getAllSensorsArray();
+		
+		// Set default sensor as the first one populated in the spinner.
 		this.sensorToSearch = conSensActivity.getSpinnerAdapter().getFirstSensorDisplayed();
+		// Set default dates as today...
+		this.DateTo = DateManager.getTodayString();
+		this.DateFrom = DateManager.getTodayString();
 	}
 
 	public void setSensorsArray(ArrayList<String> sensorsArray) {
@@ -37,23 +42,19 @@ public class SearchQueryBuilder
 		}
 	}
 
-	public void setDateToSearch(int year, int month, int day) {
-		this.DateTo[0] = year;
-		this.DateTo[1] = month + 1; // DatePicker months are indexed from 0 onwards..
-		this.DateTo[2] = day;
+	public void setDateToSearch(String dateTo) {
+		this.DateTo = dateTo;
 	}
 	
-	public void setDateFromSearch(int year, int month, int day) {
-		this.DateFrom[0] = year;
-		this.DateFrom[1] = month + 1; // DatePicker months are indexed from 0 onwards..
-		this.DateFrom[2] = day;
+	public void setDateFromSearch(String dateFrom) {
+		this.DateFrom = dateFrom;
 	}
 
 	public String getDateTo() {
-		return DateTo[2]+"-"+DateTo[1]+"-"+DateTo[0];
+		return DateTo;
 	}
 
 	public String getDateFrom() {
-		return DateFrom[2]+"-"+DateFrom[1]+"-"+DateFrom[0];
+		return DateFrom;
 	}
 }

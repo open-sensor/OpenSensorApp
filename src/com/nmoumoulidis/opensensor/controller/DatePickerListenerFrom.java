@@ -1,6 +1,8 @@
 package com.nmoumoulidis.opensensor.controller;
 
+import com.nmoumoulidis.opensensor.model.processing.DateManager;
 import com.nmoumoulidis.opensensor.view.ConnectedSensorActivity;
+import com.nmoumoulidis.opensensor.view.DatePickerFragment;
 
 import android.app.DatePickerDialog;
 import android.support.v4.app.DialogFragment;
@@ -18,7 +20,8 @@ public class DatePickerListenerFrom implements DatePickerDialog.OnDateSetListene
 	
 	@Override
 	public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-		conSensActivity.getQueryBuilder().setDateFromSearch(year, monthOfYear, dayOfMonth);
+		String modifiedDate = DateManager.fixDatePickerFormat(year, monthOfYear, dayOfMonth);
+		conSensActivity.getQueryBuilder().setDateFromSearch(modifiedDate);
 	}
 
 	@Override

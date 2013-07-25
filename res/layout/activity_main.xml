@@ -21,20 +21,23 @@
 	     android:layout_height="wrap_content"
          android:layout_marginTop="10dp"
          android:layout_marginBottom="10dp"
-	     android:text="@string/go_to_con_sens_mode" />
+	     android:text="@string/go_to_con_sens_mode"
+	     android:drawableLeft="@drawable/device_access_network_wifi" />
 	
 	<Button android:id="@+id/go_to_phn_sens_btn"
 	     android:layout_width="match_parent"
 	     android:layout_height="wrap_content"
 	     android:layout_marginTop="10dp"
 	     android:layout_marginBottom="10dp"
-	     android:text="@string/go_to_phn_sens_mode" />
+	     android:text="@string/go_to_phn_sens_mode"
+	     android:drawableLeft="@drawable/hardware_phone" />
 	
 	<Button android:id="@+id/go_to_map_view_btn"
 	     android:layout_width="match_parent"
 	     android:layout_height="wrap_content"
 	     android:layout_marginTop="10dp"
 	     android:layout_marginBottom="10dp"
-	     android:text="@string/go_to_map_view_mode" />
+	     android:text="@string/go_to_map_view_mode"
+	     android:drawableLeft="@drawable/location_place" />
 	
 </LinearLayout>

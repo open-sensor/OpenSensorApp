@@ -1,12 +1,6 @@
 package com.nmoumoulidis.opensensor.view;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -14,7 +8,6 @@ import android.widget.Button;
 
 import com.nmoumoulidis.opensensor.R;
 import com.nmoumoulidis.opensensor.controller.MainUIController;
-import com.nmoumoulidis.opensensor.model.DataContainer;
 import com.nmoumoulidis.opensensor.model.SensorTracker;
 import com.nmoumoulidis.opensensor.restInterface.NetworkDataService;
 import com.nmoumoulidis.opensensor.restInterface.SensorListReqRunnable;
@@ -28,11 +21,9 @@ public class MainActivity extends FragmentActivity {
 	
 	private MainUIController mMainUIController;
 	private SensorTracker mSensorTracker;
-	private DataContainer mDataContainer;
 	
 	private boolean sensorListObtained = false;
 	private boolean wifiSensorConnected = true;
-	private BatchDataReceiver bdReceiver;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,19 +38,10 @@ public class MainActivity extends FragmentActivity {
 		mGoToConSensActivityBtn.setOnClickListener(mMainUIController);
 		mGoToPhnSensActivityBtn.setOnClickListener(mMainUIController);
 		mGoToMapViewActivityBtn.setOnClickListener(mMainUIController);
-		
-		// Create sensor and sensor data containers/managers.
-		mSensorTracker = new SensorTracker();
-		mDataContainer = new DataContainer();
 
-		bdReceiver = new BatchDataReceiver();
-		
+		mSensorTracker = new SensorTracker();
+
 		initializationRequests();
-		
-		//register BroadcastReceiver
-		IntentFilter intentFilter = new IntentFilter(NetworkDataService.ACTION_BATH_REQ_FINISHED);
-		intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
-		registerReceiver(bdReceiver, intentFilter);
     }
 
 	@Override
@@ -72,7 +54,6 @@ public class MainActivity extends FragmentActivity {
 	@Override
     protected void onDestroy() {
 		super.onDestroy();
-		unregisterReceiver(bdReceiver);
 	}
 
 	private void initializationRequests() {
@@ -122,17 +103,4 @@ public class MainActivity extends FragmentActivity {
     public SensorTracker getmSensorTracker() {
 		return mSensorTracker;
 	}
-
-	public DataContainer getmDataContainer() {
-		return mDataContainer;
-	}
-	
-	public class BatchDataReceiver extends BroadcastReceiver {
-		public static final String BATCH_DATA_OUT = "BATCH_DATA";
-		   @Override
-		    public void onReceive(Context context, Intent intent) {
-			   ArrayList<HashMap<String, String>> batchData;
-		       batchData = (ArrayList<HashMap<String, String>>) intent.getSerializableExtra(BATCH_DATA_OUT);
-		    }
-		}
 }

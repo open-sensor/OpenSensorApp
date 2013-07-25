@@ -17,6 +17,7 @@
 	 	android:layout_height="wrap_content"
 	 	android:layout_marginBottom="5dip"
 	 	android:text="@string/go_to_history_btn_label"
+	 	android:drawableRight="@drawable/ic_menu_forward"
 	 	android:visibility="gone"	/>
 	
 	<TextView
@@ -62,6 +63,7 @@
 	 	android:layout_height="wrap_content"
 	 	android:layout_marginBottom="5dip"
 	 	android:text="@string/go_to_realtime_data_btn_label"
+	 	android:drawableLeft="@drawable/ic_menu_back"
 	 	android:visibility="gone"	/>
 	
 	<LinearLayout 
@@ -117,8 +119,17 @@
 	    android:layout_height="wrap_content"
 	   	android:text="@string/show_search_btn_text"
 	    android:textSize="15sp"
-	    android:onClick="showDatePickerDialog" 
+	    android:drawableLeft="@drawable/ic_menu_search_holo_light"
+	    android:onClick="showDatePickerDialog"
 	    android:visibility="gone" />
+	
+	<TextView
+        android:id="@+id/no_results_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_results_label"
+        android:textSize="12sp" 
+        android:visibility="gone" />
 
 	<ListView 
 	    android:id="@+id/list" 

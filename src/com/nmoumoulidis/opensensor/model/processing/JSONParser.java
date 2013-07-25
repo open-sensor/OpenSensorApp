@@ -1,4 +1,4 @@
-package com.nmoumoulidis.opensensor.model;
+package com.nmoumoulidis.opensensor.model.processing;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,6 +7,8 @@ import java.util.Iterator;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.nmoumoulidis.opensensor.model.SensorDictionary;
 
 public class JSONParser 
 {

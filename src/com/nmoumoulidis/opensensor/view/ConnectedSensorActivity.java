@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -25,11 +26,9 @@ import com.nmoumoulidis.opensensor.controller.ConSensUIController;
 import com.nmoumoulidis.opensensor.controller.DatePickerListenerFrom;
 import com.nmoumoulidis.opensensor.controller.DatePickerListenerTo;
 import com.nmoumoulidis.opensensor.controller.MySpinnerListener;
-import com.nmoumoulidis.opensensor.model.DataContainer;
 import com.nmoumoulidis.opensensor.model.DatabaseHelper;
-import com.nmoumoulidis.opensensor.model.SearchDataListViewAdapter;
-import com.nmoumoulidis.opensensor.model.SearchQueryBuilder;
 import com.nmoumoulidis.opensensor.model.SensorTracker;
+import com.nmoumoulidis.opensensor.model.processing.SearchQueryBuilder;
 
 public class ConnectedSensorActivity extends FragmentActivity
 {
@@ -49,9 +48,11 @@ public class ConnectedSensorActivity extends FragmentActivity
 	private Button pickDateFromButton;
 	private Button pickDateToButton;
 	private Button searchButton;
+	private TextView noResultsTextView;
 	private ListView historyDataListView;
 	private SearchDataListViewAdapter listAdapter;
-	
+	private ArrayList<Cursor> cursorsUsed;
+
 	private MySpinnerListener spinnerListener;
 	private MySpinnerAdapter spinnerAdapter;
 	
@@ -62,7 +63,6 @@ public class ConnectedSensorActivity extends FragmentActivity
 	private DatePickerListenerFrom dateFromListener;
 	private DatePickerListenerTo dateToListener;
 	private SensorTracker mSensorTracker;
-	private DataContainer mDataContainer;
 	private DatabaseHelper dbHelper;
 	private SearchQueryBuilder queryBuilder;
 
@@ -74,6 +74,8 @@ public class ConnectedSensorActivity extends FragmentActivity
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_connected_sensor);
+		
+		cursorsUsed = new ArrayList<Cursor>();
 		
 		// ----------------- Get Extras From Intent -----------------
 		Bundle b = this.getIntent().getExtras();
@@ -124,6 +126,7 @@ public class ConnectedSensorActivity extends FragmentActivity
 		pickDateFromButton = (Button) findViewById(R.id.date_pick_from_btn);
 		pickDateToButton = (Button) findViewById(R.id.date_pick_to_btn);
 		searchButton = (Button) findViewById(R.id.show_search_results_btn);
+		noResultsTextView = (TextView) findViewById(R.id.no_results_textview);
 		historyDataListView = (ListView) findViewById(R.id.list);
 		backToRealTimeButton = (Button) findViewById(R.id.go_to_realtime_data_btn);
 		spinnerLabel = (TextView) findViewById(R.id.sensor_spinner_labeltext);
@@ -197,6 +200,7 @@ public class ConnectedSensorActivity extends FragmentActivity
 			pickDateFromButton.setVisibility(View.GONE);
 			pickDateToButton.setVisibility(View.GONE);
 			searchButton.setVisibility(View.GONE);
+			noResultsTextView.setVisibility(View.GONE);
 			historyDataListView.setVisibility(View.GONE);
 		}
 	}
@@ -224,25 +228,28 @@ public class ConnectedSensorActivity extends FragmentActivity
 	}
 	
 	@Override
-	protected void onResume() {
-		dbHelper = new DatabaseHelper(this);
-		super.onResume();
-	}
-	
-	@Override
 	protected void onPause() {
+		for(int i=0 ; i<this.cursorsUsed.size() ; i++) {
+			cursorsUsed.get(i).close();
+		}
 		dbHelper.close();
 		super.onPause();
 	}
 	
 	@Override
 	protected void onStop() {
+		for(int i=0 ; i<this.cursorsUsed.size() ; i++) {
+			cursorsUsed.get(i).close();
+		}
 		dbHelper.close();
 		super.onStop();
 	}
 	
 	@Override
 	protected void onDestroy() {
+		for(int i=0 ; i<this.cursorsUsed.size() ; i++) {
+			cursorsUsed.get(i).close();
+		}
 		dbHelper.close();
 		super.onDestroy();
 	}
@@ -267,10 +274,6 @@ public class ConnectedSensorActivity extends FragmentActivity
 		return mResultText;
 	}
 
-	public DataContainer getmDataContainer() {
-		return mDataContainer;
-	}
-	
 	public boolean isSensorListObtained() {
 		return sensorListObtained;
 	}
@@ -326,5 +329,13 @@ public class ConnectedSensorActivity extends FragmentActivity
 
 	public SearchDataListViewAdapter getListAdapter() {
 		return listAdapter;
+	}
+
+	public void addUsedCursor(Cursor usedCursor) {
+		this.cursorsUsed.add(usedCursor);
+	}
+
+	public TextView getNoResultsTextView() {
+		return noResultsTextView;
 	}
 }

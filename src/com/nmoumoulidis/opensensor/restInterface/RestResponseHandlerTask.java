@@ -8,7 +8,7 @@ import org.apache.http.util.EntityUtils;
 
 import android.os.AsyncTask;
 
-import com.nmoumoulidis.opensensor.model.DataValidator;
+import com.nmoumoulidis.opensensor.model.processing.DataValidator;
 import com.nmoumoulidis.opensensor.restInterface.requests.DefaultSetLocationRequest;
 import com.nmoumoulidis.opensensor.restInterface.requests.RealTimeDataRequest;
 import com.nmoumoulidis.opensensor.restInterface.requests.RestRequest;

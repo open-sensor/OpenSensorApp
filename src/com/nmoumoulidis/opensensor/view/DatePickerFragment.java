@@ -1,8 +1,7 @@
-package com.nmoumoulidis.opensensor.controller;
+package com.nmoumoulidis.opensensor.view;
 
 import java.util.Calendar;
 
-import com.nmoumoulidis.opensensor.view.ConnectedSensorActivity;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;

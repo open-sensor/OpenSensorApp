@@ -1,7 +1,10 @@
-package com.nmoumoulidis.opensensor.model;
+package com.nmoumoulidis.opensensor.model.processing;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import com.nmoumoulidis.opensensor.model.InvalidSensorException;
+import com.nmoumoulidis.opensensor.model.SensorDictionary;
 
 public class DataValidator 
 {
