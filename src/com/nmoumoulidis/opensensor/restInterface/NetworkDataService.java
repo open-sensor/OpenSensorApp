@@ -14,10 +14,11 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
 
 import com.nmoumoulidis.opensensor.model.DatabaseHelper;
 import com.nmoumoulidis.opensensor.model.processing.DataValidator;
-import com.nmoumoulidis.opensensor.restInterface.requests.DefaultBatchDataRequest;
+import com.nmoumoulidis.opensensor.restInterface.requests.sensorstation.DefaultBatchDataRequest;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -89,8 +90,18 @@ public class NetworkDataService extends IntentService
 			// Trash data are automatically removed by the validator.
 			// The data are ready to be stored/used.
 			DataValidator batchDataValidator = new DataValidator(body);
-			newBatchData = batchDataValidator.validateBatchData();
+			
+			try {
+				newBatchData = batchDataValidator.validateBatchData();
+			} catch (JSONException e) {
+				System.out.println("Error: Corrupt Batch Data...");
+				return;
+			}
 
+			// send this to the big server...
+			batchDataValidator.getValidatedBatchDataAsJSONString();
+			
+			
 			databaseHelper = new DatabaseHelper(this);
 			databaseHelper.deleteAllBatchData();
 			databaseHelper.insertBatchData(newBatchData);

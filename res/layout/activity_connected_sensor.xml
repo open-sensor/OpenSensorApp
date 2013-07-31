@@ -120,7 +120,6 @@
 	   	android:text="@string/show_search_btn_text"
 	    android:textSize="15sp"
 	    android:drawableLeft="@drawable/ic_menu_search_holo_light"
-	    android:onClick="showDatePickerDialog"
 	    android:visibility="gone" />
 	
 	<TextView

@@ -11,7 +11,7 @@ import com.nmoumoulidis.opensensor.controller.MainUIController;
 import com.nmoumoulidis.opensensor.model.SensorTracker;
 import com.nmoumoulidis.opensensor.restInterface.NetworkDataService;
 import com.nmoumoulidis.opensensor.restInterface.SensorListReqRunnable;
-import com.nmoumoulidis.opensensor.restInterface.requests.DefaultSensorListRequest;
+import com.nmoumoulidis.opensensor.restInterface.requests.sensorstation.DefaultSensorListRequest;
 
 public class MainActivity extends FragmentActivity {
 

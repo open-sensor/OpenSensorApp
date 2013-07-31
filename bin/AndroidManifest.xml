@@ -51,8 +51,8 @@
                 android:value="com.nmoumoulidis.opensensor.view.MainActivity" />
         </activity>
         <activity
-            android:name="com.nmoumoulidis.opensensor.view.MapViewActivity"
-            android:label="@string/title_activity_map_view"
+            android:name="com.nmoumoulidis.opensensor.view.ServerActivity"
+            android:label="@string/title_activity_server_view"
             android:launchMode="singleTask"
             android:parentActivityName="com.nmoumoulidis.opensensor.view.MainActivity" >
             <meta-data

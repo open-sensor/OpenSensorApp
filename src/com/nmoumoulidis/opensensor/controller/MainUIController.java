@@ -7,7 +7,7 @@ import android.view.View.OnClickListener;
 
 import com.nmoumoulidis.opensensor.view.ConnectedSensorActivity;
 import com.nmoumoulidis.opensensor.view.MainActivity;
-import com.nmoumoulidis.opensensor.view.MapViewActivity;
+import com.nmoumoulidis.opensensor.view.ServerActivity;
 import com.nmoumoulidis.opensensor.view.PhoneSensActivity;
 
 public class MainUIController implements OnClickListener {
@@ -38,7 +38,7 @@ public class MainUIController implements OnClickListener {
 		}
 		else if(v == mMainActivity.getmGoToMapViewActivityBtn())
 		{
-			Intent intent = new Intent(mMainActivity, MapViewActivity.class);
+			Intent intent = new Intent(mMainActivity, ServerActivity.class);
 			mMainActivity.startActivity(intent);
 		}
 	}

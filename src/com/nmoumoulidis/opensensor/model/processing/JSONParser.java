@@ -29,7 +29,7 @@ public class JSONParser
 			this.keyList = new ArrayList<String>();
 	}
 
-	public ArrayList<HashMap<String, String>> parseData() {
+	public ArrayList<HashMap<String, String>> parseData() throws JSONException {
 		try {
 			dataList = new ArrayList<HashMap<String, String>>();
 			readings = new JSONArray(this.stringJSON);
@@ -70,6 +70,10 @@ public class JSONParser
 						String datetime = obj.getString(NODE_DATETIME);
 						String location = obj.getString(NODE_LOCATION);
 						for(int j=0 ; j<keyList.size() ; j++) {
+							if(obj.getString(keyList.get(j)).equals(null)
+									|| obj.getString(keyList.get(j)).equals("")) {
+								throw new JSONException("empty or null data value");
+							}
 							// Validate that sensor values are numbers.
 							// Exception thrown here would be due to invalid (trash) data
 							//(i.e. a temperature value which is not a number).
@@ -102,9 +106,26 @@ public class JSONParser
 				}
 			}
 		} catch (JSONException e) {
-			e.printStackTrace();
+			throw e;
 		}
 		return dataList;
+	}
+	
+	public String transformBackToJSON(ArrayList<HashMap<String, String>> dataList) {
+		ArrayList<JSONObject> jsonObjectList = new ArrayList<JSONObject>();
+		JSONObject newObj;
+		for(int i=0 ; i<dataList.size() ; i++) {
+			newObj = new JSONObject(dataList.get(i));
+			jsonObjectList.add(newObj);
+		}
+		
+		JSONArray jsArray = new JSONArray(jsonObjectList);
+		try {
+			return jsArray.toString(4);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public ArrayList<String> parseSensorList() {

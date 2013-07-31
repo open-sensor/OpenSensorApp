@@ -10,7 +10,7 @@ import com.nmoumoulidis.opensensor.model.NonAvailSensorException;
 
 import com.nmoumoulidis.opensensor.model.SensorTracker;
 import com.nmoumoulidis.opensensor.restInterface.RestRequestTask;
-import com.nmoumoulidis.opensensor.restInterface.requests.RealTimeDataRequest;
+import com.nmoumoulidis.opensensor.restInterface.requests.sensorstation.RealTimeDataRequest;
 import com.nmoumoulidis.opensensor.view.ConnectedSensorActivity;
 
 public class ConSensUIController implements OnClickListener 
@@ -40,6 +40,7 @@ public class ConSensUIController implements OnClickListener
 		}
 		else if(v == mConSensActivity.getSearchButton()) {
 			mConSensActivity.getNoResultsTextView().setVisibility(View.GONE);
+			mConSensActivity.getListAdapter().detachAdapterFromListView();
 			
 			String from = mConSensActivity.getQueryBuilder().getDateFrom();
 			String to = mConSensActivity.getQueryBuilder().getDateTo();

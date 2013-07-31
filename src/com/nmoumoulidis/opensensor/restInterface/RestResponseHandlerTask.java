@@ -9,9 +9,9 @@ import org.apache.http.util.EntityUtils;
 import android.os.AsyncTask;
 
 import com.nmoumoulidis.opensensor.model.processing.DataValidator;
-import com.nmoumoulidis.opensensor.restInterface.requests.DefaultSetLocationRequest;
-import com.nmoumoulidis.opensensor.restInterface.requests.RealTimeDataRequest;
 import com.nmoumoulidis.opensensor.restInterface.requests.RestRequest;
+import com.nmoumoulidis.opensensor.restInterface.requests.sensorstation.DefaultSetLocationRequest;
+import com.nmoumoulidis.opensensor.restInterface.requests.sensorstation.RealTimeDataRequest;
 import com.nmoumoulidis.opensensor.view.ConnectedSensorActivity;
 
 public class RestResponseHandlerTask extends AsyncTask<Object, Integer, Boolean>

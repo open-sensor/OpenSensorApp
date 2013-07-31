@@ -16,12 +16,10 @@ public class SearchDataListViewAdapter
 	
 	public Cursor populateListView(Cursor cursor) {
 		String[] from = new String[] { DatabaseHelper.KEY_DATE,
-										DatabaseHelper.KEY_LOCATION,
 										DatabaseHelper.FUNC_AVG_VALUE,
 										DatabaseHelper.FUNC_MIN_VALUE,
 										DatabaseHelper.FUNC_MAX_VALUE };
 		int[] to = new int[] { R.id.date_column,
-								R.id.location_column,
 								R.id.avg_column,
 								R.id.min_column,
 								R.id.max_column};
@@ -30,5 +28,9 @@ public class SearchDataListViewAdapter
 			        R.layout.result_layout, cursor, from, to, 0);
 		 conSensActivity.getHistoryDataListView().setAdapter(adapter);
 		 return cursor;
+	}
+	
+	public void detachAdapterFromListView() {
+		conSensActivity.getHistoryDataListView().setAdapter(null);
 	}
 }

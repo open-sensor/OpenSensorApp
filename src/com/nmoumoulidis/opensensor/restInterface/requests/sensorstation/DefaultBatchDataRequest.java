@@ -1,4 +1,6 @@
-package com.nmoumoulidis.opensensor.restInterface.requests;
+package com.nmoumoulidis.opensensor.restInterface.requests.sensorstation;
+
+import com.nmoumoulidis.opensensor.restInterface.requests.RestRequest;
 
 public class DefaultBatchDataRequest extends RestRequest 
 {

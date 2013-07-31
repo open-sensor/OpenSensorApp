@@ -3,6 +3,8 @@ package com.nmoumoulidis.opensensor.model.processing;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.json.JSONException;
+
 import com.nmoumoulidis.opensensor.model.InvalidSensorException;
 import com.nmoumoulidis.opensensor.model.SensorDictionary;
 
@@ -12,6 +14,7 @@ public class DataValidator
 	private JSONParser jsonParser;
 	private int dataLost;
 	private int allData;
+	private String validatedJSONString;
 	
 	public DataValidator(String data) {
 		this.data = data;
@@ -20,13 +23,24 @@ public class DataValidator
 		this.allData = 0;
 	}
 
-	public ArrayList<HashMap<String,String>> validateBatchData() {
+	public ArrayList<HashMap<String,String>> validateBatchData() throws JSONException {
 		// Validation is performed within the parser in this case.
-		return jsonParser.parseData();
+		ArrayList<HashMap<String,String>> validatedDataList = jsonParser.parseData();
+		
+		this.validatedJSONString = jsonParser.transformBackToJSON(validatedDataList);
+		
+		return validatedDataList;
+	}
+	
+	public String getValidatedBatchDataAsJSONString() {
+		return this.validatedJSONString;
 	}
 
 	public int getDataLossPercentage() {
-		return (dataLost * 100) / allData;
+		if(allData != 0) {
+			return (dataLost * 100) / allData;
+		}
+		return 100;
 	}
 	
 	public void incrementAllData() {

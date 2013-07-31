@@ -7,7 +7,7 @@
     <string name="main_act_label">Press a button to choose one of the sensing modes!</string>
     <string name="go_to_con_sens_mode">Wi-Fi Connected Sensor Mode</string>
     <string name="go_to_phn_sens_mode">Phone Sensor Mode</string>
-    <string name="go_to_map_view_mode">Map View Mode</string>
+    <string name="go_to_server_mode">Server Data Mode</string>
     <string name="read_sensor_label">Press a button to get a sensor reading!</string>
     <string name="get_temp_btn">Temperature</string>
     <string name="get_humid_btn">Humidity</string>
@@ -16,17 +16,26 @@
     <string name="show_result_text">&#8230;</string>
     <string name="title_activity_connected_sensor">Connected Sensor Mode</string>
     <string name="title_activity_phone_sens">Phone Sensor Mode</string>
-    <string name="title_activity_map_view">Map View Sensor Mode</string>
+    <string name="title_activity_server_view">Server Data Mode</string>
     <string name="to_be_implemented">To Be Implemented&#8230;</string>
     <string name="title_activity_batch_data_view">Browse Sensor Data History</string>
     <string name="go_to_history_btn_label">Browse Sensor Data History</string>
     <string name="no_data_history_label">No sensor readings history</string>
     <string name="spinner_label_text">Choose Data Type</string>
-    <string name="date_range_label">Choose Date Range: </string>
+    <string name="date_range_label">Choose Date Range\n(Default is today): </string>
     <string name="date_pick_from_btn_text">From</string>
     <string name="date_pick_to_btn_text">To</string>
     <string name="show_search_btn_text">Search</string>
     <string name="go_to_realtime_data_btn_label">Back to Real-Time Data</string>
 	<string name="no_results_label">Your search returned no relevant data&#8230;</string>
 	
+	<string name="server_browse_data_label_text"> Here you can browse sensor data that
+	    have been gathered from all OpenSensorApp users.\nYou can filter the results 
+	    based on location, sensor data type, or by date / date range.</string>
+	<string name="server_spinner_label_text">Choose Data Type</string>
+	<string name="server_date_range_label">Choose Date from or to, \n or both for a 
+	    date range.</string>
+	<string name="server_location_label_text">Choose Sensor Location: </string>
+	<string name="server_edittext_hint">Location&#8230;</string>
+	<string name="clear_search_filters_text">Clear Search Filters</string>
 </resources>

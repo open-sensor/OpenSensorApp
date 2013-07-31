@@ -60,8 +60,8 @@ public class ConnectedSensorActivity extends FragmentActivity
 	private TextView mNoHistoryLabel;
 	
 	private ConSensUIController mConSensUiController;
-	private DatePickerListenerFrom dateFromListener;
-	private DatePickerListenerTo dateToListener;
+	private static DatePickerListenerFrom dateFromListener;
+	private static DatePickerListenerTo dateToListener;
 	private SensorTracker mSensorTracker;
 	private DatabaseHelper dbHelper;
 	private SearchQueryBuilder queryBuilder;
@@ -131,9 +131,9 @@ public class ConnectedSensorActivity extends FragmentActivity
 		backToRealTimeButton = (Button) findViewById(R.id.go_to_realtime_data_btn);
 		spinnerLabel = (TextView) findViewById(R.id.sensor_spinner_labeltext);
 
-		spinnerListener = new MySpinnerListener(this);
+		spinnerListener = new MySpinnerListener();
 		spinnerAdapter = new MySpinnerAdapter(this);
-		spinnerAdapter.populateSpinner(); // <- its too much work on UI thread??
+		spinnerAdapter.populateSpinner();
 		dataSpinner.setOnItemSelectedListener(spinnerListener);
 		
 		searchButton.setOnClickListener(mConSensUiController);
@@ -319,11 +319,11 @@ public class ConnectedSensorActivity extends FragmentActivity
 		return spinnerAdapter;
 	}
 	
-	public DatePickerListenerFrom getDateFromListener() {
+	public static DatePickerListenerFrom getDateFromListener() {
 		return dateFromListener;
 	}
 
-	public DatePickerListenerTo getDateToListener() {
+	public static DatePickerListenerTo getDateToListener() {
 		return dateToListener;
 	}
 

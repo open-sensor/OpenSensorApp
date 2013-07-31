@@ -1,8 +1,9 @@
-package com.nmoumoulidis.opensensor.restInterface.requests;
+package com.nmoumoulidis.opensensor.restInterface.requests.sensorstation;
 
 import com.nmoumoulidis.opensensor.model.InvalidSensorException;
 import com.nmoumoulidis.opensensor.model.NonAvailSensorException;
 import com.nmoumoulidis.opensensor.model.SensorTracker;
+import com.nmoumoulidis.opensensor.restInterface.requests.RestRequest;
 import com.nmoumoulidis.opensensor.view.ConnectedSensorActivity;
 
 public class RealTimeDataRequest extends RestRequest 

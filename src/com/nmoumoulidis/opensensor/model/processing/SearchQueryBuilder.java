@@ -15,21 +15,13 @@ public class SearchQueryBuilder
 	
 	public SearchQueryBuilder(ConnectedSensorActivity conSensActivity) {
 		this.conSensActivity = conSensActivity;
-		this.sensorsArray = conSensActivity.getSpinnerAdapter().getAllSensorsArray();
+		this.sensorsArray = conSensActivity.getSpinnerAdapter().getAllStoredSensorsArray();
 		
 		// Set default sensor as the first one populated in the spinner.
 		this.sensorToSearch = conSensActivity.getSpinnerAdapter().getFirstSensorDisplayed();
 		// Set default dates as today...
 		this.DateTo = DateManager.getTodayString();
 		this.DateFrom = DateManager.getTodayString();
-	}
-
-	public void setSensorsArray(ArrayList<String> sensorsArray) {
-		this.sensorsArray = sensorsArray;
-	}
-
-	public String getSensorToSearch() {
-		return sensorToSearch;
 	}
 
 	public void setSensorToSearch(String sensorName) {
@@ -50,6 +42,10 @@ public class SearchQueryBuilder
 		this.DateFrom = dateFrom;
 	}
 
+	public String getSensorToSearch() {
+		return sensorToSearch;
+	}
+	
 	public String getDateTo() {
 		return DateTo;
 	}

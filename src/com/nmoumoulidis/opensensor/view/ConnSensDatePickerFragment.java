@@ -2,24 +2,32 @@ package com.nmoumoulidis.opensensor.view;
 
 import java.util.Calendar;
 
-
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
-public class DatePickerFragment extends DialogFragment 
+public class ConnSensDatePickerFragment extends DialogFragment 
 {
-	private ConnectedSensorActivity conSensActivity;
 	private String FromOrTo;
 	
-	public DatePickerFragment(ConnectedSensorActivity conSensActivity, String fromorto) {
-		this.conSensActivity = conSensActivity;
-		this.FromOrTo = fromorto;
+	public ConnSensDatePickerFragment() {
+		
 	}
 
+	public static final ConnSensDatePickerFragment newInstance(String fromOrTo) {
+		ConnSensDatePickerFragment fragment = new ConnSensDatePickerFragment();
+		Bundle bundle = new Bundle(1);
+		bundle.putString("FROM_OR_TO", fromOrTo);
+		fragment.setArguments(bundle);
+		return fragment;
+	}
+	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		
+		this.FromOrTo = getArguments().getString("FROM_OR_TO");
+		
 		// Use the current date as the default date in the picker
 		final Calendar c = Calendar.getInstance();
 		int year = c.get(Calendar.YEAR);
@@ -28,10 +36,10 @@ public class DatePickerFragment extends DialogFragment
 		
 		// Create a new instance of DatePickerDialog and return it
 		if(FromOrTo.equals("from")) {
-			return new DatePickerDialog(getActivity(), conSensActivity.getDateFromListener(), year, month, day);
+			return new DatePickerDialog(getActivity(), ConnectedSensorActivity.getDateFromListener(), year, month, day);
 		}
 		else if(FromOrTo.equals("to")) {
-			return new DatePickerDialog(getActivity(), conSensActivity.getDateToListener(), year, month, day);
+			return new DatePickerDialog(getActivity(), ConnectedSensorActivity.getDateToListener(), year, month, day);
 		}
 		return null;
 	}
