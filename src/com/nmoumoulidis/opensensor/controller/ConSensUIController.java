@@ -10,7 +10,7 @@ import com.nmoumoulidis.opensensor.model.NonAvailSensorException;
 
 import com.nmoumoulidis.opensensor.model.SensorTracker;
 import com.nmoumoulidis.opensensor.restInterface.RestRequestTask;
-import com.nmoumoulidis.opensensor.restInterface.requests.sensorstation.RealTimeDataRequest;
+import com.nmoumoulidis.opensensor.restInterface.requests.sensorstation.SensorStationRealTimeDataRequest;
 import com.nmoumoulidis.opensensor.view.ConnectedSensorActivity;
 
 public class ConSensUIController implements OnClickListener 
@@ -61,8 +61,8 @@ public class ConSensUIController implements OnClickListener
 					if(v == btnArray[i]) 
 					{	
 						String sensorCommand = sensorTrack.findSensorByName((String) btnArray[i].getText());
-						RealTimeDataRequest dataRequest = 
-								new RealTimeDataRequest(sensorCommand, mConSensActivity);
+						SensorStationRealTimeDataRequest dataRequest = 
+								new SensorStationRealTimeDataRequest(sensorCommand, mConSensActivity);
 						new RestRequestTask(mConSensActivity).execute(dataRequest);
 						
 						mConSensActivity.getmLabelText().setText(btnArray[i].getText() + ": ");

@@ -1,8 +1,6 @@
-package com.nmoumoulidis.opensensor.restInterface.requests;
+package com.nmoumoulidis.opensensor.restInterface.requests.sensorstation;
 
-import com.nmoumoulidis.opensensor.view.MainActivity;
-
-public class RestRequest 
+public class SensorStationRestRequest 
 {
 	protected final static String hostname = "slug";
 	protected final static String port = "81";
@@ -12,9 +10,8 @@ public class RestRequest
 	protected String method;
 	protected String relativeUrl;
 	protected String accept;
-	protected MainActivity mainActivity;
 	
-	public RestRequest(String[] parameters) {
+	public SensorStationRestRequest(String[] parameters) {
 		this.method = parameters[0];
 		this.relativeUrl = parameters[1];
 		this.accept = parameters[2];
@@ -23,7 +20,7 @@ public class RestRequest
 	/**
 	 * Copy Constructor.
 	 */
-	public RestRequest(RestRequest clonedRequest) {
+	public SensorStationRestRequest(SensorStationRestRequest clonedRequest) {
 		this.method = clonedRequest.getMethod();
 		this.relativeUrl = clonedRequest.getRelativeUrl();
 		this.accept = clonedRequest.getAccept();

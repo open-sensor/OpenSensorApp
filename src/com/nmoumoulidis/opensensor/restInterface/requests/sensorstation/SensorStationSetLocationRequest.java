@@ -1,8 +1,7 @@
 package com.nmoumoulidis.opensensor.restInterface.requests.sensorstation;
 
-import com.nmoumoulidis.opensensor.restInterface.requests.RestRequest;
 
-public class DefaultSetLocationRequest extends RestRequest 
+public class SensorStationSetLocationRequest extends SensorStationRestRequest 
 {
 	private static final String METHOD = "PUT";
 	private static final  String RELATIVE_URL = "/location";
@@ -11,7 +10,7 @@ public class DefaultSetLocationRequest extends RestRequest
 	
 	private String data;
 	
-	public DefaultSetLocationRequest(String newLocation) {
+	public SensorStationSetLocationRequest(String newLocation) {
 		super(PARAMETERS);
 		
 		// Set the data for the PUT request.
@@ -21,7 +20,7 @@ public class DefaultSetLocationRequest extends RestRequest
 	/**
 	 * Copy Constructor.
 	 */
-	public DefaultSetLocationRequest(DefaultSetLocationRequest clonedRequest) {
+	public SensorStationSetLocationRequest(SensorStationSetLocationRequest clonedRequest) {
 		super(clonedRequest);
 		this.data = clonedRequest.data;
 	}

@@ -9,9 +9,9 @@ import org.apache.http.util.EntityUtils;
 import android.os.AsyncTask;
 
 import com.nmoumoulidis.opensensor.model.processing.DataValidator;
-import com.nmoumoulidis.opensensor.restInterface.requests.RestRequest;
-import com.nmoumoulidis.opensensor.restInterface.requests.sensorstation.DefaultSetLocationRequest;
-import com.nmoumoulidis.opensensor.restInterface.requests.sensorstation.RealTimeDataRequest;
+import com.nmoumoulidis.opensensor.restInterface.requests.sensorstation.SensorStationSetLocationRequest;
+import com.nmoumoulidis.opensensor.restInterface.requests.sensorstation.SensorStationRealTimeDataRequest;
+import com.nmoumoulidis.opensensor.restInterface.requests.sensorstation.SensorStationRestRequest;
 import com.nmoumoulidis.opensensor.view.ConnectedSensorActivity;
 
 public class RestResponseHandlerTask extends AsyncTask<Object, Integer, Boolean>
@@ -19,7 +19,7 @@ public class RestResponseHandlerTask extends AsyncTask<Object, Integer, Boolean>
 	private HttpEntity entity;
 	private int statusCode;
 	private String body;
-	private RestRequest restRequest;
+	private SensorStationRestRequest sensorStationRestRequest;
 	private HttpResponse restResponse;
 	
 	private ConnectedSensorActivity mConSensActivity;
@@ -31,7 +31,7 @@ public class RestResponseHandlerTask extends AsyncTask<Object, Integer, Boolean>
 
 	@Override
 	protected Boolean doInBackground(Object... object) {
-		this.restRequest = (RestRequest) object[0];
+		this.sensorStationRestRequest = (SensorStationRestRequest) object[0];
 		this.restResponse = (HttpResponse) object[1];
 		this.statusCode = restResponse.getStatusLine().getStatusCode();
 		this.entity = restResponse.getEntity();
@@ -48,7 +48,7 @@ public class RestResponseHandlerTask extends AsyncTask<Object, Integer, Boolean>
 		// Everything went well.
 		if(statusCode == 200) {
 			//>>> If it was a real-time data request to a specific connected sensor.
-			if(this.restRequest.getClass() == RealTimeDataRequest.class) {
+			if(this.sensorStationRestRequest.getClass() == SensorStationRealTimeDataRequest.class) {
 				//  ---------- Data Validation ----------
 				DataValidator dataReadingValidator = new DataValidator(body);
 				try {
@@ -60,17 +60,17 @@ public class RestResponseHandlerTask extends AsyncTask<Object, Integer, Boolean>
 				}
 			}
 			//>>> If it was a set-loacation PUT request.
-			else if(this.restRequest.getClass() == DefaultSetLocationRequest.class) {
+			else if(this.sensorStationRestRequest.getClass() == SensorStationSetLocationRequest.class) {
 				//...
 			}
 			else {
 				//>>> All the rest requests (e.g. GET location, GET datetime).
-				if(this.restRequest.getMethod() == "GET") {
+				if(this.sensorStationRestRequest.getMethod() == "GET") {
 					return true;
 				}
 				else {
 					//>>> We do not support other HTTP request methods.
-					//>>> RestRequest was used incorrectly (this should never happen).
+					//>>> SensorStationRestRequest was used incorrectly (this should never happen).
 					return false;
 				}
 			}
@@ -85,12 +85,12 @@ public class RestResponseHandlerTask extends AsyncTask<Object, Integer, Boolean>
 	@Override
     protected void onPostExecute(Boolean success) {
 		if(success) { 
-			if(restRequest.getClass() == RealTimeDataRequest.class) {
+			if(sensorStationRestRequest.getClass() == SensorStationRealTimeDataRequest.class) {
 				mConSensActivity.getmResultText().scrollTo(0, 0);
 				mConSensActivity.getmResultText().setText(body);
 				System.out.println("real time data request handled!");
 			}
-			else if(restRequest.getClass() == DefaultSetLocationRequest.class) {
+			else if(sensorStationRestRequest.getClass() == SensorStationSetLocationRequest.class) {
 				mConSensActivity.getmResultText().scrollTo(0, 0);
 				mConSensActivity.getmResultText().setText("The location was successfully changed!");
 				System.out.println("Set Location PUT request handled!");
@@ -103,12 +103,12 @@ public class RestResponseHandlerTask extends AsyncTask<Object, Integer, Boolean>
 		}
 		else {
 		// ============================= FAILURE SCENARIO ===============================
-			if(restRequest.getClass() == RealTimeDataRequest.class) {
+			if(sensorStationRestRequest.getClass() == SensorStationRealTimeDataRequest.class) {
 				System.out.println("Request failed. Trying again...");
-				// Recursively instantiate & execute RealTimeDataRequest 
+				// Recursively instantiate & execute SensorStationRealTimeDataRequest 
 				// until the data reading is valid.
 				// (Casting to subclass in order to access the subclass-only attributes).
-				RealTimeDataRequest oldRequest = new RealTimeDataRequest((RealTimeDataRequest) restRequest);
+				SensorStationRealTimeDataRequest oldRequest = new SensorStationRealTimeDataRequest((SensorStationRealTimeDataRequest) sensorStationRestRequest);
 				new RestRequestTask(mConSensActivity).execute(oldRequest);
 			}
 		}

@@ -15,13 +15,13 @@ import org.apache.http.protocol.HttpContext;
 
 import android.os.AsyncTask;
 
-import com.nmoumoulidis.opensensor.restInterface.requests.RestRequest;
-import com.nmoumoulidis.opensensor.restInterface.requests.sensorstation.DefaultBatchDataRequest;
-import com.nmoumoulidis.opensensor.restInterface.requests.sensorstation.DefaultSensorListRequest;
-import com.nmoumoulidis.opensensor.restInterface.requests.sensorstation.DefaultSetLocationRequest;
+import com.nmoumoulidis.opensensor.restInterface.requests.sensorstation.SensorStationBatchDataRequest;
+import com.nmoumoulidis.opensensor.restInterface.requests.sensorstation.SensorStationSensorListRequest;
+import com.nmoumoulidis.opensensor.restInterface.requests.sensorstation.SensorStationSetLocationRequest;
+import com.nmoumoulidis.opensensor.restInterface.requests.sensorstation.SensorStationRestRequest;
 import com.nmoumoulidis.opensensor.view.ConnectedSensorActivity;
 
-public class RestRequestTask extends AsyncTask<RestRequest, Integer, RestRequest> {
+public class RestRequestTask extends AsyncTask<SensorStationRestRequest, Integer, SensorStationRestRequest> {
 
 	private ConnectedSensorActivity mConSensActivity;
 	
@@ -39,8 +39,8 @@ public class RestRequestTask extends AsyncTask<RestRequest, Integer, RestRequest
 	}
 
 	@Override
-	protected RestRequest doInBackground(RestRequest... request) {
-		RestRequest newRequest = request[0];
+	protected SensorStationRestRequest doInBackground(SensorStationRestRequest... request) {
+		SensorStationRestRequest newRequest = request[0];
 		try {
 			if(newRequest.getMethod().equals("GET")) {
 				httpGet = new HttpGet(newRequest.getBaseUrl() + newRequest.getRelativeUrl());
@@ -52,7 +52,7 @@ public class RestRequestTask extends AsyncTask<RestRequest, Integer, RestRequest
 				httpPut.setHeader("Accept", newRequest.getAccept());
 				
 				// add the data entity
-				StringEntity sEntity = new StringEntity(((DefaultSetLocationRequest) newRequest).getData());
+				StringEntity sEntity = new StringEntity(((SensorStationSetLocationRequest) newRequest).getData());
 				httpPut.setEntity(sEntity);
 
 				response = httpClient.execute(httpPut, localContext);
@@ -68,16 +68,16 @@ public class RestRequestTask extends AsyncTask<RestRequest, Integer, RestRequest
 	}
 
 	@Override
-    protected void onPostExecute(RestRequest newRequest) {
+    protected void onPostExecute(SensorStationRestRequest newRequest) {
 		RestResponseHandlerTask newTask = new RestResponseHandlerTask(mConSensActivity);
 		Object[] obj = {newRequest, response};
 		newTask.execute(obj);
 		// If this request was used from the initialization task, and the
 		// initialization has not yet finished, notify that this task finished.
-		if(newRequest.getClass() == DefaultSensorListRequest.class) {
+		if(newRequest.getClass() == SensorStationSensorListRequest.class) {
 			System.out.println("Finished 'Sensor List Request' Task execution...\n");
 		}
-		else if(newRequest.getClass() == DefaultBatchDataRequest.class) {
+		else if(newRequest.getClass() == SensorStationBatchDataRequest.class) {
 			System.out.println("Finished 'All Data Request' Task execution...\n");
 		}
     }

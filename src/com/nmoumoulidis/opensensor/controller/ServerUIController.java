@@ -17,6 +17,7 @@ public class ServerUIController implements OnClickListener
 	public void onClick(View v) {
 		if(v == mServerActivity.getSearchButton()) {
 			System.out.println(mServerActivity.getQueryBuilder().getURLQueryPart());
+			// Perform a REST request to the server...
 		}
 		else if(v == mServerActivity.getClearSearchFiltersButton()) {
 			mServerActivity.getQueryBuilder().clearSearchFilters();

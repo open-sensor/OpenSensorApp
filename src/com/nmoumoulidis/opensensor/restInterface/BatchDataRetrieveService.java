@@ -18,14 +18,16 @@ import org.json.JSONException;
 
 import com.nmoumoulidis.opensensor.model.DatabaseHelper;
 import com.nmoumoulidis.opensensor.model.processing.DataValidator;
-import com.nmoumoulidis.opensensor.restInterface.requests.sensorstation.DefaultBatchDataRequest;
+import com.nmoumoulidis.opensensor.restInterface.requests.sensorstation.SensorStationBatchDataRequest;
+import com.nmoumoulidis.opensensor.restInterface.requests.server.ServerPostRestRequest;
 
 import android.app.IntentService;
 import android.content.Intent;
 
-public class NetworkDataService extends IntentService
+public class BatchDataRetrieveService extends IntentService
 {
-	public static final String ACTION_BATH_REQ_FINISHED = "com.nmoumoulidis.opensensor.BATCH_REQUEST_FINISHED";
+	public static final String ACTION_BATH_REQ_FINISHED 
+								= "com.nmoumoulidis.opensensor.BATCH_REQUEST_FINISHED";
 	public static final String BATCH_DATA_OUT = "BATCH_DATA";
 	private HttpGet httpGet;
 	private HttpClient httpClient;
@@ -37,18 +39,18 @@ public class NetworkDataService extends IntentService
 	private HttpEntity entity;
 	private String body;
 	private ArrayList<HashMap<String,String>> newBatchData;
-	private DefaultBatchDataRequest batchDataRequest;
+	private SensorStationBatchDataRequest batchDataRequest;
 	private DatabaseHelper databaseHelper;
 	
-	public NetworkDataService() {
-		super("NetworkDataService");
+	public BatchDataRetrieveService() {
+		super("BatchDataRetrieveService");
 	}
 	
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		this.httpClient = new DefaultHttpClient();
 		this.localContext = new BasicHttpContext();
-		batchDataRequest = new DefaultBatchDataRequest();
+		batchDataRequest = new SensorStationBatchDataRequest();
 		
 		performRequest();
 		if(response == null) {
@@ -59,7 +61,8 @@ public class NetworkDataService extends IntentService
 
 	private void performRequest() {
 		try {
-			httpGet = new HttpGet(batchDataRequest.getBaseUrl() + batchDataRequest.getRelativeUrl());
+			httpGet = new HttpGet(batchDataRequest.getBaseUrl() 
+					+ batchDataRequest.getRelativeUrl());
 			httpGet.setHeader("Accept", batchDataRequest.getAccept());
 			response = httpClient.execute(httpGet, localContext);
 		} catch (ClientProtocolException e) {
@@ -97,10 +100,6 @@ public class NetworkDataService extends IntentService
 				System.out.println("Error: Corrupt Batch Data...");
 				return;
 			}
-
-			// send this to the big server...
-			batchDataValidator.getValidatedBatchDataAsJSONString();
-			
 			
 			databaseHelper = new DatabaseHelper(this);
 			databaseHelper.deleteAllBatchData();
@@ -108,8 +107,17 @@ public class NetworkDataService extends IntentService
 
 			System.out.println("BATCH DATA response handled!");
 			System.out.println("Data Loss %: "+batchDataValidator.getDataLossPercentage());
+			System.out.println("BATCH DATA now is being sent to the server!");
 			
-			// TODO  AT THIS POINT, SEND ALL DATA TO THE 'BIG SERVER'
+			
+			// Transform the data in (validated) JSON format again...
+			String data = batchDataValidator.getValidatedBatchDataAsJSONString();
+			// Send them to the server...
+			ServerPostRestRequest postRequest = new ServerPostRestRequest(data);
+			BatchDataSendToServerServiceHelper serviceHelper 
+										= new BatchDataSendToServerServiceHelper(postRequest);
+			serviceHelper.performRequest();
+			serviceHelper.handleResponse();
 		}
 		// <<< There was no batch data to receive at this time...
 		else if(statusCode == 204) {
@@ -122,7 +130,7 @@ public class NetworkDataService extends IntentService
 			this.handleResponse();
 		}
 	}
-	  
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();

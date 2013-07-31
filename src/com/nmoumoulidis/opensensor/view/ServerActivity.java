@@ -31,7 +31,6 @@ public class ServerActivity extends FragmentActivity
 	private TextView noResultsTextView;
 	private ListView resultsListView;
 	
-	
 	private MySpinnerListener spinnerListener;
 	private MySpinnerAdapter spinnerAdapter;
 	private static DatePickerListenerFrom dateFromListener;

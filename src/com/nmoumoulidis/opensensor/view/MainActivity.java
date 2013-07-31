@@ -9,9 +9,9 @@ import android.widget.Button;
 import com.nmoumoulidis.opensensor.R;
 import com.nmoumoulidis.opensensor.controller.MainUIController;
 import com.nmoumoulidis.opensensor.model.SensorTracker;
-import com.nmoumoulidis.opensensor.restInterface.NetworkDataService;
+import com.nmoumoulidis.opensensor.restInterface.BatchDataRetrieveService;
 import com.nmoumoulidis.opensensor.restInterface.SensorListReqRunnable;
-import com.nmoumoulidis.opensensor.restInterface.requests.sensorstation.DefaultSensorListRequest;
+import com.nmoumoulidis.opensensor.restInterface.requests.sensorstation.SensorStationSensorListRequest;
 
 public class MainActivity extends FragmentActivity {
 
@@ -59,15 +59,16 @@ public class MainActivity extends FragmentActivity {
 	private void initializationRequests() {
 		// Perform initialization request for dynamic
 		// identification of the available sensor list.
-	   	DefaultSensorListRequest sensorListRequest = new DefaultSensorListRequest();
+	   	SensorStationSensorListRequest sensorListRequest = new SensorStationSensorListRequest();
 	   	SensorListReqRunnable sensorListRequestTask = 
 				new SensorListReqRunnable(this, sensorListRequest);
 	   	new Thread(sensorListRequestTask).start();
 
 	   	if(wifiSensorConnected == true) {
-	   	// Perform request within a new IntentService to receive all the
-			// available persistently stored data on the sensor.
-		   	Intent batchDataRequestIntent = new Intent(this, NetworkDataService.class);
+	   		// Perform request within a new IntentService to receive all the
+			// available persistently stored data on the sensor
+	   		// anmd attempt to send them to the RESTful server...
+		   	Intent batchDataRequestIntent = new Intent(this, BatchDataRetrieveService.class);
 		   	startService(batchDataRequestIntent);
 	   	}
 	}

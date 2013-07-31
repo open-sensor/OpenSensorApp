@@ -16,14 +16,14 @@ import org.apache.http.util.EntityUtils;
 
 import com.nmoumoulidis.opensensor.model.InvalidSensorException;
 import com.nmoumoulidis.opensensor.model.processing.DataValidator;
-import com.nmoumoulidis.opensensor.restInterface.requests.RestRequest;
-import com.nmoumoulidis.opensensor.restInterface.requests.sensorstation.DefaultSensorListRequest;
+import com.nmoumoulidis.opensensor.restInterface.requests.sensorstation.SensorStationSensorListRequest;
+import com.nmoumoulidis.opensensor.restInterface.requests.sensorstation.SensorStationRestRequest;
 import com.nmoumoulidis.opensensor.view.MainActivity;
 
 public class SensorListReqRunnable implements Runnable 
 {
 	private MainActivity mainActivity;
-	private RestRequest newRequest;
+	private SensorStationRestRequest newRequest;
 	private HttpGet httpGet;
 	private HttpClient httpClient;
 	private HttpContext localContext;
@@ -36,7 +36,7 @@ public class SensorListReqRunnable implements Runnable
 	
 	private ArrayList<String> newSensorList;
 	
-	public SensorListReqRunnable(MainActivity mainActivity, RestRequest newRequest) {
+	public SensorListReqRunnable(MainActivity mainActivity, SensorStationRestRequest newRequest) {
 		this.mainActivity = mainActivity;
 		this.newRequest = newRequest;
 		this.httpClient = new DefaultHttpClient();
@@ -101,7 +101,7 @@ public class SensorListReqRunnable implements Runnable
 			else {
 				// Recursively instantiate & execute a new Thread that performs 
 				// a new sensor list request, until the sensor list is valid.
-				DefaultSensorListRequest oldRequest = new DefaultSensorListRequest((DefaultSensorListRequest) newRequest);
+				SensorStationSensorListRequest oldRequest = new SensorStationSensorListRequest((SensorStationSensorListRequest) newRequest);
 				SensorListReqRunnable anotherReqRunnable = new SensorListReqRunnable(mainActivity, oldRequest);
 			   	new Thread(anotherReqRunnable).start();
 			}
@@ -110,7 +110,7 @@ public class SensorListReqRunnable implements Runnable
 		else {
 			// Recursively instantiate & execute a new Thread that performs 
 			// a new sensor list request, until the sensor list is valid.
-			DefaultSensorListRequest oldRequest = new DefaultSensorListRequest((DefaultSensorListRequest) newRequest);
+			SensorStationSensorListRequest oldRequest = new SensorStationSensorListRequest((SensorStationSensorListRequest) newRequest);
 			SensorListReqRunnable anotherReqRunnable = new SensorListReqRunnable(mainActivity, oldRequest);
 		   	new Thread(anotherReqRunnable).start();
 		}
