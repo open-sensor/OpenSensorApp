@@ -23,11 +23,11 @@ public class DataValidator
 		this.allData = 0;
 	}
 
-	public ArrayList<HashMap<String,String>> validateBatchData() throws JSONException {
+	public ArrayList<HashMap<String,String>> validateBatchDataFromSensorStation() throws JSONException {
 		// Validation is performed within the parser in this case.
-		ArrayList<HashMap<String,String>> validatedDataList = jsonParser.parseData();
+		ArrayList<HashMap<String,String>> validatedDataList = jsonParser.validateDataFromSensorStation();
 		
-		this.validatedJSONString = jsonParser.transformBackToJSON(validatedDataList);
+		this.validatedJSONString = jsonParser.transformSensorStationDataBackToJSON(validatedDataList);
 		
 		return validatedDataList;
 	}

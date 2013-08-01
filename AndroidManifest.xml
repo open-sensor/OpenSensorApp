@@ -33,7 +33,7 @@
             android:exported="false" />
 
         <activity
-            android:name="com.nmoumoulidis.opensensor.view.ConnectedSensorActivity"
+            android:name="com.nmoumoulidis.opensensor.view.SensorStationActivity"
             android:label="@string/title_activity_connected_sensor"
             android:launchMode="singleTask"
             android:parentActivityName="com.nmoumoulidis.opensensor.view.MainActivity" >
@@ -63,7 +63,7 @@
             android:name="com.nmoumoulidis.opensensor.view.SearchDataOptionsActivity"
             android:label="@string/title_activity_batch_data_view"
             android:launchMode="singleTask"
-            android:parentActivityName="com.nmoumoulidis.opensensor.view.ConnectedSensorActivity" >
+            android:parentActivityName="com.nmoumoulidis.opensensor.view.SensorStationActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.nmoumoulidis.opensensor.view.ConnectedSensorActivity" />

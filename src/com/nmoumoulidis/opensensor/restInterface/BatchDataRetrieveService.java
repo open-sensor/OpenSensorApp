@@ -18,8 +18,8 @@ import org.json.JSONException;
 
 import com.nmoumoulidis.opensensor.model.DatabaseHelper;
 import com.nmoumoulidis.opensensor.model.processing.DataValidator;
-import com.nmoumoulidis.opensensor.restInterface.requests.sensorstation.SensorStationBatchDataRequest;
-import com.nmoumoulidis.opensensor.restInterface.requests.server.ServerPostRestRequest;
+import com.nmoumoulidis.opensensor.restInterface.requests.SensorStationBatchDataRequest;
+import com.nmoumoulidis.opensensor.restInterface.requests.ServerPostRestRequest;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -95,7 +95,7 @@ public class BatchDataRetrieveService extends IntentService
 			DataValidator batchDataValidator = new DataValidator(body);
 			
 			try {
-				newBatchData = batchDataValidator.validateBatchData();
+				newBatchData = batchDataValidator.validateBatchDataFromSensorStation();
 			} catch (JSONException e) {
 				System.out.println("Error: Corrupt Batch Data...");
 				return;
@@ -108,8 +108,7 @@ public class BatchDataRetrieveService extends IntentService
 			System.out.println("BATCH DATA response handled!");
 			System.out.println("Data Loss %: "+batchDataValidator.getDataLossPercentage());
 			System.out.println("BATCH DATA now is being sent to the server!");
-			
-			
+
 			// Transform the data in (validated) JSON format again...
 			String data = batchDataValidator.getValidatedBatchDataAsJSONString();
 			// Send them to the server...

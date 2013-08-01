@@ -17,7 +17,9 @@ public class JSONParser
 	private HashMap<String, String> dataMap = null;
 	private ArrayList<HashMap<String, String>> dataList = null;
 	private DataValidator dataValidator;
-
+	private JSONObject topLevelServerJSONObject = null;
+	private JSONArray mainDataJSONArray = null;
+	
 	public static final String NODE_DATETIME = "datetime";
 	public static final String NODE_LOCATION = "location";
 	
@@ -28,8 +30,12 @@ public class JSONParser
 			this.dataValidator = validator;
 			this.keyList = new ArrayList<String>();
 	}
+	
+	public JSONParser(String json) {
+		this.stringJSON = json;
+	}
 
-	public ArrayList<HashMap<String, String>> parseData() throws JSONException {
+	public ArrayList<HashMap<String, String>> validateDataFromSensorStation() throws JSONException {
 		try {
 			dataList = new ArrayList<HashMap<String, String>>();
 			readings = new JSONArray(this.stringJSON);
@@ -111,7 +117,7 @@ public class JSONParser
 		return dataList;
 	}
 	
-	public String transformBackToJSON(ArrayList<HashMap<String, String>> dataList) {
+	public String transformSensorStationDataBackToJSON(ArrayList<HashMap<String, String>> dataList) {
 		ArrayList<JSONObject> jsonObjectList = new ArrayList<JSONObject>();
 		JSONObject newObj;
 		for(int i=0 ; i<dataList.size() ; i++) {
@@ -140,4 +146,37 @@ public class JSONParser
 		}
 		return sensorList;
 	}
+	
+	public ArrayList<HashMap<String, String>> parseServerDataFromJSONToListOfMaps() throws JSONException {
+			dataList = new ArrayList<HashMap<String, String>>();
+			JSONObject tempObject;
+			HashMap<String,String> map;
+			topLevelServerJSONObject = new JSONObject(this.stringJSON);
+			if(topLevelServerJSONObject.get("resultsEmpty").equals("false")) {	
+				mainDataJSONArray = topLevelServerJSONObject.getJSONArray("data");
+				for(int i=0 ; i<mainDataJSONArray.length() ; i++) {
+					try {
+						tempObject = mainDataJSONArray.getJSONObject(i);
+						map = new HashMap<String,String>();
+						map.put("date", tempObject.get("date").toString());
+						map.put("location", tempObject.get("location").toString());
+						String userFriendlyName = SensorDictionary.validSensorNames.get(tempObject.get("sensor_name").toString());
+						map.put("sensor_name", userFriendlyName);
+						map.put("avg_value", tempObject.get("avg_value").toString());
+						map.put("min_value", tempObject.get("min_value").toString());
+						map.put("max_value", tempObject.get("max_value").toString());
+						dataList.add(map);
+					} catch (JSONException e) {
+						// We skip this data object...
+						continue;
+					}
+				}
+				return dataList;
+			}
+			else {
+				System.out.println("JSONException Captured...");
+				return null;
+			}
+	}
+
 }

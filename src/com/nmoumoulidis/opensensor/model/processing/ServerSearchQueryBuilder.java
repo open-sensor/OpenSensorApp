@@ -1,5 +1,7 @@
 package com.nmoumoulidis.opensensor.model.processing;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import com.nmoumoulidis.opensensor.model.SensorDictionary;
@@ -57,7 +59,13 @@ public class ServerSearchQueryBuilder
 	}
 	
 	public String getLocation() {
-		return serverActivity.getLocationEditText().getText().toString();
+		String location = serverActivity.getLocationEditText().getText().toString();
+		try {
+			location = URLEncoder.encode(location, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return location;
 	}
 	
 	public void clearSearchFilters() {
@@ -71,36 +79,16 @@ public class ServerSearchQueryBuilder
 	public String getURLQueryPart() {
 		String query="";
 		if(sensorToSearch != null){
-			if(query.equals("")) {
-				query += "?sensor_name="+this.sensorToSearch;
-			}
-			else {
-				query += "&sensor_name="+this.sensorToSearch;
-			}
+			query += "&sensor_name="+this.sensorToSearch;
 		}
 		if(!getLocation().equals("") && getLocation() != null) {
-			if(query.equals("")) {
-				query += "?location="+this.getLocation();
-			}
-			else {
-				query += "&location="+this.getLocation();
-			}
+			query += "&location="+this.getLocation();
 		}
 		if(DateFrom != null) {
-			if(query.equals("")) {
-				query += "?datefrom="+this.DateFrom;
-			}
-			else {
-				query += "&datefrom="+this.DateFrom;
-			}
+			query += "&datefrom="+this.DateFrom;
 		}
 		if(DateTo != null) {
-			if(query.equals("")) {
-				query += "?dateto="+this.DateTo;
-			}
-			else {
-				query += "&dateto="+this.DateTo;
-			}
+			query += "&dateto="+this.DateTo;
 		}
 		return query;
 	}

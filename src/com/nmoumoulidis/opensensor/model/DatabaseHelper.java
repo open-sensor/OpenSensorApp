@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import com.nmoumoulidis.opensensor.model.processing.DateManager;
-import com.nmoumoulidis.opensensor.view.ConnectedSensorActivity;
+import com.nmoumoulidis.opensensor.view.SensorStationActivity;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -28,12 +28,12 @@ public class DatabaseHelper extends SQLiteOpenHelper
     public static final String FUNC_MIN_VALUE = "min("+KEY_DATA_VALUE+")";
     public static final String FUNC_MAX_VALUE = "max("+KEY_DATA_VALUE+")";
     
-    private ConnectedSensorActivity conSensAct;
+    private SensorStationActivity conSensAct;
     
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        if(context.getClass() == ConnectedSensorActivity.class) {;
-        	conSensAct = (ConnectedSensorActivity) context;
+        if(context.getClass() == SensorStationActivity.class) {;
+        	conSensAct = (SensorStationActivity) context;
         }
     }
 

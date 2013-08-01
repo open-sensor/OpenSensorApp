@@ -9,6 +9,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".ServerActivity" >
 
+ 	<Button
+       	android:id="@+id/search_again_btn"
+       	android:layout_width="wrap_content"
+       	android:layout_height="wrap_content"
+       	android:text="@string/search_again_btn_label"
+       	android:visibility="gone" />
+ 	
     <TextView 
 	    android:id="@+id/server_browse_data_label"
 	   	android:layout_width="match_parent"
@@ -99,11 +106,25 @@
 		    android:textSize="15sp"  />
 	</LinearLayout>
 	
+	<ProgressBar
+		android:id="@+id/prog_bar"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		style="@android:style/Widget.ProgressBar.Horizontal"
+		android:visibility="gone" />
+	
 	<TextView
         android:id="@+id/server_no_results_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/no_results_label"
+        android:textSize="12sp" 
+        android:visibility="gone"/>
+	
+	<TextView
+        android:id="@+id/server_error_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textSize="12sp" 
         android:visibility="gone"/>
 

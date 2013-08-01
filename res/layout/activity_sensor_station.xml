@@ -1,0 +1,139 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/con_sens_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".SensorStationActivity" >
+
+    <!-- Real-Time data UI elements -->
+	<Button 
+	    android:id="@+id/go_to_history_btn"
+	   	android:layout_width="match_parent"
+	 	android:layout_height="wrap_content"
+	 	android:layout_marginBottom="5dip"
+	 	android:text="@string/go_to_history_btn_label"
+	 	android:drawableRight="@drawable/ic_menu_forward"
+	 	android:visibility="gone"	/>
+	
+	<TextView
+        android:id="@+id/info_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/read_sensor_label"
+        android:textSize="15sp" />
+	
+	<LinearLayout 
+	  	android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal" >
+		<TextView
+	        android:id="@+id/result_label"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/show_result_label"
+	        android:textSize="18sp" />
+		<TextView
+	        android:id="@+id/result_text"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:gravity="right|center_vertical"
+            android:hint="@string/show_result_text"
+	        android:textSize="25sp"
+	        android:maxLines="30"
+	        android:scrollbars="vertical" />
+	</LinearLayout>
+	
+	<TextView
+	    android:id="@+id/no_data_history_label"
+	   	android:layout_width="match_parent"
+	 	android:layout_height="wrap_content"
+		android:layout_marginTop="80dip"
+	 	android:text="@string/no_data_history_label"
+	 	android:visibility="gone"	/>
+	
+	<!-- Search History data UI elements -->
+	<Button 
+	    android:id="@+id/go_to_realtime_data_btn"
+	   	android:layout_width="match_parent"
+	 	android:layout_height="wrap_content"
+	 	android:layout_marginBottom="5dip"
+	 	android:text="@string/go_to_realtime_data_btn_label"
+	 	android:drawableLeft="@drawable/ic_menu_back"
+	 	android:visibility="gone"	/>
+	
+	<LinearLayout 
+	  	android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal"
+    	android:layout_marginBottom="8dip" >
+		<TextView
+	        android:id="@+id/sensor_spinner_labeltext"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/spinner_label_text"
+	        android:textSize="12sp" 
+	        android:visibility="gone" />
+		<Spinner
+	        android:id="@+id/sensor_spinner"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:gravity="right|center_vertical"
+	        android:textSize="15sp"
+	        android:visibility="gone" />
+	</LinearLayout>
+	
+	<LinearLayout 
+	  	android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal"
+    	android:layout_marginBottom="8dip" >
+		<TextView
+	        android:id="@+id/date_range_label"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/date_range_label"
+	        android:textSize="12sp" 
+	        android:visibility="gone" />
+		<Button
+	        android:id="@+id/date_pick_from_btn"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+            android:text="@string/date_pick_from_btn_text"
+	        android:visibility="gone" />
+		<Button
+	        android:id="@+id/date_pick_to_btn"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+            android:text="@string/date_pick_to_btn_text"
+	        android:visibility="gone" />
+	</LinearLayout>
+	
+	<Button
+	    android:id="@+id/show_search_results_btn"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	   	android:text="@string/show_search_btn_text"
+	    android:textSize="15sp"
+	    android:drawableLeft="@drawable/ic_menu_search_holo_light"
+	    android:visibility="gone" />
+	
+	<TextView
+        android:id="@+id/no_results_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_results_label"
+        android:textSize="12sp" 
+        android:visibility="gone" />
+
+	<ListView 
+	    android:id="@+id/list" 
+	    android:layout_width="match_parent"
+  		android:layout_height="wrap_content"
+  		android:visibility="gone"	/>
+
+</LinearLayout>

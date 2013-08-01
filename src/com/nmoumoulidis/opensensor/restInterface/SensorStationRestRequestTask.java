@@ -1,0 +1,79 @@
+package com.nmoumoulidis.opensensor.restInterface;
+
+import java.io.IOException;
+import java.net.UnknownHostException;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
+
+import android.os.AsyncTask;
+
+import com.nmoumoulidis.opensensor.restInterface.requests.SensorStationRestRequest;
+import com.nmoumoulidis.opensensor.restInterface.requests.SensorStationSetLocationRequest;
+import com.nmoumoulidis.opensensor.view.SensorStationActivity;
+
+public class SensorStationRestRequestTask extends AsyncTask<SensorStationRestRequest, Void, Boolean> {
+
+	private SensorStationActivity mConSensActivity;
+	
+	private HttpClient httpClient;
+	private HttpContext localContext;
+	private HttpGet httpGet;
+	private HttpPut httpPut;
+	private HttpResponse response;
+	
+	SensorStationRestResponseHandler responseHandler;
+
+	public SensorStationRestRequestTask(SensorStationActivity conSensActivity) {
+		super();
+		this.mConSensActivity = conSensActivity;
+		this.httpClient = new DefaultHttpClient();
+		this.localContext = new BasicHttpContext();
+	}
+
+	@Override
+	protected Boolean doInBackground(SensorStationRestRequest... request) {
+		SensorStationRestRequest newRequest = request[0];
+		try {
+			if(newRequest.getMethod().equals("GET")) {
+				httpGet = new HttpGet(newRequest.getBaseUrl() + newRequest.getRelativeUrl());
+				httpGet.setHeader("Accept", newRequest.getAccept());
+				response = httpClient.execute(httpGet, localContext);
+			}
+			else if (newRequest.getMethod().equals("PUT")) {
+				httpPut = new HttpPut(newRequest.getBaseUrl() + newRequest.getRelativeUrl());
+				httpPut.setHeader("Accept", newRequest.getAccept());
+				
+				// add the data entity
+				StringEntity sEntity = new StringEntity(((SensorStationSetLocationRequest) newRequest).getData());
+				httpPut.setEntity(sEntity);
+
+				response = httpClient.execute(httpPut, localContext);
+			}
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (UnknownHostException e) {
+			e.printStackTrace(); // Cannot find host name...
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		responseHandler = new SensorStationRestResponseHandler();
+		boolean successOrNot = responseHandler.handleResponse(newRequest, response);
+
+		return Boolean.valueOf(successOrNot);
+	}
+
+	@Override
+    protected void onPostExecute(Boolean successOrNot) {
+		boolean handlingWasOk = successOrNot.booleanValue();
+		responseHandler.postHandling(mConSensActivity, handlingWasOk);
+    }
+}

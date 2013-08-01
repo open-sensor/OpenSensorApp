@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import com.nmoumoulidis.opensensor.view.ConnectedSensorActivity;
+import com.nmoumoulidis.opensensor.view.SensorStationActivity;
 import com.nmoumoulidis.opensensor.view.MainActivity;
 import com.nmoumoulidis.opensensor.view.ServerActivity;
 import com.nmoumoulidis.opensensor.view.PhoneSensActivity;
@@ -23,7 +23,7 @@ public class MainUIController implements OnClickListener {
 	public void onClick(View v) {
 		if(v == mMainActivity.getmGoToConSensActivityBtn()) 
 		{
-			Intent intent = new Intent(mMainActivity, ConnectedSensorActivity.class);
+			Intent intent = new Intent(mMainActivity, SensorStationActivity.class);
 			
 			Bundle bndl = new Bundle();
 			bndl.putParcelable("sensor_tracker", mMainActivity.getmSensorTracker());

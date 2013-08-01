@@ -10,8 +10,8 @@ import com.nmoumoulidis.opensensor.R;
 import com.nmoumoulidis.opensensor.controller.MainUIController;
 import com.nmoumoulidis.opensensor.model.SensorTracker;
 import com.nmoumoulidis.opensensor.restInterface.BatchDataRetrieveService;
-import com.nmoumoulidis.opensensor.restInterface.SensorListReqRunnable;
-import com.nmoumoulidis.opensensor.restInterface.requests.sensorstation.SensorStationSensorListRequest;
+import com.nmoumoulidis.opensensor.restInterface.SensorListRestRequestRunnable;
+import com.nmoumoulidis.opensensor.restInterface.requests.SensorStationSensorListRequest;
 
 public class MainActivity extends FragmentActivity {
 
@@ -47,7 +47,7 @@ public class MainActivity extends FragmentActivity {
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -60,8 +60,8 @@ public class MainActivity extends FragmentActivity {
 		// Perform initialization request for dynamic
 		// identification of the available sensor list.
 	   	SensorStationSensorListRequest sensorListRequest = new SensorStationSensorListRequest();
-	   	SensorListReqRunnable sensorListRequestTask = 
-				new SensorListReqRunnable(this, sensorListRequest);
+	   	SensorListRestRequestRunnable sensorListRequestTask = 
+				new SensorListRestRequestRunnable(this, sensorListRequest);
 	   	new Thread(sensorListRequestTask).start();
 
 	   	if(wifiSensorConnected == true) {

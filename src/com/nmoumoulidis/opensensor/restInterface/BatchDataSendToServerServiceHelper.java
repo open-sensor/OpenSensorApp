@@ -17,7 +17,7 @@ import org.apache.http.util.EntityUtils;
 
 import android.text.Html;
 
-import com.nmoumoulidis.opensensor.restInterface.requests.server.ServerPostRestRequest;
+import com.nmoumoulidis.opensensor.restInterface.requests.ServerPostRestRequest;
 
 public class BatchDataSendToServerServiceHelper
 {
@@ -77,13 +77,9 @@ public class BatchDataSendToServerServiceHelper
 		if(statusCode == 200) {
 			System.out.println("BATCH DATA Sent to server Successfully!");
 		}
-		// <<< HTTP request failed -> Retry
-		else if(statusCode == 400){
+		else {
 			System.out.println("BATCH DATA transfer to server failed: ");
 			System.out.println(Html.fromHtml(body));
-		}
-		else {
-			
 		}
 	}
 }
