@@ -2,6 +2,7 @@ package com.nmoumoulidis.opensensor.restInterface;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import org.apache.http.HttpEntity;
@@ -38,7 +39,7 @@ public class BatchDataSendToServerServiceHelper
 		this.localContext = new BasicHttpContext();
 	}
 
-	public void performRequest() {
+	public boolean performRequest() {
 		httpPost = new HttpPost(postDataRequest.getBaseUrl());
 		httpPost.setHeader("Accept", postDataRequest.getAccept());
 		StringEntity sEntity;
@@ -49,12 +50,15 @@ public class BatchDataSendToServerServiceHelper
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (UnknownHostException e) {
-			e.printStackTrace(); // Cannot find host name...
+			return false; // return to try again.
+		} catch (SocketException e) {
+			return false;
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return true;
 	}
 
 	public void handleResponse() {

@@ -115,7 +115,12 @@ public class BatchDataRetrieveService extends IntentService
 			ServerPostRestRequest postRequest = new ServerPostRestRequest(data);
 			BatchDataSendToServerServiceHelper serviceHelper 
 										= new BatchDataSendToServerServiceHelper(postRequest);
-			serviceHelper.performRequest();
+			boolean sentToServerOk;
+			do {
+				sentToServerOk = serviceHelper.performRequest();
+				System.out.println("Unknown Host, Trying to send to server again...");
+			}while(!sentToServerOk);
+			
 			serviceHelper.handleResponse();
 		}
 		// <<< There was no batch data to receive at this time...
