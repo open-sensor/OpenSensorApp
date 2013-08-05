@@ -2,7 +2,7 @@ package com.nmoumoulidis.opensensor.restInterface.requests;
 
 public class SensorStationRestRequest 
 {
-	protected final static String hostname = "slug";
+	protected static String hostname = "slug.lan";
 	protected final static String port = "81";
 	protected final static String baseUrlString = "/senseapi";
 	
@@ -29,7 +29,7 @@ public class SensorStationRestRequest
 	public String getBaseUrl() {
 		return baseUrl;
 	}
-
+	
 	public String getMethod() {
 		return method;
 	}

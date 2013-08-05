@@ -228,24 +228,6 @@ public class SensorStationActivity extends FragmentActivity
 	}
 	
 	@Override
-	protected void onPause() {
-		for(int i=0 ; i<this.cursorsUsed.size() ; i++) {
-			cursorsUsed.get(i).close();
-		}
-		dbHelper.close();
-		super.onPause();
-	}
-	
-	@Override
-	protected void onStop() {
-		for(int i=0 ; i<this.cursorsUsed.size() ; i++) {
-			cursorsUsed.get(i).close();
-		}
-		dbHelper.close();
-		super.onStop();
-	}
-	
-	@Override
 	protected void onDestroy() {
 		for(int i=0 ; i<this.cursorsUsed.size() ; i++) {
 			cursorsUsed.get(i).close();

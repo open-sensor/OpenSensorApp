@@ -1,12 +1,17 @@
 package com.nmoumoulidis.opensensor.view;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.nmoumoulidis.opensensor.R;
+import com.nmoumoulidis.opensensor.controller.GeneralLocationListener;
 import com.nmoumoulidis.opensensor.controller.MainUIController;
 import com.nmoumoulidis.opensensor.model.SensorTracker;
 import com.nmoumoulidis.opensensor.restInterface.BatchDataRetrieveService;
@@ -25,6 +30,9 @@ public class MainActivity extends FragmentActivity {
 	private boolean sensorListObtained = false;
 	private boolean wifiSensorConnected = true;
 	
+	private GeneralLocationListener locListener;
+	private LocationManager locManager;
+	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,10 +48,19 @@ public class MainActivity extends FragmentActivity {
 		mGoToMapViewActivityBtn.setOnClickListener(mMainUIController);
 
 		mSensorTracker = new SensorTracker();
-
+		
+		locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		locListener = new GeneralLocationListener(this);
+		locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, locListener);
+		
 		initializationRequests();
     }
 
+	public void makeToast(Location location) {
+		Toast.makeText(getApplicationContext(), "LOCATION CHANGED: Latitude: "+location.getLatitude()
+				+ " ; Longitude: "+location.getLongitude(), Toast.LENGTH_SHORT).show();
+	}
+	
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

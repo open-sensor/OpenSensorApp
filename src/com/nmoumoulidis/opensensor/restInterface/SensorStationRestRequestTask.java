@@ -41,6 +41,7 @@ public class SensorStationRestRequestTask extends AsyncTask<SensorStationRestReq
 	@Override
 	protected Boolean doInBackground(SensorStationRestRequest... request) {
 		SensorStationRestRequest newRequest = request[0];
+		responseHandler = new SensorStationRestResponseHandler();
 		try {
 			if(newRequest.getMethod().equals("GET")) {
 				httpGet = new HttpGet(newRequest.getBaseUrl() + newRequest.getRelativeUrl());
@@ -60,12 +61,11 @@ public class SensorStationRestRequestTask extends AsyncTask<SensorStationRestReq
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (UnknownHostException e) {
-			e.printStackTrace(); // Cannot find host name...
+			responseHandler.setFailureReason(SensorStationRestResponseHandler.SENSOR_STATION_NOT_REACHABLE);
+			return false;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		responseHandler = new SensorStationRestResponseHandler();
 		boolean successOrNot = responseHandler.handleResponse(newRequest, response);
 
 		return Boolean.valueOf(successOrNot);

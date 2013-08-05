@@ -9,12 +9,9 @@ import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 
-import android.text.Html;
 import android.view.View;
 
-import com.nmoumoulidis.opensensor.model.processing.DataValidator;
 import com.nmoumoulidis.opensensor.model.processing.JSONParser;
-import com.nmoumoulidis.opensensor.restInterface.requests.ServerGetRestRequest;
 import com.nmoumoulidis.opensensor.view.ServerActivity;
 
 public class ServerRestResponseHandler 
@@ -22,18 +19,17 @@ public class ServerRestResponseHandler
 	private HttpEntity entity;
 	private int statusCode;
 	private String body;
-	private ServerGetRestRequest serverRequest;
 	private HttpResponse restResponse;
 	private ArrayList<HashMap<String,String>> data;
 	private JSONParser jsonParser;
-	private static final String NO_DATA = "no_data";
-	private static final String INVALID_JSON = "invalid_json";
-	private static final String SERVER_ERROR = "server_error";
+	public static final String NO_DATA = "no_data";
+	public static final String INVALID_JSON = "invalid_json";
+	public static final String SERVER_ERROR = "server_error";
+	public static final String SERVER_NOT_REACHABLE = "server_not_reachable";
 	
 	private String failureReason;
 
-	protected Boolean handleResponse(ServerGetRestRequest request, HttpResponse response) {
-		this.serverRequest = request;
+	protected Boolean handleResponse(HttpResponse response) {
 		this.restResponse = response;
 		this.statusCode = restResponse.getStatusLine().getStatusCode();
 		this.entity = restResponse.getEntity();
@@ -71,7 +67,7 @@ public class ServerRestResponseHandler
 			return false;
 		}
 	}
-
+	
     protected void postHandling(ServerActivity serverActivity, Boolean success) {
 		if(success) { 
 			serverActivity.showSearchOptionsAgain(false);
@@ -85,12 +81,24 @@ public class ServerRestResponseHandler
 				serverActivity.getServerErrorInfo().setVisibility(View.VISIBLE);
 				serverActivity.getServerErrorInfo().setText("Your search returned no relevant data.");
 			}
+			else if(failureReason.equals(SERVER_NOT_REACHABLE)) {
+				serverActivity.getServerErrorInfo().setVisibility(View.VISIBLE);
+				serverActivity.getServerErrorInfo().setText("Server unreachable. Please check internet connectivity...");
+			}
 			else {
 				serverActivity.getServerErrorInfo().setVisibility(View.VISIBLE);
 				serverActivity.getServerErrorInfo().setText("We're sorry, something went wrong. You can try again.");
 			}
 			System.out.println("Request to server failed... ");
-			System.out.println(Html.fromHtml(this.body));
+			
 		}
     }
+    
+	public String getFailureReason() {
+		return failureReason;
+	}
+
+	public void setFailureReason(String failureReason) {
+		this.failureReason = failureReason;
+	}
 }

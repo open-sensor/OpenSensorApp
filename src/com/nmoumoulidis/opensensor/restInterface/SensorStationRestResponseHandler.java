@@ -19,6 +19,8 @@ public class SensorStationRestResponseHandler
 	private String body;
 	private SensorStationRestRequest sensorStationRestRequest;
 	private HttpResponse restResponse;
+	private String failureReason="";
+	public static final String SENSOR_STATION_NOT_REACHABLE = "sensor_station_not_reachable";
 
 	protected Boolean handleResponse(SensorStationRestRequest request, HttpResponse response) {
 		this.sensorStationRestRequest = request;
@@ -91,15 +93,33 @@ public class SensorStationRestResponseHandler
 			}
 		}
 		else {
-		// ============================= FAILURE SCENARIO ===============================
-			if(sensorStationRestRequest.getClass() == SensorStationRealTimeDataRequest.class) {
-				System.out.println("Request failed. Trying again...");
-				// Recursively instantiate & execute SensorStationRealTimeDataRequest 
-				// until the data reading is valid.
-				// (Casting to subclass in order to access the subclass-only attributes).
-				SensorStationRealTimeDataRequest oldRequest = new SensorStationRealTimeDataRequest((SensorStationRealTimeDataRequest) sensorStationRestRequest);
-				new SensorStationRestRequestTask(conSensActivity).execute(oldRequest);
+			if(failureReason.equals(SENSOR_STATION_NOT_REACHABLE)) {
+				conSensActivity.getmResultText().scrollTo(0, 0);
+				conSensActivity.getmLabelText().setText("Network Error:");
+				conSensActivity.getmResultText().setText("Make sure you are connected to" +
+						" the Wi-Fi sensor-station and try again.");
+				return;
+			}
+			else {
+				if(sensorStationRestRequest.getClass() == SensorStationRealTimeDataRequest.class) {
+					System.out.println("Request failed. Trying again...");
+					// Recursively instantiate & execute SensorStationRealTimeDataRequest 
+					// until the data reading is valid.
+					// (Casting to subclass in order to access the subclass-only attributes).
+					SensorStationRealTimeDataRequest oldRequest = new SensorStationRealTimeDataRequest((SensorStationRealTimeDataRequest) sensorStationRestRequest);
+					new SensorStationRestRequestTask(conSensActivity).execute(oldRequest);
+				}
 			}
 		}
     }
+    
+
+	public String getFailureReason() {
+		return failureReason;
+	}
+
+	public void setFailureReason(String failureReason) {
+		this.failureReason = failureReason;
+	}
+
 }

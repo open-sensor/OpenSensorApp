@@ -37,8 +37,9 @@ public class ServerRestRequestTask extends AsyncTask<ServerGetRestRequest, Integ
 	@Override
 	protected Boolean doInBackground(ServerGetRestRequest... params) {
 		publishProgress(0); //------ progress bar update ------
-		publishProgress(5); //------ progress bar update ------
 		ServerGetRestRequest request = params[0];
+		publishProgress(5); //------ progress bar update ------
+		responseHandler = new ServerRestResponseHandler();
 		try {
 			publishProgress(10); //------ progress bar update ------
 			httpGet = new HttpGet(request.getFullUrl());
@@ -49,20 +50,22 @@ public class ServerRestRequestTask extends AsyncTask<ServerGetRestRequest, Integ
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (UnknownHostException e) {
-			e.printStackTrace();
+			responseHandler.setFailureReason(ServerRestResponseHandler.SERVER_NOT_REACHABLE);
+			publishProgress(90); //------ progress bar update ------
+	        publishProgress(100); //------ progress bar update ------
+			return false;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		publishProgress(70); //------ progress bar update ------
-		responseHandler = new ServerRestResponseHandler();
 		publishProgress(80); //------ progress bar update ------
-		boolean successOrNot = responseHandler.handleResponse(request, response);
+		boolean successOrNot = responseHandler.handleResponse(response);
 		publishProgress(90); //------ progress bar update ------
         publishProgress(100); //------ progress bar update ------
 
 		return Boolean.valueOf(successOrNot);
 	}
-
+	
 	@Override
     protected void onPreExecute() {
       super.onPreExecute();

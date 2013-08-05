@@ -59,11 +59,16 @@ public final class DateManager
 	
 	public static String fixDatePickerFormat(int year, int month, int day) {
 		int monthPlusOne  = month + 1;
-		String stringDate = year+"-"+monthPlusOne+"-"+day;
+		String strMonth=""+monthPlusOne;
+		String strDay=""+day;
 		if(monthPlusOne < 10) {
-			stringDate = year+"-0"+monthPlusOne+"-"+day;
+			strMonth = "0"+monthPlusOne;
 		}
-		return stringDate;
+		if(day < 10) {
+			strDay = "0"+day;
+		}
+
+		return year+"-"+strMonth+"-"+strDay;
 	}
 
 	public static ArrayList<HashMap<String,String>> transformDateBeforeInsert(ArrayList<HashMap<String,String>> dataMap){
