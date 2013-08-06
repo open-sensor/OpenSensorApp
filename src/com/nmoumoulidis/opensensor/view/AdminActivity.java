@@ -1,24 +1,26 @@
 package com.nmoumoulidis.opensensor.view;
 
 import com.nmoumoulidis.opensensor.R;
-import com.nmoumoulidis.opensensor.R.id;
-import com.nmoumoulidis.opensensor.R.layout;
-import com.nmoumoulidis.opensensor.R.menu;
-import com.nmoumoulidis.opensensor.R.string;
+import com.nmoumoulidis.opensensor.controller.AdminUIController;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
@@ -28,33 +30,33 @@ import android.support.v4.app.NavUtils;
  * well.
  */
 public class AdminActivity extends Activity {
-	/**
-	 * A dummy authentication store containing known user names and passwords.
-	 * TODO: remove after connecting to a real authentication system.
-	 */
-	private static final String[] DUMMY_CREDENTIALS = new String[] {
-			"foo@example.com:hello", "bar@example.com:world" };
 
-	/**
-	 * The default email to populate the email field with.
-	 */
-	public static final String EXTRA_EMAIL = "com.example.android.authenticatordemo.extra.EMAIL";
-
+	private static final String CREDENTIALS = "admin:admin";
+	
 	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
 	 */
 	private UserLoginTask mAuthTask = null;
-
-	// Values for email and password at the time of the login attempt.
-	private String mEmail;
+	
+	// ---------- Login-related attributes -------------
+	private ScrollView loginForm;
+	private String mUsername;
 	private String mPassword;
-
-	// UI references.
-	private EditText mEmailView;
+	private EditText mUsernameView;
 	private EditText mPasswordView;
-	private View mLoginFormView;
-	private View mLoginStatusView;
-	private TextView mLoginStatusMessageView;
+	private Button mSignInButton;
+	
+	// --------- Set location - related attributes -----------
+	private LinearLayout setLocationUI;
+	private TextView mSetLocationInfo;
+	private Button mSignOutButton;
+	private Button mSetLocationButton;
+	private TextView mSetLocationFeedback;
+	
+	private AdminUIController viewController;
+	private LocationManager locManager;
+	private AlertDialog alert;
+	private Location locaction;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,36 +65,87 @@ public class AdminActivity extends Activity {
 		setContentView(R.layout.activity_admin);
 		setupActionBar();
 
+		locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		
 		// Set up the login form.
-		mEmail = getIntent().getStringExtra(EXTRA_EMAIL);
-		mEmailView = (EditText) findViewById(R.id.email);
-		mEmailView.setText(mEmail);
-
+		loginForm = (ScrollView) findViewById(R.id.login_form);
+		mUsernameView = (EditText) findViewById(R.id.username);
 		mPasswordView = (EditText) findViewById(R.id.password);
-		mPasswordView
-				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-					@Override
-					public boolean onEditorAction(TextView textView, int id,
-							KeyEvent keyEvent) {
-						if (id == R.id.login || id == EditorInfo.IME_NULL) {
-							attemptLogin();
-							return true;
-						}
-						return false;
-					}
-				});
-
-		mLoginFormView = findViewById(R.id.login_form);
-		mLoginStatusView = findViewById(R.id.login_status);
-		mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
-
-		findViewById(R.id.sign_in_button).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(View view) {
-						attemptLogin();
-					}
-				});
+		mSignInButton = (Button) findViewById(R.id.sign_in_button);
+		setLocationUI = (LinearLayout) findViewById(R.id.set_location_ui);
+		
+		// Set up the hidden UI.
+		mSetLocationInfo = (TextView) findViewById(R.id.set_location_info);
+		mSignOutButton = (Button) findViewById(R.id.sign_out_btn);
+		mSetLocationButton = (Button) findViewById(R.id.set_location_btn);
+		mSetLocationFeedback = (TextView) findViewById(R.id.set_location_feedback);
+		
+		viewController = new AdminUIController(this);
+		mPasswordView.setOnEditorActionListener(viewController);
+		mSignInButton.setOnClickListener(viewController);
+		mSetLocationButton.setOnClickListener(viewController);
+		mSignOutButton.setOnClickListener(viewController);
+	}
+	
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
+		if(this.alert != null) {
+			this.alert.dismiss();
+		}
+	}
+	
+	public String getLocation() {
+		if(!locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			showAlertEnableGPS();
+			return null;
+		}
+		else {
+			locaction = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+			
+			if(locaction != null) {
+				System.out.println("Last Known Location: Latitude: "+locaction.getLatitude()
+									+"; Longitude: "+locaction.getLongitude());
+				return "LatitudeAndLongitudeOfSensor";
+			}
+			else {
+				System.out.println("Location is null...");
+				return null;
+			}
+		}
+		
+		
+	}
+	
+	private void showAlertEnableGPS() {
+		 final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		    builder.setMessage("Your GPS seems to be disabled, do you want to enable it?");
+		    builder.setCancelable(false);
+		    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+		               public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, 
+		            		   				@SuppressWarnings("unused") final int id) {
+		                   startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+		               }
+		           });
+		    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+		               public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+		                    dialog.cancel();
+		                    finish();
+		               }
+		           });
+		    alert = builder.create();
+		    alert.show();
+	}
+	
+	public void hideLoginScreen(boolean hide) {
+		if(hide == true) {
+			loginForm.setVisibility(View.GONE);
+			setLocationUI.setVisibility(View.VISIBLE);
+		}
+		else {
+			loginForm.setVisibility(View.VISIBLE);
+			setLocationUI.setVisibility(View.GONE);
+		}
 	}
 
 	/**
@@ -110,15 +163,6 @@ public class AdminActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			// This ID represents the Home or Up button. In the case of this
-			// activity, the Up button is shown. Use NavUtils to allow users
-			// to navigate up one level in the application structure. For
-			// more details, see the Navigation pattern on Android Design:
-			//
-			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//
-			// TODO: If Settings has multiple levels, Up should navigate up
-			// that hierarchy.
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
 		}
@@ -134,7 +178,7 @@ public class AdminActivity extends Activity {
 
 	/**
 	 * Attempts to sign in or register the account specified by the login form.
-	 * If there are form errors (invalid email, missing fields, etc.), the
+	 * If there are form errors (missing fields, etc.), the
 	 * errors are presented and no actual login attempt is made.
 	 */
 	public void attemptLogin() {
@@ -143,11 +187,11 @@ public class AdminActivity extends Activity {
 		}
 
 		// Reset errors.
-		mEmailView.setError(null);
+		mUsernameView.setError(null);
 		mPasswordView.setError(null);
 
 		// Store values at the time of the login attempt.
-		mEmail = mEmailView.getText().toString();
+		mUsername = mUsernameView.getText().toString();
 		mPassword = mPasswordView.getText().toString();
 
 		boolean cancel = false;
@@ -164,14 +208,10 @@ public class AdminActivity extends Activity {
 			cancel = true;
 		}
 
-		// Check for a valid email address.
-		if (TextUtils.isEmpty(mEmail)) {
-			mEmailView.setError(getString(R.string.error_field_required));
-			focusView = mEmailView;
-			cancel = true;
-		} else if (!mEmail.contains("@")) {
-			mEmailView.setError(getString(R.string.error_invalid_email));
-			focusView = mEmailView;
+		// Check for non-empty username.
+		if (TextUtils.isEmpty(mUsername)) {
+			mUsernameView.setError(getString(R.string.error_field_required));
+			focusView = mUsernameView;
 			cancel = true;
 		}
 
@@ -180,54 +220,61 @@ public class AdminActivity extends Activity {
 			// form field with an error.
 			focusView.requestFocus();
 		} else {
-			// Show a progress spinner, and kick off a background task to
-			// perform the user login attempt.
-			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
-			showProgress(true);
 			mAuthTask = new UserLoginTask();
 			mAuthTask.execute((Void) null);
 		}
 	}
+	
+	public EditText getmUsernameView() {
+		return mUsernameView;
+	}
 
-	/**
-	 * Shows the progress UI and hides the login form.
-	 */
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-	private void showProgress(final boolean show) {
-		// On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-		// for very easy animations. If available, use these APIs to fade-in
-		// the progress spinner.
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-			int shortAnimTime = getResources().getInteger(
-					android.R.integer.config_shortAnimTime);
+	public EditText getmPasswordView() {
+		return mPasswordView;
+	}
 
-			mLoginStatusView.setVisibility(View.VISIBLE);
-			mLoginStatusView.animate().setDuration(shortAnimTime)
-					.alpha(show ? 1 : 0)
-					.setListener(new AnimatorListenerAdapter() {
-						@Override
-						public void onAnimationEnd(Animator animation) {
-							mLoginStatusView.setVisibility(show ? View.VISIBLE
-									: View.GONE);
-						}
-					});
+	public Button getmSignInButton() {
+		return mSignInButton;
+	}
+	
+	public UserLoginTask getmAuthTask() {
+		return mAuthTask;
+	}
 
-			mLoginFormView.setVisibility(View.VISIBLE);
-			mLoginFormView.animate().setDuration(shortAnimTime)
-					.alpha(show ? 0 : 1)
-					.setListener(new AnimatorListenerAdapter() {
-						@Override
-						public void onAnimationEnd(Animator animation) {
-							mLoginFormView.setVisibility(show ? View.GONE
-									: View.VISIBLE);
-						}
-					});
-		} else {
-			// The ViewPropertyAnimator APIs are not available, so simply show
-			// and hide the relevant UI components.
-			mLoginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
-			mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-		}
+	public ScrollView getLoginForm() {
+		return loginForm;
+	}
+
+	public String getmUsername() {
+		return mUsername;
+	}
+
+	public String getmPassword() {
+		return mPassword;
+	}
+
+	public LinearLayout getSetLocationUI() {
+		return setLocationUI;
+	}
+
+	public TextView getmSetLocationInfo() {
+		return mSetLocationInfo;
+	}
+
+	public Button getmSignOutButton() {
+		return mSignOutButton;
+	}
+
+	public Button getmSetLocationButton() {
+		return mSetLocationButton;
+	}
+
+	public TextView getmSetLocationFeedback() {
+		return mSetLocationFeedback;
+	}
+
+	public AdminUIController getViewController() {
+		return viewController;
 	}
 
 	/**
@@ -237,37 +284,21 @@ public class AdminActivity extends Activity {
 	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			// TODO: attempt authentication against a network service.
-
-			try {
-				// Simulate network access.
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				return false;
+			String[] pieces = CREDENTIALS.split(":");
+			if (pieces[0].equals(mUsername)) {
+				// Account exists, return true if the password matches.
+				return pieces[1].equals(mPassword);
 			}
-
-			for (String credential : DUMMY_CREDENTIALS) {
-				String[] pieces = credential.split(":");
-				if (pieces[0].equals(mEmail)) {
-					// Account exists, return true if the password matches.
-					return pieces[1].equals(mPassword);
-				}
-			}
-
-			// TODO: register the new account here.
 			return false;
 		}
 
 		@Override
 		protected void onPostExecute(final Boolean success) {
 			mAuthTask = null;
-			showProgress(false);
-
 			if (success) {
-				System.out.println("Credentials Correct...");
+				hideLoginScreen(true);
 			} else {
-				mPasswordView
-						.setError("Incorrect password and/or email.");
+				mPasswordView.setError("Incorrect password and/or username.");
 				mPasswordView.requestFocus();
 			}
 		}
@@ -275,7 +306,6 @@ public class AdminActivity extends Activity {
 		@Override
 		protected void onCancelled() {
 			mAuthTask = null;
-			showProgress(false);
 		}
 	}
 }

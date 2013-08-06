@@ -14,15 +14,18 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 
 import com.nmoumoulidis.opensensor.restInterface.requests.SensorStationRestRequest;
 import com.nmoumoulidis.opensensor.restInterface.requests.SensorStationSetLocationRequest;
+import com.nmoumoulidis.opensensor.view.AdminActivity;
 import com.nmoumoulidis.opensensor.view.SensorStationActivity;
 
 public class SensorStationRestRequestTask extends AsyncTask<SensorStationRestRequest, Void, Boolean> {
 
-	private SensorStationActivity mConSensActivity;
+	private SensorStationActivity mConSensActivity = null;
+	private AdminActivity mAdminActivity = null;
 	
 	private HttpClient httpClient;
 	private HttpContext localContext;
@@ -32,9 +35,15 @@ public class SensorStationRestRequestTask extends AsyncTask<SensorStationRestReq
 	
 	SensorStationRestResponseHandler responseHandler;
 
-	public SensorStationRestRequestTask(SensorStationActivity conSensActivity) {
+	public SensorStationRestRequestTask(Activity activity) {
 		super();
-		this.mConSensActivity = conSensActivity;
+		if(activity.getClass() == AdminActivity.class) {
+			this.mAdminActivity = (AdminActivity) activity;
+		}
+		else if(activity.getClass() == SensorStationActivity.class) {
+			this.mConSensActivity = (SensorStationActivity) activity;
+		}
+		
 		this.httpClient = new DefaultHttpClient();
 		this.localContext = new BasicHttpContext();
 	}
@@ -78,6 +87,12 @@ public class SensorStationRestRequestTask extends AsyncTask<SensorStationRestReq
 	@Override
     protected void onPostExecute(Boolean successOrNot) {
 		boolean handlingWasOk = successOrNot.booleanValue();
-		responseHandler.postHandling(mConSensActivity, handlingWasOk);
+		if(mConSensActivity != null) {
+			responseHandler.postHandling(mConSensActivity, handlingWasOk);
+		}
+		if(mAdminActivity != null) {
+			responseHandler.postHandling(mAdminActivity, handlingWasOk);
+		}
+		
     }
 }

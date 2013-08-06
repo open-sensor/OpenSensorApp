@@ -1,9 +1,6 @@
 package com.nmoumoulidis.opensensor.view;
 
-import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -28,8 +25,6 @@ public class MainActivity extends FragmentActivity {
 	
 	private boolean sensorListObtained = false;
 	
-	private LocationManager locManager;
-	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,16 +43,9 @@ public class MainActivity extends FragmentActivity {
 
 		mSensorTracker = new SensorTracker();
 
-		retrieveBatchData();
-	//	locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-	//	makeToast(locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));		
+		retrieveBatchData();	
     }
-/*
-	public void makeToast(Location location) {
-		Toast.makeText(this, "LOCATION CHANGED: Latitude: "+location.getLatitude()
-				+ " ; Longitude: "+location.getLongitude(), Toast.LENGTH_SHORT).show();
-	}
-	*/
+
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
