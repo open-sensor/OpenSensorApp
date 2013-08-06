@@ -52,7 +52,7 @@ public class BatchDataSendToServerServiceHelper
 		} catch (UnknownHostException e) {
 			return false; // return to try again.
 		} catch (SocketException e) {
-			return false;
+			return false; // return to try again.
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

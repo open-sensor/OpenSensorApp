@@ -1,6 +1,7 @@
 package com.nmoumoulidis.opensensor.restInterface;
 
 import java.io.IOException;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import org.apache.http.HttpResponse;
@@ -61,6 +62,9 @@ public class SensorStationRestRequestTask extends AsyncTask<SensorStationRestReq
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (UnknownHostException e) {
+			responseHandler.setFailureReason(SensorStationRestResponseHandler.SENSOR_STATION_NOT_REACHABLE);
+			return false;
+		} catch (SocketException e) {
 			responseHandler.setFailureReason(SensorStationRestResponseHandler.SENSOR_STATION_NOT_REACHABLE);
 			return false;
 		} catch (IOException e) {

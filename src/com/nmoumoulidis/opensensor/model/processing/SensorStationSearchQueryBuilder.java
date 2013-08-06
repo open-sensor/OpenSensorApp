@@ -36,10 +36,12 @@ public class SensorStationSearchQueryBuilder
 
 	public void setDateToSearch(String dateTo) {
 		this.DateTo = dateTo;
+		System.out.println("dateTo: "+dateTo);
 	}
 	
 	public void setDateFromSearch(String dateFrom) {
 		this.DateFrom = dateFrom;
+		System.out.println("dateFrom: "+dateFrom);
 	}
 
 	public String getSensorToSearch() {

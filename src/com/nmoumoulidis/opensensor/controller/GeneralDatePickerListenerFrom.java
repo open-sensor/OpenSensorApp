@@ -28,7 +28,7 @@ public class GeneralDatePickerListenerFrom implements DatePickerDialog.OnDateSet
 	
 	@Override
 	public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-		String modifiedDate = DateManager.fixDatePickerFormat(year, monthOfYear, dayOfMonth);
+		String modifiedDate = DateManager.fixDatePickerFormat(year, monthOfYear, dayOfMonth, "from");
 		if(this.conSensActivity != null) {
 			conSensActivity.getQueryBuilder().setDateFromSearch(modifiedDate);
 		}

@@ -67,7 +67,6 @@ public class SensorStationActivity extends FragmentActivity
 	private SensorStationSearchQueryBuilder queryBuilder;
 
 	private boolean sensorListObtained = false;
-	private boolean wifiSensorConnected = false;
 	
 	@SuppressLint("NewApi")
 	@Override
@@ -81,10 +80,8 @@ public class SensorStationActivity extends FragmentActivity
 		Bundle b = this.getIntent().getExtras();
 		if(b!=null){
 			mSensorTracker = b.getParcelable("sensor_tracker");
-			wifiSensorConnected = b.getBoolean("is_sensor_connected");
-		}	
-		if(mSensorTracker != null)
-			sensorListObtained = true;
+			sensorListObtained = b.getBoolean("is_sensorlist_obtained");
+		}
 
 		// The main (parent) layout.
 		layout = (LinearLayout)findViewById(R.id.con_sens_layout);
@@ -96,8 +93,9 @@ public class SensorStationActivity extends FragmentActivity
 		mGoToHistoryBtn = (Button) findViewById(R.id.go_to_history_btn);
 		mResultText = (TextView) findViewById(R.id.result_text);
 		
-		if(wifiSensorConnected == false) {
-			mInfoText.setText("There is no WiFi-connected sensor station at the moment!");
+		if(sensorListObtained == false) {
+			mInfoText.setText("There is no WiFi-connected sensor station at the moment! " +
+					"Make sure you are connected and restart the application.");
 			mLabelText.setVisibility(View.GONE);
 			mResultText.setVisibility(View.GONE);
 		}
@@ -187,8 +185,10 @@ public class SensorStationActivity extends FragmentActivity
 		}
 		else {
 			mInfoText.setVisibility(View.VISIBLE);
-			mLabelText.setVisibility(View.VISIBLE);
-			mResultText.setVisibility(View.VISIBLE);
+			if(sensorListObtained == true) {
+				mLabelText.setVisibility(View.VISIBLE);
+				mResultText.setVisibility(View.VISIBLE);
+			}
 			mGoToHistoryBtn.setVisibility(View.VISIBLE);
 			for(int i=0 ; i<buttonArray.length ; i++) {
 				buttonArray[i].setVisibility(View.VISIBLE);
@@ -254,15 +254,6 @@ public class SensorStationActivity extends FragmentActivity
 
 	public TextView getmResultText() {
 		return mResultText;
-	}
-
-	public boolean isSensorListObtained() {
-		return sensorListObtained;
-	}
-
-
-	public void setSensorListObtained(boolean sensorListObtained) {
-		this.sensorListObtained = sensorListObtained;
 	}
 
 	public SensorTracker getmSensorTracker() {

@@ -1,6 +1,7 @@
 package com.nmoumoulidis.opensensor.restInterface;
 
 import java.io.IOException;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,7 +52,8 @@ public class BatchDataRetrieveService extends IntentService
 		this.httpClient = new DefaultHttpClient();
 		this.localContext = new BasicHttpContext();
 		batchDataRequest = new SensorStationBatchDataRequest();
-		
+		databaseHelper = new DatabaseHelper(this);
+
 		performRequest();
 		if(response == null) {
 			return;
@@ -68,7 +70,11 @@ public class BatchDataRetrieveService extends IntentService
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (UnknownHostException e) {
-			e.printStackTrace(); // Cannot find host name...
+			System.out.println("Batch data request failed...");
+			return;
+		} catch (SocketException e) {
+			System.out.println("Batch data request failed...");
+			return;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -101,7 +107,7 @@ public class BatchDataRetrieveService extends IntentService
 				return;
 			}
 			
-			databaseHelper = new DatabaseHelper(this);
+			
 			databaseHelper.deleteAllBatchData();
 			databaseHelper.insertBatchData(newBatchData);
 
@@ -118,7 +124,6 @@ public class BatchDataRetrieveService extends IntentService
 			boolean sentToServerOk;
 			do {
 				sentToServerOk = serviceHelper.performRequest();
-				System.out.println("Unknown Host, Trying to send to server again...");
 			}while(!sentToServerOk);
 			
 			serviceHelper.handleResponse();

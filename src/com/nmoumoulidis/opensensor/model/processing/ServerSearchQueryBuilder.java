@@ -39,7 +39,6 @@ public class ServerSearchQueryBuilder
 
 	public void setDateToSearch(String dateTo) {
 		this.DateTo = dateTo;
-		System.out.println("");
 	}
 	
 	public void setDateFromSearch(String dateFrom) {

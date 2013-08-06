@@ -39,4 +39,5 @@
 	<string name="server_edittext_hint">Location&#8230;</string>
 	<string name="clear_search_filters_text">Clear Search Filters</string>
 	<string name="search_again_btn_label">Show Search Options</string>
+	<string name="go_to_admin_page">Administrator Settings</string>
 </resources>

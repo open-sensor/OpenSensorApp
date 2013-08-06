@@ -57,7 +57,7 @@ public final class DateManager
 		return aMonthBefore;
 	}
 	
-	public static String fixDatePickerFormat(int year, int month, int day) {
+	public static String fixDatePickerFormat(int year, int month, int day, String fromOrTo) {
 		int monthPlusOne  = month + 1;
 		String strMonth=""+monthPlusOne;
 		String strDay=""+day;
@@ -68,7 +68,23 @@ public final class DateManager
 			strDay = "0"+day;
 		}
 
-		return year+"-"+strMonth+"-"+strDay;
+		String date = year+"-"+strMonth+"-"+strDay;
+		
+		// If it is the "to" date we need to increase the day by 1.
+		if(fromOrTo.equals("to")) {
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar calendar = Calendar.getInstance();
+			Date theDate = null;
+			try {
+				theDate = format.parse(date);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			calendar.setTime(theDate);
+			calendar.add(Calendar.DATE, 1);
+			date = format.format(calendar.getTime());
+		}
+		return date;
 	}
 
 	public static ArrayList<HashMap<String,String>> transformDateBeforeInsert(ArrayList<HashMap<String,String>> dataMap){

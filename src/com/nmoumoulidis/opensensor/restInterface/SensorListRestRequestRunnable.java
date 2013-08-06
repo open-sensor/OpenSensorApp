@@ -1,6 +1,7 @@
 package com.nmoumoulidis.opensensor.restInterface;
 
 import java.io.IOException;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
@@ -51,13 +52,16 @@ public class SensorListRestRequestRunnable implements Runnable
 			httpGet.setHeader("Accept", newRequest.getAccept());
 			response = httpClient.execute(httpGet, localContext);
 		} catch (ClientProtocolException e) {
-			mainActivity.setWifiSensorConnected(false);
+			mainActivity.setSensorListObtained(false);
 			return;
 		} catch (UnknownHostException e) {
-			mainActivity.setWifiSensorConnected(false);
+			mainActivity.setSensorListObtained(false);
+			return;
+		} catch (SocketException e) {
+			mainActivity.setSensorListObtained(false);
 			return;
 		} catch (IOException e) {
-			mainActivity.setWifiSensorConnected(false);
+			mainActivity.setSensorListObtained(false);
 			return;
 		}
 
@@ -94,7 +98,6 @@ public class SensorListRestRequestRunnable implements Runnable
 			if(success) {
 				mainActivity.getmSensorTracker().setConnectedSensorList(newSensorList);
 				mainActivity.setSensorListObtained(true);
-
 				System.out.println("SENSOR LIST response handled!");
 			}
 			// <<< Validation failed -> Retry
@@ -104,6 +107,7 @@ public class SensorListRestRequestRunnable implements Runnable
 				SensorStationSensorListRequest oldRequest = new SensorStationSensorListRequest((SensorStationSensorListRequest) newRequest);
 				SensorListRestRequestRunnable anotherReqRunnable = new SensorListRestRequestRunnable(mainActivity, oldRequest);
 			   	new Thread(anotherReqRunnable).start();
+			   	System.out.println("New SensorList Thread fired...");
 			}
 		}
 		// <<< HTTP request failed -> Retry
@@ -113,6 +117,7 @@ public class SensorListRestRequestRunnable implements Runnable
 			SensorStationSensorListRequest oldRequest = new SensorStationSensorListRequest((SensorStationSensorListRequest) newRequest);
 			SensorListRestRequestRunnable anotherReqRunnable = new SensorListRestRequestRunnable(mainActivity, oldRequest);
 		   	new Thread(anotherReqRunnable).start();
+		   	System.out.println("New SensorList Thread fired...");
 		}
 	}
 }

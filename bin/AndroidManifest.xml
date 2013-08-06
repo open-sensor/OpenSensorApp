@@ -7,10 +7,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -24,7 +21,9 @@
         <activity
             android:name="com.nmoumoulidis.opensensor.view.MainActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" 
+            android:configChanges="orientation|keyboardHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,6 +39,8 @@
             android:name="com.nmoumoulidis.opensensor.view.SensorStationActivity"
             android:label="@string/title_activity_connected_sensor"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait" 
+            android:configChanges="orientation|keyboardHidden"
             android:parentActivityName="com.nmoumoulidis.opensensor.view.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -49,6 +50,8 @@
             android:name="com.nmoumoulidis.opensensor.view.PhoneSensActivity"
             android:label="@string/title_activity_phone_sens"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait" 
+            android:configChanges="orientation|keyboardHidden"
             android:parentActivityName="com.nmoumoulidis.opensensor.view.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -58,6 +61,8 @@
             android:name="com.nmoumoulidis.opensensor.view.ServerActivity"
             android:label="@string/title_activity_server_view"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
             android:parentActivityName="com.nmoumoulidis.opensensor.view.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -67,10 +72,23 @@
             android:name="com.nmoumoulidis.opensensor.view.SearchDataOptionsActivity"
             android:label="@string/title_activity_batch_data_view"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait" 
+            android:configChanges="orientation|keyboardHidden"
             android:parentActivityName="com.nmoumoulidis.opensensor.view.SensorStationActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.nmoumoulidis.opensensor.view.ConnectedSensorActivity" />
+        </activity>
+        <activity
+            android:name="com.nmoumoulidis.opensensor.view.AdminActivity"
+            android:label="@string/title_activity_admin"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
+            android:parentActivityName="com.nmoumoulidis.opensensor.view.MainActivity"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.nmoumoulidis.opensensor.view.MainActivity" />
         </activity>
     </application>
 

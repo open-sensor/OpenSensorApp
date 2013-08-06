@@ -54,30 +54,25 @@ public class SensorStationUIController implements OnClickListener
 				mConSensActivity.addUsedCursor(usedCursor);
 			}
 		}
-
-		if(mConSensActivity.isSensorListObtained()) {
-			try {
-				for(int i=0 ; i<btnArray.length ; i++) {
-					if(v == btnArray[i]) 
-					{	
-						String sensorCommand = sensorTrack.findSensorByName((String) btnArray[i].getText());
-						SensorStationRealTimeDataRequest dataRequest = 
-								new SensorStationRealTimeDataRequest(sensorCommand, mConSensActivity);
-						new SensorStationRestRequestTask(mConSensActivity).execute(dataRequest);
-						
-						mConSensActivity.getmLabelText().setText(btnArray[i].getText() + ": ");
-					}
+		
+		try {
+			for(int i=0 ; i<btnArray.length ; i++) {
+				if(v == btnArray[i]) 
+				{	
+					String sensorCommand = sensorTrack.findSensorByName((String) btnArray[i].getText());
+					SensorStationRealTimeDataRequest dataRequest = 
+							new SensorStationRealTimeDataRequest(sensorCommand, mConSensActivity);
+					new SensorStationRestRequestTask(mConSensActivity).execute(dataRequest);
+					
+					mConSensActivity.getmLabelText().setText(btnArray[i].getText() + ": ");
 				}
 			}
-			catch (InvalidSensorException isE) {
-				isE.printStackTrace();
-			}
-			catch (NonAvailSensorException nasE) {
-				nasE.printStackTrace();
-			}
 		}
-		else { // Something went very wrong...
-			System.out.println("ERROR: sensor list initialization failed...");
+		catch (InvalidSensorException isE) {
+			isE.printStackTrace();
+		}
+		catch (NonAvailSensorException nasE) {
+			nasE.printStackTrace();
 		}
 	}
 }

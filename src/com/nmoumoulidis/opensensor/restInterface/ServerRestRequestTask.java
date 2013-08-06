@@ -1,6 +1,7 @@
 package com.nmoumoulidis.opensensor.restInterface;
 
 import java.io.IOException;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import org.apache.http.HttpResponse;
@@ -50,6 +51,11 @@ public class ServerRestRequestTask extends AsyncTask<ServerGetRestRequest, Integ
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (UnknownHostException e) {
+			responseHandler.setFailureReason(ServerRestResponseHandler.SERVER_NOT_REACHABLE);
+			publishProgress(90); //------ progress bar update ------
+	        publishProgress(100); //------ progress bar update ------
+			return false;
+		} catch (SocketException e) {
 			responseHandler.setFailureReason(ServerRestResponseHandler.SERVER_NOT_REACHABLE);
 			publishProgress(90); //------ progress bar update ------
 	        publishProgress(100); //------ progress bar update ------
