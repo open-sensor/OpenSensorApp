@@ -106,9 +106,7 @@ public class BatchDataRetrieveService extends IntentService
 				System.out.println("Error: Corrupt Batch Data...");
 				return;
 			}
-			
-			
-			databaseHelper.deleteAllBatchData();
+
 			databaseHelper.insertBatchData(newBatchData);
 
 			System.out.println("BATCH DATA response handled!");

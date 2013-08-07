@@ -66,8 +66,6 @@ public class ServerRestRequestTask extends AsyncTask<ServerGetRestRequest, Integ
 		publishProgress(70); //------ progress bar update ------
 		publishProgress(80); //------ progress bar update ------
 		boolean successOrNot = responseHandler.handleResponse(response);
-		publishProgress(90); //------ progress bar update ------
-        publishProgress(100); //------ progress bar update ------
 
 		return Boolean.valueOf(successOrNot);
 	}

@@ -1,15 +1,15 @@
 package com.nmoumoulidis.opensensor.view;
 
 import com.nmoumoulidis.opensensor.R;
+import com.nmoumoulidis.opensensor.controller.AdminLocationListener;
 import com.nmoumoulidis.opensensor.controller.AdminUIController;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -56,17 +56,31 @@ public class AdminActivity extends Activity {
 	private AdminUIController viewController;
 	private LocationManager locManager;
 	private AlertDialog alert;
-	private Location locaction;
+	private AdminLocationListener locListener;
+	private ProgressDialog mSearchingLocationDialog;
+	private boolean isLocationFound = false;
+	private boolean isLocationSet = false;
+	private String location;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
+		// Get location updates...
+		locListener = new AdminLocationListener(this);
+		locManager = (LocationManager) this.getSystemService(AdminActivity.LOCATION_SERVICE);
+		locManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0l, 0f, locListener);
+		
+		
+		// Set up loading animation...
+		mSearchingLocationDialog = new ProgressDialog(this);
+        mSearchingLocationDialog.setMessage("Acquiring your current location...");
+        mSearchingLocationDialog.setCancelable(false);
+		
 		setContentView(R.layout.activity_admin);
 		setupActionBar();
 
-		locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		
+
 		// Set up the login form.
 		loginForm = (ScrollView) findViewById(R.id.login_form);
 		mUsernameView = (EditText) findViewById(R.id.username);
@@ -93,28 +107,28 @@ public class AdminActivity extends Activity {
 		if(this.alert != null) {
 			this.alert.dismiss();
 		}
+		if(this.mSearchingLocationDialog != null) {
+			this.mSearchingLocationDialog.dismiss();
+		}
+		locManager.removeUpdates(locListener);
 	}
 	
-	public String getLocation() {
-		if(!locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+	public void findLocation() {
+		if(!locManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 			showAlertEnableGPS();
-			return null;
 		}
 		else {
-			locaction = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-			
-			if(locaction != null) {
-				System.out.println("Last Known Location: Latitude: "+locaction.getLatitude()
-									+"; Longitude: "+locaction.getLongitude());
-				return "LatitudeAndLongitudeOfSensor";
+			if(isLocationSet == false) {
+				if(isLocationFound == false) {
+					if(!mSearchingLocationDialog.isShowing()) {
+						mSearchingLocationDialog.show();
+					}
+				}
 			}
 			else {
-				System.out.println("Location is null...");
-				return null;
+				this.mSetLocationFeedback.setText("The location has already been set.");
 			}
-		}
-		
-		
+		}	
 	}
 	
 	private void showAlertEnableGPS() {
@@ -122,13 +136,12 @@ public class AdminActivity extends Activity {
 		    builder.setMessage("Your GPS seems to be disabled, do you want to enable it?");
 		    builder.setCancelable(false);
 		    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-		               public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, 
-		            		   				@SuppressWarnings("unused") final int id) {
+		               public void onClick(final DialogInterface dialog, final int id) {
 		                   startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
 		               }
 		           });
 		    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-		               public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+		               public void onClick(final DialogInterface dialog, final int id) {
 		                    dialog.cancel();
 		                    finish();
 		               }
@@ -223,6 +236,38 @@ public class AdminActivity extends Activity {
 			mAuthTask = new UserLoginTask();
 			mAuthTask.execute((Void) null);
 		}
+	}
+
+	public boolean isLocationSet() {
+		return isLocationSet;
+	}
+
+	public void setLocationSet(boolean isLocationSet) {
+		this.isLocationSet = isLocationSet;
+	}
+	
+	public ProgressDialog getmSearchingLocationDialog() {
+		return mSearchingLocationDialog;
+	}
+
+	public LocationManager getLocManager() {
+		return locManager;
+	}
+	
+	public void setLocation(String loc) {
+		this.location = loc;
+	}
+	
+	public String getLocation() {
+		return location;
+	}
+	
+	public boolean isLocationFound() {
+		return isLocationFound;
+	}
+
+	public void setLocationFound(boolean isLocationFound) {
+		this.isLocationFound = isLocationFound;
 	}
 	
 	public EditText getmUsernameView() {

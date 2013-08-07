@@ -21,6 +21,7 @@ import com.nmoumoulidis.opensensor.controller.GeneralDatePickerListenerTo;
 import com.nmoumoulidis.opensensor.controller.GeneralSpinnerListener;
 import com.nmoumoulidis.opensensor.controller.ServerUIController;
 import com.nmoumoulidis.opensensor.model.processing.ServerSearchQueryBuilder;
+import com.nmoumoulidis.opensensor.model.processing.SimpleGeocoder;
 
 public class ServerActivity extends FragmentActivity 
 {
@@ -47,6 +48,7 @@ public class ServerActivity extends FragmentActivity
 	private ServerSearchQueryBuilder queryBuilder;
 	private ProgressBar progressBar;
 	private ServerDataListViewAdapter listViewAdapter;
+	private SimpleGeocoder geocoder;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -86,6 +88,7 @@ public class ServerActivity extends FragmentActivity
 		
 		queryBuilder = new ServerSearchQueryBuilder(this);
 		listViewAdapter = new ServerDataListViewAdapter(this);
+		geocoder = new SimpleGeocoder(this);
 		
 		// Show the Up button in the action bar.
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -141,6 +144,10 @@ public class ServerActivity extends FragmentActivity
 		}
 	}
 
+	public SimpleGeocoder getGeocoder() {
+		return geocoder;
+	}
+	
 	public Spinner getDataSpinner() {
 		return dataSpinner;
 	}

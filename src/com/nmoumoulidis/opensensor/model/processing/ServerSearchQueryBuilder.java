@@ -1,7 +1,5 @@
 package com.nmoumoulidis.opensensor.model.processing;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import com.nmoumoulidis.opensensor.model.SensorDictionary;
@@ -18,7 +16,6 @@ public class ServerSearchQueryBuilder
 	
 	public ServerSearchQueryBuilder(ServerActivity serverActivity) {
 		this.serverActivity = serverActivity;
-		
 		this.sensorsArray = new ArrayList<String>();
 		for(int i=0 ; i<SensorDictionary.validSensors.length ; i++) {
 			sensorsArray.add(SensorDictionary.validSensors[i]);
@@ -58,13 +55,7 @@ public class ServerSearchQueryBuilder
 	}
 	
 	public String getLocation() {
-		String location = serverActivity.getLocationEditText().getText().toString();
-		try {
-			location = URLEncoder.encode(location, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		return location;
+		return serverActivity.getLocationEditText().getText().toString();
 	}
 	
 	public void clearSearchFilters() {
@@ -80,9 +71,9 @@ public class ServerSearchQueryBuilder
 		if(sensorToSearch != null){
 			query += "&sensor_name="+this.sensorToSearch;
 		}
-		if(!getLocation().equals("") && getLocation() != null) {
+/*		if(!getLocation().equals("") && getLocation() != null) {
 			query += "&location="+this.getLocation();
-		}
+		} */
 		if(DateFrom != null) {
 			query += "&datefrom="+this.DateFrom;
 		}

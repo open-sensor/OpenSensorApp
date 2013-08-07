@@ -41,7 +41,7 @@
 	        android:gravity="right|center_vertical"
 	        android:inputType="textNoSuggestions"
 	        android:hint="@string/server_edittext_hint"
-	        android:textSize="15sp" />
+	        android:textSize="13sp" />
 	</LinearLayout>
     
 	<LinearLayout 

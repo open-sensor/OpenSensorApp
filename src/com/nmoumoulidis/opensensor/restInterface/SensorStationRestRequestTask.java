@@ -49,6 +49,17 @@ public class SensorStationRestRequestTask extends AsyncTask<SensorStationRestReq
 	}
 
 	@Override
+    protected void onPreExecute() {
+		if(mAdminActivity != null) {
+			mAdminActivity.getmSearchingLocationDialog().setMessage("Setting Location to the OpenSensor Station...");
+			mAdminActivity.getmSearchingLocationDialog().show();
+		}
+		else if(mConSensActivity != null) {
+			mConSensActivity.getRequestLoadingDialog().show();
+		}
+    }
+	
+	@Override
 	protected Boolean doInBackground(SensorStationRestRequest... request) {
 		SensorStationRestRequest newRequest = request[0];
 		responseHandler = new SensorStationRestResponseHandler();
@@ -62,19 +73,22 @@ public class SensorStationRestRequestTask extends AsyncTask<SensorStationRestReq
 				httpPut = new HttpPut(newRequest.getBaseUrl() + newRequest.getRelativeUrl());
 				httpPut.setHeader("Accept", newRequest.getAccept());
 				
+				
 				// add the data entity
 				StringEntity sEntity = new StringEntity(((SensorStationSetLocationRequest) newRequest).getData());
 				httpPut.setEntity(sEntity);
-
+				httpClient.getParams().setBooleanParameter("http.protocol.expect-continue", false);
 				response = httpClient.execute(httpPut, localContext);
 			}
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (UnknownHostException e) {
 			responseHandler.setFailureReason(SensorStationRestResponseHandler.SENSOR_STATION_NOT_REACHABLE);
+			System.out.println("UnknownHostException caught");
 			return false;
 		} catch (SocketException e) {
 			responseHandler.setFailureReason(SensorStationRestResponseHandler.SENSOR_STATION_NOT_REACHABLE);
+			System.out.println("SocketException caught");
 			return false;
 		} catch (IOException e) {
 			e.printStackTrace();

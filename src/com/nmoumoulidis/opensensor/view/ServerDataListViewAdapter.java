@@ -6,7 +6,6 @@ import java.util.HashMap;
 import android.widget.SimpleAdapter;
 
 import com.nmoumoulidis.opensensor.R;
-import com.nmoumoulidis.opensensor.model.DatabaseHelper;
 
 public class ServerDataListViewAdapter 
 {

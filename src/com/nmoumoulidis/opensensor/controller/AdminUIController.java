@@ -26,16 +26,14 @@ public class AdminUIController implements OnClickListener, OnEditorActionListene
 			mAdminActivity.attemptLogin();
 		}
 		else if(v == mAdminActivity.getmSetLocationButton()) {
-			String location = mAdminActivity.getLocation();
-			if(location != null) {
+			mAdminActivity.findLocation();
+			if(mAdminActivity.isLocationFound() == true
+					&& mAdminActivity.isLocationSet() == false) {				
+				// Fire up the REST request
 				SensorStationSetLocationRequest request = new 
-						SensorStationSetLocationRequest(location);
+						SensorStationSetLocationRequest(mAdminActivity.getLocation());
 				new SensorStationRestRequestTask(mAdminActivity).execute(request);
 			}
-			else {
-				System.out.println("location is null...");
-			}
-			
 		}
 		else if(v == mAdminActivity.getmSignOutButton()) {
 			mAdminActivity.hideLoginScreen(false);

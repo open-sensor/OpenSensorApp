@@ -69,7 +69,19 @@ public class ServerRestResponseHandler
 	}
 	
     protected void postHandling(ServerActivity serverActivity, Boolean success) {
-		if(success) { 
+		if(success) {
+			
+			// Filter data based on nearby locations given by user...
+			data = serverActivity.getGeocoder().filterDataByNearbyLocationsGivenByUser(data, serverActivity.getQueryBuilder().getLocation());
+			if(data == null || data.size() == 0){
+				serverActivity.getServerErrorInfo().setVisibility(View.VISIBLE);
+				serverActivity.getServerErrorInfo().setText("No sensor data exist near the location you provided.");
+				return;
+			}
+			
+			// Replace location data coordinates with human-readable addresses...
+			data = serverActivity.getGeocoder().replaceCoordsWithAddress(data);
+			
 			serverActivity.showSearchOptionsAgain(false);
 			serverActivity.getShowSearchOptionsButton().setVisibility(View.VISIBLE);
 			serverActivity.getListViewAdapter().populateListView(data);

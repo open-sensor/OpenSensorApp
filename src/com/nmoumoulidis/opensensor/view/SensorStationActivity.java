@@ -3,6 +3,7 @@ package com.nmoumoulidis.opensensor.view;
 import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Build;
@@ -52,6 +53,7 @@ public class SensorStationActivity extends FragmentActivity
 	private ListView historyDataListView;
 	private SensorStationDataListViewAdapter listAdapter;
 	private ArrayList<Cursor> cursorsUsed;
+	private ProgressDialog requestLoadingDialog;
 
 	private GeneralSpinnerListener spinnerListener;
 	private GeneralSpinnerAdapter spinnerAdapter;
@@ -94,7 +96,7 @@ public class SensorStationActivity extends FragmentActivity
 		mResultText = (TextView) findViewById(R.id.result_text);
 		
 		if(sensorListObtained == false) {
-			mInfoText.setText("There is no WiFi-connected sensor station at the moment! " +
+			mInfoText.setText("There is no WiFi-connected OpenSensor Station at the moment! " +
 					"Make sure you are connected and restart the application.");
 			mLabelText.setVisibility(View.GONE);
 			mResultText.setVisibility(View.GONE);
@@ -152,6 +154,10 @@ public class SensorStationActivity extends FragmentActivity
 	}
 
 	private void dynamicButtonCreation() {	
+		requestLoadingDialog = new ProgressDialog(this);
+		requestLoadingDialog.setMessage("Requesting data from OpenSensor Station...");
+		requestLoadingDialog.setCancelable(false);
+        
 		buttonArray = new Button[buttonNames.size()];
 		for(int i=0 ; i<buttonNames.size(); i++) {
 			buttonArray[i] = new Button(this);
@@ -233,7 +239,14 @@ public class SensorStationActivity extends FragmentActivity
 			cursorsUsed.get(i).close();
 		}
 		dbHelper.close();
+		if(requestLoadingDialog.isShowing()) {
+			requestLoadingDialog.dismiss();
+		}
 		super.onDestroy();
+	}
+
+	public ProgressDialog getRequestLoadingDialog() {
+		return requestLoadingDialog;
 	}
 
 	public Button getmGoToHistoryBtn() {

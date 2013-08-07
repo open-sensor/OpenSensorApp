@@ -48,15 +48,16 @@ public class SensorStationRestResponseHandler
 				DataValidator dataReadingValidator = new DataValidator(body);
 				try {
 					dataReadingValidator.validateRealTimeData();
+					return true;
 				} catch (NumberFormatException e) {
 					System.out.println(e.getMessage());
-					// Return since we don't want the invalid data reading to be used.
+					// Return false since we don't want the invalid data reading to be used.
 					return false;
 				}
 			}
 			//>>> If it was a set-loacation PUT request.
 			else if(this.sensorStationRestRequest.getClass() == SensorStationSetLocationRequest.class) {
-				//...
+				return true;
 			}
 			else {
 				//>>> All the rest requests (e.g. GET location, GET datetime).
@@ -64,6 +65,7 @@ public class SensorStationRestResponseHandler
 					return true;
 				}
 				else {
+					System.out.println("We do not support other HTTP request methods...");
 					//>>> We do not support other HTTP request methods.
 					//>>> SensorStationRestRequest was used incorrectly (this should never happen).
 					return false;
@@ -71,10 +73,9 @@ public class SensorStationRestResponseHandler
 			}
 		}
 		else {
-			// HTTP request failed, try again.
+			System.out.println("HTTP Request failed with code: "+statusCode+", reason: "+restResponse.getStatusLine().getReasonPhrase());
 			return false;
 		}
-		return true;
 	}
 
     protected void postHandling(Activity activity, Boolean success) {
@@ -102,7 +103,7 @@ public class SensorStationRestResponseHandler
     				sensorStationActivity.getmResultText().scrollTo(0, 0);
     				sensorStationActivity.getmLabelText().setText("Network Error:");
     				sensorStationActivity.getmResultText().setText("Make sure you are connected to" +
-    						" the Wi-Fi sensor-station and try again.");
+    						" the OpenSensor Station and try again.");
     				return;
     			}
     			else {
@@ -116,10 +117,23 @@ public class SensorStationRestResponseHandler
     				}
     			}
     		}
+    		if(sensorStationActivity.getRequestLoadingDialog().isShowing()) {
+    			sensorStationActivity.getRequestLoadingDialog().dismiss();
+    		}
     	}
     	else if(activity.getClass() == AdminActivity.class){
     		AdminActivity adminActivity = (AdminActivity) activity;
-    		// Do stuf...
+    		if(success) {
+    			adminActivity.getmSetLocationFeedback().setText("Location was set to the OpenSensor Station successfully!");
+    			adminActivity.setLocationSet(true);
+    		} 
+    		else {
+    			adminActivity.getmSetLocationFeedback().setText("Error: Could not set location to the OpenSensor Station...");
+    		}
+    		
+    		if(adminActivity.getmSearchingLocationDialog().isShowing()) {
+    			adminActivity.getmSearchingLocationDialog().dismiss();
+    		}
     	}
 
     }
