@@ -15,6 +15,15 @@ import com.nmoumoulidis.opensensor.restInterface.requests.SensorStationSetLocati
 import com.nmoumoulidis.opensensor.view.AdminActivity;
 import com.nmoumoulidis.opensensor.view.SensorStationActivity;
 
+/**
+ * Handles the responses from REST requests that {@link SensorStationRestRequestTask} 
+ * makes. Depending on the type or request that was made, handling includes providing 
+ * user feedback (for failure or success), validating data by using the appropriate 
+ * utility class(es), and in the case of invalid real-time data, recursively and
+ * persistently repeats the requestTask.
+ * @author Nikos Moumoulidis
+ *
+ */
 public class SensorStationRestResponseHandler
 {
 	private HttpEntity entity;

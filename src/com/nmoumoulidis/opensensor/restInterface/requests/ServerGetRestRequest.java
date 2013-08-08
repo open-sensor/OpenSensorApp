@@ -1,5 +1,11 @@
 package com.nmoumoulidis.opensensor.restInterface.requests;
 
+/**
+ * Struct-styled class specifically storing REST request attributes for 
+ * GET requests towards the OpenSensor Server interface.
+ * @author Nikos Moumoulidis
+ *
+ */
 public class ServerGetRestRequest 
 {
 	private final static String hostname = "dyn-205-245.cs.st-andrews.ac.uk";

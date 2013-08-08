@@ -23,6 +23,15 @@ import com.nmoumoulidis.opensensor.controller.ServerUIController;
 import com.nmoumoulidis.opensensor.model.processing.ServerSearchQueryBuilder;
 import com.nmoumoulidis.opensensor.model.processing.SimpleGeocoder;
 
+/**
+ * UI class for the server-based data browsing feature (OpenSensor Server).
+ * Extends the Android support compatibility library's {@link FragmentActivity} instead of
+ * {@link Activity} in order to utilize the date-picker Fragment feature. It also includes
+ * objects for managing query-building ({@link ServerSearchQueryBuilder}) 
+ * and geocoding ({@link SimpleGeocoder}).
+ * @author Nikos Moumoulidis
+ *
+ */
 public class ServerActivity extends FragmentActivity 
 {
 	private TextView mainInfoTextView;
@@ -113,6 +122,11 @@ public class ServerActivity extends FragmentActivity
 		return super.onOptionsItemSelected(item);
 	}
 	
+	/**
+	 * Switches between UIs for showing search filter options and 
+	 * search results by manipulating the visibility of appropriate UI elements.
+	 * @param show
+	 */
 	public void showSearchOptionsAgain(boolean show) {
 		if(show) {
 			locationEditText.setVisibility(View.VISIBLE);

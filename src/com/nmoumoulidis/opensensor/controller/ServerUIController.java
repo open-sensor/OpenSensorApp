@@ -7,6 +7,11 @@ import com.nmoumoulidis.opensensor.view.ServerActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+/**
+ * Button listener for the Server activity {@link ServerActivity}.
+ * @author Nikos Moumoulidis
+ *
+ */
 public class ServerUIController implements OnClickListener 
 {
 	private ServerActivity mServerActivity;

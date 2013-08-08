@@ -11,6 +11,12 @@ import com.nmoumoulidis.opensensor.view.MainActivity;
 import com.nmoumoulidis.opensensor.view.ServerActivity;
 import com.nmoumoulidis.opensensor.view.PhoneSensActivity;
 
+/**
+ * Button listener for the main activity {@link MainActivity}.
+ * Fires up new Activity based on the button clicked.
+ * @author Nikos Moumoulidis
+ *
+ */
 public class MainUIController implements OnClickListener {
 
 	private MainActivity mMainActivity;

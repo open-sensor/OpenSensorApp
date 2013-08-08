@@ -7,6 +7,12 @@ import com.nmoumoulidis.opensensor.model.SensorDictionary;
 import android.app.Activity;
 import android.widget.ArrayAdapter;
 
+/**
+ * UI utility class for populating the spinners (drop-down menus) that live
+ * in the {@link SensorStationActivity} and {@link ServerActivity}.
+ * @author Nikos Moumoulidis
+ *
+ */
 public class GeneralSpinnerAdapter 
 {
 	private SensorStationActivity conSensActivity = null;
@@ -25,6 +31,11 @@ public class GeneralSpinnerAdapter
 		}
 	}
 	
+	/**
+	 * The drop-down menu for {@link SensorStationActivity} is populated based on 
+	 * the available sensor types on the just-retrieved data from the Wi-Fi connected
+	 * OpenSensor Station, that are stored in the on-phone SQLite database.
+	 */
 	public void populateSpinner() {
 		if(conSensActivity != null) {
 			allStoredSensorsArray = conSensActivity.getDbHelper().getAllStoredSensorTypes();

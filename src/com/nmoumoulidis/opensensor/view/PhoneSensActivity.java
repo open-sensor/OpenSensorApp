@@ -10,6 +10,11 @@ import android.view.MenuItem;
 
 import com.nmoumoulidis.opensensor.R;
 
+/**
+ * UI skeleton class of the non-implemented phone-sensor feature. 
+ * @author Nikos Moumoulidis
+ *
+ */
 public class PhoneSensActivity extends Activity {
 
 	@SuppressLint("NewApi")

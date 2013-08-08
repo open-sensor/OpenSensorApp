@@ -6,6 +6,12 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 
+/**
+ * Location-provider listener class. Listens for location changes using
+ * the Android OS Location provider for Wi-Fi network triangulation location tracking.
+ * @author Nikos Moumoulidis
+ *
+ */
 public class AdminLocationListener implements LocationListener 
 {
 	private AdminActivity mAdminActivity;

@@ -5,6 +5,12 @@ import com.nmoumoulidis.opensensor.model.NonAvailSensorException;
 import com.nmoumoulidis.opensensor.model.SensorTracker;
 import com.nmoumoulidis.opensensor.view.SensorStationActivity;
 
+/**
+ * Struct-styled class specifically storing REST request attributes for 
+ * real-time data requests towards the OpenSensor Station.
+ * @author Nikos Moumoulidis
+ *
+ */
 public class SensorStationRealTimeDataRequest extends SensorStationRestRequest 
 {
 	private static final String METHOD = "GET";

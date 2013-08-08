@@ -10,6 +10,12 @@ import org.json.JSONObject;
 
 import com.nmoumoulidis.opensensor.model.SensorDictionary;
 
+/**
+ * Utility class. Provides transformations between JSON strings and Java data structures,
+ * as well as performs JSON/data validation by removing the invalid values...
+ * @author Nikos Moumoulidis
+ *
+ */
 public class JSONParser 
 {
 	private String stringJSON = null;

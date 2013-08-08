@@ -18,6 +18,14 @@ import com.nmoumoulidis.opensensor.view.ServerActivity;
 import android.os.AsyncTask;
 import android.view.View;
 
+/**
+ * An Android AsyncTask for all the REST GET requests that are performed towards 
+ * the OpenSensor Server, while providing visual feedback to the user. 
+ * All AsyncTasks are queued by the OS. The response is passed down to a 
+ * {@link ServerRestResponseHandler} object to handle.
+ * @author Nikos Moumoulidis
+ *
+ */
 public class ServerRestRequestTask extends AsyncTask<ServerGetRestRequest, Integer, Boolean>
 {
 	private ServerActivity serverActivity;
@@ -75,7 +83,7 @@ public class ServerRestRequestTask extends AsyncTask<ServerGetRestRequest, Integ
 
 		return Boolean.valueOf(successOrNot);
 	}
-	
+
 	@Override
     protected void onPreExecute() {
       super.onPreExecute();

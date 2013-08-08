@@ -13,6 +13,12 @@ import com.nmoumoulidis.opensensor.restInterface.SensorStationRestRequestTask;
 import com.nmoumoulidis.opensensor.restInterface.requests.SensorStationRealTimeDataRequest;
 import com.nmoumoulidis.opensensor.view.SensorStationActivity;
 
+/**
+ * Button listener for the 
+ * SensorStation activity {@link SensorStationActivity}.
+ * @author Nikos Moumoulidis
+ * 
+ */
 public class SensorStationUIController implements OnClickListener 
 {
 	private SensorStationActivity mConSensActivity;

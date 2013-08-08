@@ -1,5 +1,10 @@
 package com.nmoumoulidis.opensensor.model;
 
+/**
+ * 
+ * @author Nikos Moumoulidis
+ *
+ */
 public class NonAvailSensorException extends Exception 
 {
 	private static final long serialVersionUID = 1L;

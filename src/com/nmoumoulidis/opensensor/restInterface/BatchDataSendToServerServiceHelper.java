@@ -20,6 +20,14 @@ import android.text.Html;
 
 import com.nmoumoulidis.opensensor.restInterface.requests.ServerPostRestRequest;
 
+/**
+ * The second key class that utilizes the phone as an data aggregator between
+ * the OpenSensor Station and Server. It is instantiated and used by the 
+ * {@link BatchDataRetrieveService} to send the data that was retrieved from the
+ * OpenSensor Station and now are available on the phone, to the remote OpenSensor Server.
+ * @author Nikos Moumoulidis
+ *
+ */
 public class BatchDataSendToServerServiceHelper
 {
 	private ServerPostRestRequest postDataRequest;
@@ -39,6 +47,10 @@ public class BatchDataSendToServerServiceHelper
 		this.localContext = new BasicHttpContext();
 	}
 
+	/**
+	 * HTTP REST POST request.
+	 * @return
+	 */
 	public boolean performRequest() {
 		httpPost = new HttpPost(postDataRequest.getBaseUrl());
 		httpPost.setHeader("Accept", postDataRequest.getAccept());

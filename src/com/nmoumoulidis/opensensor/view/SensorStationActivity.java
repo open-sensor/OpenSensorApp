@@ -31,6 +31,16 @@ import com.nmoumoulidis.opensensor.model.DatabaseHelper;
 import com.nmoumoulidis.opensensor.model.SensorTracker;
 import com.nmoumoulidis.opensensor.model.processing.SensorStationSearchQueryBuilder;
 
+/**
+ * UI class for the Wi-Fi connecter OpenSensor Station features: real-time data
+ * requests and browse recently received batch data from it. Also contains objects 
+ * for database management ({@link DatabaseHelper}) and query building 
+ * ({@link SensorStationSearchQueryBuilder}).
+ * Extends the Android support compatibility library's {@link FragmentActivity} instead of
+ * {@link Activity} in order to utilize the date-picker Fragment feature. 
+ * @author Nikos Moumoulidis
+ *
+ */
 public class SensorStationActivity extends FragmentActivity
 {
 	// Real-time UI elements...
@@ -153,6 +163,10 @@ public class SensorStationActivity extends FragmentActivity
 		}
 	}
 
+	/**
+	 * Based on the retrieved list of available sensors, dynamically creates
+	 * a button array.
+	 */
 	private void dynamicButtonCreation() {	
 		requestLoadingDialog = new ProgressDialog(this);
 		requestLoadingDialog.setMessage("Requesting data from OpenSensor Station...");
@@ -171,6 +185,10 @@ public class SensorStationActivity extends FragmentActivity
 		}
 	}
 	
+	/**
+	 * Switches UI by turning visibility on/off to the appropriate UI elements.
+	 * @param visibility
+	 */
 	public void setRealTimeUIVisible(boolean visibility) {
 		if(visibility == false) {
 			mInfoText.setVisibility(View.GONE);
@@ -233,6 +251,10 @@ public class SensorStationActivity extends FragmentActivity
 		return super.onOptionsItemSelected(item);
 	}
 	
+	/**
+	 * Prevents dialog memory leaks and 
+	 * cursor closing management.
+	 */
 	@Override
 	protected void onDestroy() {
 		for(int i=0 ; i<this.cursorsUsed.size() ; i++) {

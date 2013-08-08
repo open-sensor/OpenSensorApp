@@ -25,6 +25,22 @@ import com.nmoumoulidis.opensensor.restInterface.requests.ServerPostRestRequest;
 import android.app.IntentService;
 import android.content.Intent;
 
+/** 
+ * A key class of the system.
+ * Service that is fired up upon the app's launch and runs in the background. It does 
+ * not stop upon the app being closed by the user or destroyed by the OS.
+ * Everything running within this type of Android Service, runs on its own thread.
+ * It only stops when the data have reached their final destination successfully
+ * (the remote OpenSensor Server). Connects to the OpenSensor Station,
+ * performs a REST request that retrieves batch data in JSON format. Upon handling the 
+ * response, the data is validated, stored locally on the app's SQLite DB, and then sent
+ * to the remote server using another REST request with the help 
+ * of {@link BatchDataSendToServerServiceHelper}. The final POST REST reuqest is performed
+ * persistently. That is, a loop is used that will only stop when the remote server is
+ * reachable and the data have been sent successfully. 
+ * @author Nikos Moumoulidis
+ *
+ */
 public class BatchDataRetrieveService extends IntentService
 {
 	public static final String ACTION_BATH_REQ_FINISHED 
@@ -62,6 +78,9 @@ public class BatchDataRetrieveService extends IntentService
 		handleResponse();
 	}
 
+	/**
+	 * HTTP GET REST request.
+	 */
 	private void performRequest() {
 		try {
 			httpGet = new HttpGet(batchDataRequest.getBaseUrl() 
@@ -83,6 +102,9 @@ public class BatchDataRetrieveService extends IntentService
 		}
 	}
 
+	/**
+	 * HTTP response handling.
+	 */
 	private void handleResponse() {
 		this.statusCode = response.getStatusLine().getStatusCode();
 		this.entity = response.getEntity();

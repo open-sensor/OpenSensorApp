@@ -5,6 +5,12 @@ import java.util.ArrayList;
 import com.nmoumoulidis.opensensor.model.SensorDictionary;
 import com.nmoumoulidis.opensensor.view.ServerActivity;
 
+/**
+ * Struct-styled class for storing query parameters and providing full
+ * query for REST requests to the OpenSensor Server.
+ * @author Nikos Moumoulidis
+ *
+ */
 public class ServerSearchQueryBuilder 
 {
 	private ServerActivity serverActivity;
@@ -71,9 +77,6 @@ public class ServerSearchQueryBuilder
 		if(sensorToSearch != null){
 			query += "&sensor_name="+this.sensorToSearch;
 		}
-/*		if(!getLocation().equals("") && getLocation() != null) {
-			query += "&location="+this.getLocation();
-		} */
 		if(DateFrom != null) {
 			query += "&datefrom="+this.DateFrom;
 		}

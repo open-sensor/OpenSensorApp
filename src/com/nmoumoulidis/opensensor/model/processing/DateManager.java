@@ -7,9 +7,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
+/**
+ * Utility class providing date format and type transformations. 
+ * @author Nikos Moumoulidis
+ *
+ */
 public final class DateManager
 {
-	// Private constructor to prevent instantiation.
+	/**
+	 * Private constructor to prevent instantiation.
+	 */
 	private DateManager() {
 
 	}
@@ -57,6 +64,14 @@ public final class DateManager
 		return aMonthBefore;
 	}
 	
+	/**
+	 * Fixes date format details (e.g. adding 0 in front of single-digit days/months).
+	 * @param year
+	 * @param month
+	 * @param day
+	 * @param fromOrTo
+	 * @return
+	 */
 	public static String fixDatePickerFormat(int year, int month, int day, String fromOrTo) {
 		int monthPlusOne  = month + 1;
 		String strMonth=""+monthPlusOne;
@@ -87,6 +102,12 @@ public final class DateManager
 		return date;
 	}
 
+	/**
+	 * Transforms date format from "dd-MM-yyyy" to "yyyy-MM-dd"
+	 * Since SQLite only supports date comparisons with the later format...
+	 * @param dataMap
+	 * @return
+	 */
 	public static ArrayList<HashMap<String,String>> transformDateBeforeInsert(ArrayList<HashMap<String,String>> dataMap){
 		SimpleDateFormat normalFormat = new SimpleDateFormat("dd-MM-yyyy");
 		SimpleDateFormat stupidAmericanFormat = new SimpleDateFormat("yyyy-MM-dd");

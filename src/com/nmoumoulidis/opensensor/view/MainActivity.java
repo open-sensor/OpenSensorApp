@@ -13,6 +13,13 @@ import com.nmoumoulidis.opensensor.restInterface.BatchDataRetrieveService;
 import com.nmoumoulidis.opensensor.restInterface.SensorListRestRequestRunnable;
 import com.nmoumoulidis.opensensor.restInterface.requests.SensorStationSensorListRequest;
 
+/**
+ * The main UI class, launched when the user launches the app. Aside from setting up
+ * the UI, it is responsible for initialization REST requests (sensor list, batch-data)
+ * upon startup, and managing the information state of the available data.
+ * @author Nikos Moumoulidis
+ *
+ */
 public class MainActivity extends FragmentActivity {
 
 	private Button mGoToConSensActivityBtn;

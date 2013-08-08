@@ -21,6 +21,16 @@ import com.nmoumoulidis.opensensor.restInterface.requests.SensorStationRestReque
 import com.nmoumoulidis.opensensor.restInterface.requests.SensorStationSensorListRequest;
 import com.nmoumoulidis.opensensor.view.MainActivity;
 
+/**
+ * Extends {@link Runnable} in order to run in its own Java Thread for
+ * speed, retrieving the list of available sensors on the connected OpenSensor Station.
+ * Many components rely on the data that it will retrieve, including dynamically created UI.
+ * The sensor list that is retrieved, is parsed and validated against the {@link SensorDictionary}
+ * and if found invalid, the request is repeated recursively and persistently until a valid
+ * list of available sensors has been acquired.
+ * @author Nikos Moumoulidis
+ *
+ */
 public class SensorListRestRequestRunnable implements Runnable 
 {
 	private MainActivity mainActivity;

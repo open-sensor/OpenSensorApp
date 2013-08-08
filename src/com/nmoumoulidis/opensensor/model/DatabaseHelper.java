@@ -13,6 +13,12 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+ * SQLite database management class (extends {@link SQLiteOpenHelper}), used for storing
+ * persistently data on the phone, that were retrieved from a Wi-Fi connected OpenSensor Station.
+ * @author Nikos Moumoulidis
+ *
+ */
 public class DatabaseHelper extends SQLiteOpenHelper 
 {	
     private static final int DATABASE_VERSION = 1;
@@ -85,6 +91,10 @@ public class DatabaseHelper extends SQLiteOpenHelper
     	return sensorTypesList;
     }
 
+    /** 
+     * Main INSERT query.
+     * @param data
+     */
     public void insertBatchData(ArrayList<HashMap<String,String>> data) {
     	data = DateManager.transformDateBeforeInsert(data);
     	privateDB = this.getWritableDatabase();
@@ -113,6 +123,13 @@ public class DatabaseHelper extends SQLiteOpenHelper
     	privateDB.close(); // explicitly close it...
     }
 
+    /**
+     * Main SELECT query.
+     * @param sensor
+     * @param fromDate
+     * @param toDate
+     * @return
+     */
     public Cursor getDetailedQueryCursor(String sensor, String fromDate, String toDate) {
     	privateDB = this.getReadableDatabase();
     	Cursor cursor = privateDB.rawQuery("SELECT "+

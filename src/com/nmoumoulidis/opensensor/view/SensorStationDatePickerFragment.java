@@ -7,6 +7,12 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
+/**
+ * Date-picker UI element for the OpenSensor Station search query features.
+ * Extends the Android support compatibility library's {@link DialogFragment} class.
+ * @author Nikos Moumoulidis
+ *
+ */
 public class SensorStationDatePickerFragment extends DialogFragment 
 {
 	private String FromOrTo;

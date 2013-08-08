@@ -4,6 +4,12 @@ import java.util.ArrayList;
 
 import com.nmoumoulidis.opensensor.view.SensorStationActivity;
 
+/**
+ * Struct-styled class for storing query parameters and providing full
+ * query for REST requests to the OpenSensor Station.
+ * @author Nikos Moumoulidis
+ *
+ */
 public class SensorStationSearchQueryBuilder 
 {
 	private SensorStationActivity conSensActivity;

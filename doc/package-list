@@ -1,0 +1,7 @@
+com.nmoumoulidis.opensensor
+com.nmoumoulidis.opensensor.controller
+com.nmoumoulidis.opensensor.model
+com.nmoumoulidis.opensensor.model.processing
+com.nmoumoulidis.opensensor.restInterface
+com.nmoumoulidis.opensensor.restInterface.requests
+com.nmoumoulidis.opensensor.view

@@ -1,6 +1,11 @@
 package com.nmoumoulidis.opensensor.restInterface.requests;
 
-
+/**
+ * Struct-styled class specifically storing REST request attributes for 
+ * sensor-list requests towards the OpenSensor Station.
+ * @author Nikos Moumoulidis
+ *
+ */
 public class SensorStationSensorListRequest extends SensorStationRestRequest 
 {
 	private static final String METHOD = "GET";

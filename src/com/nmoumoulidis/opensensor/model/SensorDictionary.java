@@ -2,6 +2,14 @@ package com.nmoumoulidis.opensensor.model;
 
 import java.util.HashMap;
 
+/**
+ * Stores sensor codes and names of the OpenSensor system.
+ * Can be extended in the future for support of more sensors.
+ * Used as validation point for sensor codes/names retrieved from 
+ * other parts of the system such as the OpenSensor Server and Station.
+ * @author Nikos Moumoulidis
+ *
+ */
 public final class SensorDictionary 
 {
 	public static final String TEMPERATURE = "temp";

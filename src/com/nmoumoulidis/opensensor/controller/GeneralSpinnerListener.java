@@ -7,6 +7,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 
+/**
+ * Drop-down selection listener class.
+ * @author Nikos Moumoulidis
+ *
+ */
 public class GeneralSpinnerListener implements OnItemSelectedListener 
 {
 	@Override

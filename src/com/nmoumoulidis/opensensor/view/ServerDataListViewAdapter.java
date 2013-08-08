@@ -3,10 +3,17 @@ package com.nmoumoulidis.opensensor.view;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.widget.SimpleAdapter;
 
 import com.nmoumoulidis.opensensor.R;
 
+/**
+ * UI utility class, used to populate data results in a structured way using
+ * the powerful {@link SimpleCursorAdapter} Android class.
+ * @author Nikos Moumoulidis
+ *
+ */
 public class ServerDataListViewAdapter 
 {
 	private ServerActivity serverActivity;

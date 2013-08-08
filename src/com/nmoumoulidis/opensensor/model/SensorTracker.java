@@ -5,6 +5,12 @@ import java.util.ArrayList;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * Stores/Tracks the list of currently available sensors on the Wi-Fi connected
+ * OpenSensor Station, and provides utility functions for them.
+ * @author Nikos Moumoulidis
+ *
+ */
 public class SensorTracker implements Parcelable
 {
 	private ArrayList<String> connectedSensorList;

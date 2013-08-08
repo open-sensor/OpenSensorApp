@@ -1,6 +1,11 @@
 package com.nmoumoulidis.opensensor.restInterface.requests;
 
-
+/**
+ * Struct-styled class specifically storing REST PUT request attributes for 
+ * set-location requests towards the OpenSensor Station.
+ * @author Nikos Moumoulidis
+ *
+ */
 public class SensorStationSetLocationRequest extends SensorStationRestRequest 
 {
 	private static final String METHOD = "PUT";

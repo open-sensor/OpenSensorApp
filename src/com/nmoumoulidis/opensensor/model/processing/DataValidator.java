@@ -8,6 +8,13 @@ import org.json.JSONException;
 import com.nmoumoulidis.opensensor.model.InvalidSensorException;
 import com.nmoumoulidis.opensensor.model.SensorDictionary;
 
+/**
+ * Utility class, providing validation with the help of {@link JSONParser}
+ * , {@link SensorDictionary}, and informal techniques such as getting a
+ * numeric value from a string to check if it is a valid number.
+ * @author Nikos Moumoulidis
+ *
+ */
 public class DataValidator 
 {
 	private String data;

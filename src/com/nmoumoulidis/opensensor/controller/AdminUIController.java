@@ -12,6 +12,12 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+/**
+ * Button as well as textfield (EditText) listener for the 
+ * Admin activity {@link AdminActivity}.
+ * @author Nikos Moumoulidis
+ *
+ */
 public class AdminUIController implements OnClickListener, OnEditorActionListener
 {
 	private AdminActivity mAdminActivity;

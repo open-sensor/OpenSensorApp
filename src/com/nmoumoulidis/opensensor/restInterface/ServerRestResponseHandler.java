@@ -14,6 +14,15 @@ import android.view.View;
 import com.nmoumoulidis.opensensor.model.processing.JSONParser;
 import com.nmoumoulidis.opensensor.view.ServerActivity;
 
+/**
+ * Handles the responses from REST requests that {@link ServerRestRequestTask} 
+ * makes. Handling includes providing user feedback (for failure or success), 
+ * parsing and validating data by using the appropriate utility class(es), 
+ * and sometimes even performing post-response data filtering using geocoding
+ * and geolocation distance calculations using the {@link SimpleGeocoder} class.
+ * @author Nikos Moumoulidis
+ *
+ */
 public class ServerRestResponseHandler 
 {
 	private HttpEntity entity;

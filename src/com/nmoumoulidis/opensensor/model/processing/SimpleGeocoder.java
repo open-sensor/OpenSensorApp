@@ -10,6 +10,11 @@ import com.nmoumoulidis.opensensor.view.ServerActivity;
 import android.location.Address;
 import android.location.Geocoder;
 
+/**
+ * Utility class for reverse and forward geocoding data (single locations or lists of data).
+ * @author Nikos Moumoulidis
+ *
+ */
 public class SimpleGeocoder
 {
 	private Geocoder geocoder;
@@ -23,6 +28,11 @@ public class SimpleGeocoder
 		geocoder = new Geocoder(serveractivity);
 	}
 	
+	/**
+	 * Geocodes single location coordinates.
+	 * @param location
+	 * @return
+	 */
 	public String reverseGeocode(String location){
 		coords = location.split(";");
 		latitude = Double.valueOf(coords[0]);
@@ -52,6 +62,11 @@ public class SimpleGeocoder
 		return locString;
 	}
 	
+	/**
+	 * Forward geocodes single location coordinates.
+	 * @param address
+	 * @return
+	 */
 	public String forwardGeocode(String address) {
 		try {
 			coordsList = geocoder.getFromLocationName(address, 1);
@@ -64,6 +79,9 @@ public class SimpleGeocoder
 		return null;
 	}
 	
+	/**
+	 * Reverse-geocodes a list of data by using the {@link #reverseGeocode(String)} method.
+	 */
 	public ArrayList<HashMap<String, String>> replaceCoordsWithAddress(ArrayList<HashMap<String, String>> data) {
 		String tempLocation;
 		for(int i=0 ; i<data.size() ; i++) {
@@ -73,6 +91,13 @@ public class SimpleGeocoder
 		return data;
 	}
 
+	/**
+	 * Tries to geocode the location string given by the user and filters the data
+	 * based on their location being within 500 meters of that.
+	 * @param data
+	 * @param locationGivenByUser
+	 * @return
+	 */
 	public ArrayList<HashMap<String, String>> filterDataByNearbyLocationsGivenByUser(ArrayList<HashMap<String, String>> data,
 													String locationGivenByUser) {
 		if(locationGivenByUser.equals("")) {
@@ -103,7 +128,15 @@ public class SimpleGeocoder
 			return null;
 		}
 	}
-	
+
+	/**
+	 * Calculates distance between 2 locations based on their coordinates.
+	 * @param lat1
+	 * @param lat2
+	 * @param lon1
+	 * @param lon2
+	 * @return
+	 */
 	public static double calculateHaversineDistance(double lat1,double lat2,double lon1,double lon2) {
 		double earthRadius = 6371000;
         double dLat = Math.toRadians(lat1 - lat2);

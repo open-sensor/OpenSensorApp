@@ -1,5 +1,12 @@
 package com.nmoumoulidis.opensensor.restInterface.requests;
 
+/**
+ * Struct-styled class for storing attributes of generic REST requests towards 
+ * the OpenSensor Station. Extended as a parent class by specific-request
+ * type classes (e.g. batch-data, sensor-list).
+ * @author Nikos Moumoulidis
+ *
+ */
 public class SensorStationRestRequest 
 {
 	protected static String hostname = "slug.lan";

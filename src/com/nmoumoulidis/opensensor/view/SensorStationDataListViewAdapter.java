@@ -6,6 +6,12 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import com.nmoumoulidis.opensensor.R;
 import com.nmoumoulidis.opensensor.model.DatabaseHelper;
 
+/**
+ * UI utility class, used to populate data results in a structured way using
+ * the powerful {@link SimpleCursorAdapter} Android class.
+ * @author Nikos Moumoulidis
+ *
+ */
 public class SensorStationDataListViewAdapter 
 {
 	private SensorStationActivity conSensActivity;

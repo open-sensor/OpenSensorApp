@@ -12,6 +12,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.DatePicker;
 
+/**
+ * Listener class, implements listening for date-picker buttons and date selection
+ * buttons for date-picker fragments. Associated with the "Date From" dates.
+ * @author Nikos Moumoulidis
+ *
+ */
 public class GeneralDatePickerListenerFrom implements DatePickerDialog.OnDateSetListener, OnClickListener 
 {
 	private SensorStationActivity conSensActivity;

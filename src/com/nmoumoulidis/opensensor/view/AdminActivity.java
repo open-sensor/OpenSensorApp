@@ -26,8 +26,13 @@ import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
 
 /**
- * Activity which displays a login screen to the user, offering registration as
- * well.
+ * UI class for the Administrator Settings feature. Aside from setting up the UI and
+ * performing the authentication against the admin/admin credentials, it provides the UI
+ * and functionality for firing up an intent to open the standard Android location settings
+ * activity for the user to enable if they are not enabled already. Also provides logic for
+ * checking if a location has been acquired through the Wi-Fi network triangulation method
+ * provided by the OS.
+ * @author Nikos Moumoulidis
  */
 public class AdminActivity extends Activity {
 
@@ -113,9 +118,14 @@ public class AdminActivity extends Activity {
 		locManager.removeUpdates(locListener);
 	}
 	
+	/**
+	 * Called by the button listener to perform the appropriate UI actions.
+	 * (show loading animation, text feedback to the user, or take him to the
+	 * Android location settings to enable wi-fi triangulation locating.
+	 */
 	public void findLocation() {
 		if(!locManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-			showAlertEnableGPS();
+			showAlertEnableWiFiNetworkLocationSetting();
 		}
 		else {
 			if(isLocationSet == false) {
@@ -131,7 +141,7 @@ public class AdminActivity extends Activity {
 		}	
 	}
 	
-	private void showAlertEnableGPS() {
+	private void showAlertEnableWiFiNetworkLocationSetting() {
 		 final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		    builder.setMessage("Your 'Use Wireless Networks' location setting seems to be disabled, do you want to enable it?");
 		    builder.setCancelable(false);
@@ -323,8 +333,8 @@ public class AdminActivity extends Activity {
 	}
 
 	/**
-	 * Represents an asynchronous login/registration task used to authenticate
-	 * the user.
+	 * Represents an asynchronous login/registration task
+	 * used to authenticate the user.
 	 */
 	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 		@Override

@@ -22,6 +22,14 @@ import com.nmoumoulidis.opensensor.restInterface.requests.SensorStationSetLocati
 import com.nmoumoulidis.opensensor.view.AdminActivity;
 import com.nmoumoulidis.opensensor.view.SensorStationActivity;
 
+/**
+ * An Android AsyncTask for all the REST (GET and PUT) requests (except the batch-data request and 
+ * sensor-list request) that are performed towards the OpenSensor Station.
+ * All AsyncTasks are queued by the OS. The response is passed down to a {@link SensorStationRestResponseHandler}
+ * object to handle.
+ * @author Nikos Moumoulidis
+ *
+ */
 public class SensorStationRestRequestTask extends AsyncTask<SensorStationRestRequest, Void, Boolean> {
 
 	private SensorStationActivity mConSensActivity = null;
