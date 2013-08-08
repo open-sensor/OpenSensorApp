@@ -101,8 +101,7 @@ public class ServerRestResponseHandler
 				serverActivity.getServerErrorInfo().setVisibility(View.VISIBLE);
 				serverActivity.getServerErrorInfo().setText("We're sorry, something went wrong. You can try again.");
 			}
-			System.out.println("Request to server failed... ");
-			
+			System.out.println("Request to server failed... ");	
 		}
     }
     

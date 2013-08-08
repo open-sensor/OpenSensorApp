@@ -20,7 +20,7 @@ public class AdminLocationListener implements LocationListener
 	public void onLocationChanged(Location location) {
 		howManyTimesLocationChanged++;
 		System.out.println("ON LOCATION CHANGED..."+howManyTimesLocationChanged);
-		if(howManyTimesLocationChanged == 1) {
+		if(howManyTimesLocationChanged == 2) {
 			mAdminActivity.getmSetLocationFeedback().setText("Location acquired. Press the " +
 					"'Set Location' button again to set the location on the OpenSensor Station.");
 			mAdminActivity.setLocation(location.getLatitude()+";"+location.getLongitude());

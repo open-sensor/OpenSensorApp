@@ -49,6 +49,7 @@ public class BatchDataRetrieveService extends IntentService
 	
 	@Override
 	protected void onHandleIntent(Intent intent) {
+		System.out.println("Intent for IntentService Fired!...");
 		this.httpClient = new DefaultHttpClient();
 		this.localContext = new BasicHttpContext();
 		batchDataRequest = new SensorStationBatchDataRequest();
@@ -68,7 +69,8 @@ public class BatchDataRetrieveService extends IntentService
 			httpGet.setHeader("Accept", batchDataRequest.getAccept());
 			response = httpClient.execute(httpGet, localContext);
 		} catch (ClientProtocolException e) {
-			e.printStackTrace();
+			System.out.println("Batch data request failed...");
+			return;
 		} catch (UnknownHostException e) {
 			System.out.println("Batch data request failed...");
 			return;
@@ -76,7 +78,8 @@ public class BatchDataRetrieveService extends IntentService
 			System.out.println("Batch data request failed...");
 			return;
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Batch data request failed...");
+			return;
 		}
 	}
 

@@ -77,11 +77,15 @@ public class SensorStationRestRequestTask extends AsyncTask<SensorStationRestReq
 				// add the data entity
 				StringEntity sEntity = new StringEntity(((SensorStationSetLocationRequest) newRequest).getData());
 				httpPut.setEntity(sEntity);
+				
+				// To avoid the obscure Lighttpd server bug that gives HTTP status error code: 417
+				// the expect-continue header is set to false (Lighttpd does not support it)...
 				httpClient.getParams().setBooleanParameter("http.protocol.expect-continue", false);
 				response = httpClient.execute(httpPut, localContext);
 			}
 		} catch (ClientProtocolException e) {
-			e.printStackTrace();
+			responseHandler.setFailureReason(SensorStationRestResponseHandler.SENSOR_STATION_NOT_REACHABLE);
+			System.out.println("ClientProtocolException caught");
 		} catch (UnknownHostException e) {
 			responseHandler.setFailureReason(SensorStationRestResponseHandler.SENSOR_STATION_NOT_REACHABLE);
 			System.out.println("UnknownHostException caught");
@@ -91,7 +95,9 @@ public class SensorStationRestRequestTask extends AsyncTask<SensorStationRestReq
 			System.out.println("SocketException caught");
 			return false;
 		} catch (IOException e) {
-			e.printStackTrace();
+			responseHandler.setFailureReason(SensorStationRestResponseHandler.SENSOR_STATION_NOT_REACHABLE);
+			System.out.println("IOException caught");
+			return false;
 		}
 		boolean successOrNot = responseHandler.handleResponse(newRequest, response);
 

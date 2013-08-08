@@ -128,14 +128,14 @@ public class SensorStationRestResponseHandler
     			adminActivity.setLocationSet(true);
     		} 
     		else {
-    			adminActivity.getmSetLocationFeedback().setText("Error: Could not set location to the OpenSensor Station...");
+    			adminActivity.getmSetLocationFeedback().setText("Error: Could not set location. " +
+    											" Please make sure you are connected to the Wi-Fi enabled OpenSensor Station...");
     		}
     		
     		if(adminActivity.getmSearchingLocationDialog().isShowing()) {
     			adminActivity.getmSearchingLocationDialog().dismiss();
     		}
     	}
-
     }
     
 

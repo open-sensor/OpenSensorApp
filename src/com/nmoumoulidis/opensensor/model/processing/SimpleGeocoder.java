@@ -93,7 +93,7 @@ public class SimpleGeocoder
 				longitude = Double.valueOf(coords[1]);
 				double distance = calculateHaversineDistance(latitude,userLatitude, longitude, userLongitude);
 				System.out.println("HAVERSINE DISTANCE: "+distance);
-				if(distance < 100) {
+				if(distance < 500) {
 					newDataList.add(data.get(i));
 				}
 			}
@@ -103,7 +103,6 @@ public class SimpleGeocoder
 			return null;
 		}
 	}
-	
 	
 	public static double calculateHaversineDistance(double lat1,double lat2,double lon1,double lon2) {
 		double earthRadius = 6371000;

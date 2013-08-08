@@ -29,6 +29,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
     public static final String FUNC_MAX_VALUE = "max("+KEY_DATA_VALUE+")";
     
     private SensorStationActivity conSensAct;
+    private SQLiteDatabase privateDB;
     
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -58,10 +59,19 @@ public class DatabaseHelper extends SQLiteOpenHelper
         System.out.println("SQLITE HELPER -> ON UPGRADE WAS RUN...");
     }
 
+    @Override
+    public void close() {
+    	super.close();
+        if(privateDB != null) {
+        	privateDB.close();
+        	privateDB = null;
+        }
+    }
+    
     public ArrayList<String> getAllStoredSensorTypes() {
     	ArrayList<String> sensorTypesList = new ArrayList<String>();
-    	SQLiteDatabase db = this.getReadableDatabase();
-    	Cursor cursor = db.rawQuery("SELECT DISTINCT "+
+    	privateDB = this.getReadableDatabase();
+    	Cursor cursor = privateDB.rawQuery("SELECT DISTINCT "+
     								KEY_SENSOR_TYPE+
     								" FROM "+
     								TABLE_SENSOR_DATA+";"
@@ -77,14 +87,14 @@ public class DatabaseHelper extends SQLiteOpenHelper
 
     public void insertBatchData(ArrayList<HashMap<String,String>> data) {
     	data = DateManager.transformDateBeforeInsert(data);
-    	SQLiteDatabase db = this.getWritableDatabase();
+    	privateDB = this.getWritableDatabase();
     	for(int i=0 ; i<data.size() ; i++) {
     		// Insert all data elements to the database.
 		    Iterator it = data.get(i).entrySet().iterator();
 		    while (it.hasNext()) {
 		    	HashMap.Entry pairs = (HashMap.Entry)it.next();
 		    	if(!pairs.getKey().equals("datetime") && !pairs.getKey().equals("location")) {
-		    		db.execSQL("INSERT INTO "+ TABLE_SENSOR_DATA
+		    		privateDB.execSQL("INSERT INTO "+ TABLE_SENSOR_DATA
 		    				+" ("
 		    				+ KEY_DATE +", "
 		    				+ KEY_LOCATION +", "
@@ -100,11 +110,12 @@ public class DatabaseHelper extends SQLiteOpenHelper
 		    	}
 		    }
 		}
+    	privateDB.close(); // explicitly close it...
     }
 
     public Cursor getDetailedQueryCursor(String sensor, String fromDate, String toDate) {
-    	SQLiteDatabase db = this.getReadableDatabase();
-    	Cursor cursor = db.rawQuery("SELECT "+
+    	privateDB = this.getReadableDatabase();
+    	Cursor cursor = privateDB.rawQuery("SELECT "+
     								KEY_ID+", " +
     								KEY_DATE+", " +
     								KEY_LOCATION+", " +
@@ -127,12 +138,12 @@ public class DatabaseHelper extends SQLiteOpenHelper
     }
 
     public void deleteAllBatchData() {
-    	SQLiteDatabase db = this.getReadableDatabase();
-    	db.delete(TABLE_SENSOR_DATA, null, null);
+    	privateDB = this.getReadableDatabase();
+    	privateDB.delete(TABLE_SENSOR_DATA, null, null);
     }
 
     public long getDataCount() {
-    	SQLiteDatabase db = this.getReadableDatabase();
-    	return DatabaseUtils.queryNumEntries(db, TABLE_SENSOR_DATA);
+    	privateDB = this.getReadableDatabase();
+    	return DatabaseUtils.queryNumEntries(privateDB, TABLE_SENSOR_DATA);
     }
 }

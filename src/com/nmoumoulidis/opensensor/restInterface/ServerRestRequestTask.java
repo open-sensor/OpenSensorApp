@@ -49,7 +49,10 @@ public class ServerRestRequestTask extends AsyncTask<ServerGetRestRequest, Integ
 			publishProgress(15); //------ progress bar update ------
 			response = httpClient.execute(httpGet, localContext);
 		} catch (ClientProtocolException e) {
-			e.printStackTrace();
+			responseHandler.setFailureReason(ServerRestResponseHandler.SERVER_NOT_REACHABLE);
+			publishProgress(90); //------ progress bar update ------
+	        publishProgress(100); //------ progress bar update ------
+	        return false;
 		} catch (UnknownHostException e) {
 			responseHandler.setFailureReason(ServerRestResponseHandler.SERVER_NOT_REACHABLE);
 			publishProgress(90); //------ progress bar update ------
@@ -61,7 +64,10 @@ public class ServerRestRequestTask extends AsyncTask<ServerGetRestRequest, Integ
 	        publishProgress(100); //------ progress bar update ------
 			return false;
 		} catch (IOException e) {
-			e.printStackTrace();
+			responseHandler.setFailureReason(ServerRestResponseHandler.SERVER_NOT_REACHABLE);
+			publishProgress(90); //------ progress bar update ------
+	        publishProgress(100); //------ progress bar update ------
+	        return false;
 		}
 		publishProgress(70); //------ progress bar update ------
 		publishProgress(80); //------ progress bar update ------

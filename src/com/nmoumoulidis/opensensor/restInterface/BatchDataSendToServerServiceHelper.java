@@ -54,9 +54,9 @@ public class BatchDataSendToServerServiceHelper
 		} catch (SocketException e) {
 			return false; // return to try again.
 		} catch (ClientProtocolException e) {
-			e.printStackTrace();
+			return false; // return to try again.
 		} catch (IOException e) {
-			e.printStackTrace();
+			return false; // return to try again.
 		}
 		return true;
 	}

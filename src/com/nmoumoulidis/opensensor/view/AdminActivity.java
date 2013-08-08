@@ -133,7 +133,7 @@ public class AdminActivity extends Activity {
 	
 	private void showAlertEnableGPS() {
 		 final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		    builder.setMessage("Your GPS seems to be disabled, do you want to enable it?");
+		    builder.setMessage("Your 'Use Wireless Networks' location setting seems to be disabled, do you want to enable it?");
 		    builder.setCancelable(false);
 		    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 		               public void onClick(final DialogInterface dialog, final int id) {
