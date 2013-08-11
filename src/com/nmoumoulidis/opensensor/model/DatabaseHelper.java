@@ -98,11 +98,13 @@ public class DatabaseHelper extends SQLiteOpenHelper
     public void insertBatchData(ArrayList<HashMap<String,String>> data) {
     	data = DateManager.transformDateBeforeInsert(data);
     	privateDB = this.getWritableDatabase();
+    	Iterator it;
+    	HashMap.Entry pairs;
     	for(int i=0 ; i<data.size() ; i++) {
     		// Insert all data elements to the database.
-		    Iterator it = data.get(i).entrySet().iterator();
+		    it = data.get(i).entrySet().iterator();
 		    while (it.hasNext()) {
-		    	HashMap.Entry pairs = (HashMap.Entry)it.next();
+		    	pairs = (HashMap.Entry)it.next();
 		    	if(!pairs.getKey().equals("datetime") && !pairs.getKey().equals("location")) {
 		    		privateDB.execSQL("INSERT INTO "+ TABLE_SENSOR_DATA
 		    				+" ("

@@ -40,6 +40,7 @@ public class BatchDataSendToServerServiceHelper
 
 	private HttpEntity entity;
 	private String body;
+	private StringEntity sEntity;
 	
 	public BatchDataSendToServerServiceHelper(ServerPostRestRequest postRequest) {
 		this.postDataRequest = postRequest;
@@ -54,7 +55,6 @@ public class BatchDataSendToServerServiceHelper
 	public boolean performRequest() {
 		httpPost = new HttpPost(postDataRequest.getBaseUrl());
 		httpPost.setHeader("Accept", postDataRequest.getAccept());
-		StringEntity sEntity;
 		try {
 			sEntity = new StringEntity(((ServerPostRestRequest) postDataRequest).getData());
 			httpPost.setEntity(sEntity);

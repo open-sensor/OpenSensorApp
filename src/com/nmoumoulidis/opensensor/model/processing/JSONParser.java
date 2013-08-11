@@ -132,12 +132,7 @@ public class JSONParser
 		}
 		
 		JSONArray jsArray = new JSONArray(jsonObjectList);
-		try {
-			return jsArray.toString(4);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return null;
+		return jsArray.toString();
 	}
 
 	public ArrayList<String> parseSensorList() {

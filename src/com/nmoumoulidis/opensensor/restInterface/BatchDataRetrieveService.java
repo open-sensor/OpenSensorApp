@@ -123,6 +123,7 @@ public class BatchDataRetrieveService extends IntentService
 			//  ---------- Data Validation & Usage ----------
 			// Trash data are automatically removed by the validator.
 			// The data are ready to be stored/used.
+			System.out.println("START data validation...");
 			DataValidator batchDataValidator = new DataValidator(body);
 			
 			try {
@@ -131,13 +132,11 @@ public class BatchDataRetrieveService extends IntentService
 				System.out.println("Error: Corrupt Batch Data...");
 				return;
 			}
-
-			databaseHelper.insertBatchData(newBatchData);
-
+			System.out.println("Data validation STOPPED...");
+			
 			System.out.println("BATCH DATA response handled!");
 			System.out.println("Data Loss %: "+batchDataValidator.getDataLossPercentage());
 			System.out.println("BATCH DATA now is being sent to the server!");
-
 			// Transform the data in (validated) JSON format again...
 			String data = batchDataValidator.getValidatedBatchDataAsJSONString();
 			// Send them to the server...
@@ -148,8 +147,11 @@ public class BatchDataRetrieveService extends IntentService
 			do {
 				sentToServerOk = serviceHelper.performRequest();
 			}while(!sentToServerOk);
-			
 			serviceHelper.handleResponse();
+			
+			System.out.println("START insert to database...");
+			databaseHelper.insertBatchData(newBatchData);
+			System.out.println("Insert to database STOPPED...");
 		}
 		// <<< There was no batch data to receive at this time...
 		else if(statusCode == 204) {
