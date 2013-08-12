@@ -90,6 +90,7 @@ public class SensorStationRestResponseHandler
     protected void postHandling(Activity activity, Boolean success) {
     	if(activity.getClass() == SensorStationActivity.class) {
     		SensorStationActivity sensorStationActivity = (SensorStationActivity) activity;
+    		sensorStationActivity.getRequestLoadingDialog().dismiss();
     		if(success) { 
     			if(sensorStationRestRequest.getClass() == SensorStationRealTimeDataRequest.class) {
     				sensorStationActivity.getmResultText().scrollTo(0, 0);
@@ -132,6 +133,7 @@ public class SensorStationRestResponseHandler
     	}
     	else if(activity.getClass() == AdminActivity.class){
     		AdminActivity adminActivity = (AdminActivity) activity;
+    		adminActivity.getmSearchingLocationDialog().dismiss();
     		if(success) {
     			adminActivity.getmSetLocationFeedback().setText("Location was set to the OpenSensor Station successfully!");
     			adminActivity.setLocationSet(true);
