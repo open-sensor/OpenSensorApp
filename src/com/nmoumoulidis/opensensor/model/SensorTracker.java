@@ -74,9 +74,9 @@ public class SensorTracker implements Parcelable
 	}
 	
 	public String findSensorByName(String name) {
-		for(int i=0 ; i<connectedSensorList.size() ; i++) {
-				if(name.equals(SensorDictionary.validSensorNames.get(connectedSensorList.get(i)))) {
-					return connectedSensorList.get(i);
+		for(int i=0 ; i<SensorDictionary.validSensors.length ; i++) {
+				if(name.equals(SensorDictionary.validSensorNames.get(SensorDictionary.validSensors[i]))) {
+					return SensorDictionary.validSensors[i];
 				}
 		}
 		return null;
