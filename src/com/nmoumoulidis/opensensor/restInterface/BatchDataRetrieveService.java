@@ -46,6 +46,8 @@ public class BatchDataRetrieveService extends IntentService
 	public static final String ACTION_BATH_REQ_FINISHED 
 								= "com.nmoumoulidis.opensensor.BATCH_REQUEST_FINISHED";
 	public static final String BATCH_DATA_OUT = "BATCH_DATA";
+	public static boolean isRunning = false;
+	
 	private HttpGet httpGet;
 	private HttpClient httpClient;
 	private HttpContext localContext;
@@ -61,6 +63,7 @@ public class BatchDataRetrieveService extends IntentService
 	
 	public BatchDataRetrieveService() {
 		super("BatchDataRetrieveService");
+		isRunning = true;
 	}
 	
 	@Override

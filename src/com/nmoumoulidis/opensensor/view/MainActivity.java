@@ -31,6 +31,7 @@ public class MainActivity extends FragmentActivity {
 	private SensorTracker mSensorTracker;
 	
 	private boolean sensorListObtained = false;
+	private boolean batchDataObtained = false;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +50,6 @@ public class MainActivity extends FragmentActivity {
 		mGoToAdminActivityBtn.setOnClickListener(mMainUIController);
 
 		mSensorTracker = new SensorTracker();
-
-		retrieveBatchData();	
     }
 
 	@Override
@@ -66,6 +65,14 @@ public class MainActivity extends FragmentActivity {
 		if(sensorListObtained == false) {
 			System.out.println("Trying to retrieve sensor list...");
 			retrieveSensorList();
+		}
+
+		if(BatchDataRetrieveService.isRunning == false) {
+			System.out.println("Trying to retrieve batch data...");
+			retrieveBatchData();
+		}
+		else {
+			System.out.println("Batch data service already running/run...");
 		}
 	}
 
