@@ -117,20 +117,19 @@ public final class R {
         public static final int menu_server=0x7f070004;
     }
     public static final class string {
-        public static final int action_forgot_password=0x7f050028;
-        public static final int action_set_location=0x7f05002e;
+        public static final int action_forgot_password=0x7f050027;
+        public static final int action_set_location=0x7f05002d;
         public static final int action_settings=0x7f050002;
-        public static final int action_sign_in=0x7f050026;
-        public static final int action_sign_in_short=0x7f050027;
-        public static final int action_sign_out=0x7f05002f;
+        public static final int action_sign_in_short=0x7f050026;
+        public static final int action_sign_out=0x7f05002e;
         public static final int app_name=0x7f050001;
         public static final int clear_search_filters_text=0x7f050020;
         public static final int date_pick_from_btn_text=0x7f050016;
         public static final int date_pick_to_btn_text=0x7f050017;
         public static final int date_range_label=0x7f050015;
-        public static final int error_field_required=0x7f05002c;
-        public static final int error_incorrect_password=0x7f05002b;
-        public static final int error_invalid_password=0x7f05002a;
+        public static final int error_field_required=0x7f05002b;
+        public static final int error_incorrect_password=0x7f05002a;
+        public static final int error_invalid_password=0x7f050029;
         public static final int get_humid_btn=0x7f050009;
         public static final int get_light_btn=0x7f05000a;
         public static final int get_temp_btn=0x7f050008;
@@ -141,7 +140,7 @@ public final class R {
         public static final int go_to_realtime_data_btn_label=0x7f050019;
         public static final int go_to_server_mode=0x7f050006;
         public static final int hello_world=0x7f050000;
-        public static final int login_progress_signing_in=0x7f050029;
+        public static final int login_progress_signing_in=0x7f050028;
         public static final int main_act_label=0x7f050003;
         public static final int no_data_history_label=0x7f050013;
         public static final int no_results_label=0x7f05001a;
@@ -158,7 +157,7 @@ public final class R {
         public static final int server_spinner_label_text=0x7f05001c;
         /**  Strings related to the rest of Admin UI 
          */
-        public static final int set_location_info_label=0x7f05002d;
+        public static final int set_location_info_label=0x7f05002c;
         public static final int show_result_label=0x7f05000b;
         public static final int show_result_text=0x7f05000c;
         public static final int show_search_btn_text=0x7f050018;
